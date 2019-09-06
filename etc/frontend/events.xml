@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_type_multishipping_create_orders_single">
+        <observer name="devstone_checkout_type_multishipping_create_orders_single" instance="DevStone\ImageProducts\Observer\SetHasDownloadableProductsObserver"  />
+    </event>
+    <event name="checkout_allow_guest">
+        <observer name="devstone_checkout_allow_guest" instance="DevStone\ImageProducts\Observer\IsAllowedGuestCheckoutObserver" />
+    </event>
+<!--    <event name="product_option_renderer_init">
+        <observer name="downloadable_observer" instance="Magento\Downloadable\Observer\InitOptionRendererObserver" />
+    </event>-->
+</config>

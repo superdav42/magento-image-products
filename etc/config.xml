@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * CedCommerce
+  *
+  * NOTICE OF LICENSE
+  *
+  * This source file is subject to the End User License Agreement (EULA)
+  * that is bundled with this package in the file LICENSE.txt.
+  * It is also available through the world-wide-web at this URL:
+  * http://cedcommerce.com/license-agreement.txt
+  *
+  * @category    Ced
+  * @package     Ced_CsProduct
+  * @author      CedCommerce Core Team <connect@cedcommerce.com >
+  * @copyright   Copyright CEDCOMMERCE (http://cedcommerce.com/)
+  * @license      http://cedcommerce.com/license-agreement.txt
+  */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+    	<ced_csvproducts>
+    		<vproducts>
+				<relatedproducts>1</relatedproducts>
+				<upsells>1</upsells>
+				<crosssells>1</crosssells>
+				<customoptions>1</customoptions>
+				<types>
+				    <simple>*</simple>
+			        <downloadable>*</downloadable>
+				    <virtual>*</virtual>
+					<configurable>*</configurable>
+					<bundle>*</bundle>
+					<grouped>*</grouped>
+                    <image>*</image>
+				</types>
+				<category_mode>1</category_mode>
+			</vproducts>
+		</ced_csvproducts>
+    </default>
+</config>

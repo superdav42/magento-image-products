@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="catalog_product_save_before">
+        <observer name="image_product_model_save" instance="DevStone\ImageProducts\EntityManager\Observer\BeforeImageProductSave" />
+        <observer name="keywords_model_save" instance="DevStone\ImageProducts\EntityManager\Observer\BeforeProductSaveKeywords" />
+    </event>
+    <event name="admin_user_save_before">
+        <observer name="devstone_user" instance="DevStone\ImageProducts\Observer\AllowAdminUserOldPassword" />
+    </event>
+    
+    <event name="sales_order_item_save_commit_after">
+        <observer name="devstone_downloadable_observer" instance="DevStone\ImageProducts\Observer\SaveDownloadableOrderItemObserver" />
+    </event>
+    <event name="sales_order_save_commit_after">
+        <observer name="devstone_downloadable_observer" instance="DevStone\ImageProducts\Observer\SetLinkStatusObserver" />
+    </event>
+    <event name="sales_model_service_quote_submit_success">
+        <observer name="devstone_checkout_type_onepage_save_order_after" instance="DevStone\ImageProducts\Observer\SetHasDownloadableProductsObserver" />
+    </event>
+    <event name="catalog_product_load_after">
+        <observer name="devstone_observer_product_option" instance="DevStone\ImageProducts\Observer\LoadProduct"/>
+    </event>
+    <event name="checkout_submit_all_after">
+        <observer name="devstone_reward_checkout_submit_all_after" instance="DevStone\ImageProducts\Observer\RewardCheckoutSubmitAllAfter" />
+    </event>
+    <event name="paypal_express_place_order_success">
+        <observer name="devstone_reward_paypal_express_place_order_success" instance="DevStone\ImageProducts\Observer\RewardCheckoutSubmitAllAfter" />
+    </event>
+</config>

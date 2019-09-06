@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\Product">
+        <plugin name="ImageProducts" type="DevStone\ImageProducts\Plugged\Model\Catalog\ProductPlugin" sortOrder="70" />
+    </type>
+    <type name="Magento\Framework\EntityManager\Operation\ExtensionPool">
+        <arguments>
+            <argument name="extensionActions" xsi:type="array">
+                <item name="Magento\Catalog\Api\Data\ProductInterface" xsi:type="array">
+                    <item name="create" xsi:type="array">
+                        <item name="image_link_create" xsi:type="string">DevStone\ImageProducts\Model\Link\CreateHandler</item>
+                    </item>
+                    <item name="update" xsi:type="array">
+                        <item name="image_link_update" xsi:type="string">DevStone\ImageProducts\Model\Link\UpdateHandler</item>
+                    </item>
+                    <item name="delete" xsi:type="array">
+                        <item name="image_link_delete" xsi:type="string">DevStone\ImageProducts\Model\Link\DeleteHandler</item>
+                    </item>
+                    <item name="read" xsi:type="array">
+                        <item name="image_link_read" xsi:type="string">DevStone\ImageProducts\Model\Link\ReadHandler</item>
+                    </item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Downloadable\Helper\File" type="DevStone\ImageProducts\Helper\File" />
+    <preference for="Magento\Downloadable\Api\LinkRepositoryInterface" type="DevStone\ImageProducts\Model\LinkRepository" />
+	<preference for="Magento\Catalog\Block\Adminhtml\Product" type="DevStone\ImageProducts\Block\Adminhtml\Product" />
+
+    <!--<preference for="Magento\Eav\Model\Entity\Attribute\Source\Table" type="DevStone\ImageProducts\Model\Eav\Entity\Attribute\Source\Table" />-->
+
+    <type name="Magento\User\Model\User">
+        <plugin name="UserPlugin" type="DevStone\ImageProducts\Plugged\Model\User\UserPlugin" sortOrder="1"
+                disabled="false"/>
+    </type>
+
+    <preference for="Aheadworks\Autorelated\Model\Rule\Related\Condition\Product\Attributes" type="DevStone\ImageProducts\Model\Rule\Related\Condition\Product\Attributes" />
+
+    <preference for="Magento\Downloadable\Controller\Download\Link" type="DevStone\ImageProducts\Controller\Downloads\Download" />
+    <!--<preference for="Magento\Catalog\Model\Product\Gallery\Processor" type="DevStone\ImageProducts\Model\Product\Gallery\Processor" />-->
+    <preference for="Magento\Catalog\Model\Product\Gallery\CreateHandler" type="DevStone\ImageProducts\Model\Product\Gallery\CreateHandler" />
+    <preference for="Magento\Catalog\Model\Product\Gallery\UpdateHandler" type="DevStone\ImageProducts\Model\Product\Gallery\UpdateHandler" />
+</config>

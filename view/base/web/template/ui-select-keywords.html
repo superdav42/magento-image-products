@@ -1,0 +1,62 @@
+
+<div
+        class="admin__action-multiselect-wrap action-select-wrap"
+        tabindex="0"
+        data-bind="
+        attr: {
+            id: uid
+        },
+        css: {
+            _active: listVisible
+        },
+        outerClick: outerClick.bind($data)
+">
+
+    <div
+            class="action-select admin__action-multiselect"
+            data-role="advanced-select"
+            data-bind="
+            css: {_active: multiselectFocus}
+
+    ">
+        <div class="admin__action-multiselect-text"
+             data-bind="
+                visible: !hasData(),
+                i18n: selectedPlaceholders.defaultPlaceholder
+        ">
+        </div>
+        <!-- ko foreach: { data: getSelected(), as: 'option'}  -->
+            <span class="admin__action-multiselect-crumb">
+                <span data-bind="text: label">
+                </span>
+                <button
+                        class="action-close"
+                        type="button"
+                        data-action="remove-selected-item"
+                        tabindex="-1"
+                        data-bind="click: $parent.removeSelected.bind($parent, value)
+                ">
+                    <span class="action-close-text" translate="'Close'"></span>
+                </button>
+            </span>
+        <!-- /ko -->
+    </div>
+	<input
+                    class="admin__control-text admin__action-multiselect-search"
+                    data-role="advanced-select-text"
+                    type="text"
+                    data-bind="
+                event: {
+                    keydown: inputKeydown
+                },
+                attr: {id: uid+2},
+                textInput: keywordInput
+                ">
+            <label
+                    class="admin__action-multiselect-search-label"
+                    data-action="advanced-select-search"
+                    data-bind="attr: {for: uid+2}
+            ">
+            </label>
+
+</div>
