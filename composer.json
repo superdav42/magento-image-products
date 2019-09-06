@@ -4,7 +4,7 @@
     "type": "magento2-module",
     "version": "1.0.0",
     "require": {
-        "magento/module-downloadable": "100.2.*"
+        "magento/module-downloadable": ">=100.2.0"
     },
     "license": [
         "GPL-3.0"
