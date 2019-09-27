@@ -179,10 +179,15 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                             $buyRequest->getTemplateOptions()
                         )
                     );
-                    $subProduct->addCustomOption('template_thumbnail', $buyRequest->getTemplateThumbnail());
-                    $subProduct->addCustomOption('parent_product_id', $product->getId());
+                    $thumbnail = $buyRequest->getTemplateThumbnail();
+
+                    if( 'data:image/' === substr($thumbnail, 0, 11) ) {
+                        $subProduct->addCustomOption('template_thumbnail', $buyRequest->getTemplateThumbnail());
+                    }
+
                     $subProduct->setCartQty(1);
                     $product->setCartQty(1);
+                    $product->addCustomOption( 'used_for_template', 1 );
                     array_push($result, $subProduct);
                 }
 
