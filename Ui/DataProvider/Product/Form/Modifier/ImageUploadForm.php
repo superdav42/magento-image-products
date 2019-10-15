@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace DevStone\ImageProducts\Ui\DataProvider\Product\Form\Modifier;
 
 
@@ -26,12 +23,12 @@ use Magento\Ui\Component\DynamicRows;
  */
 class ImageUploadForm extends AbstractModifier
 {
-    
+
     /**
      * @var ArrayManager
      */
     protected $arrayManager;
-    
+
     /**
      * @var LocatorInterface
      */

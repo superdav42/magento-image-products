@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace DevStone\ImageProducts\Model\Link;
 
 use Magento\Downloadable\Api\LinkRepositoryInterface as LinkRepository;

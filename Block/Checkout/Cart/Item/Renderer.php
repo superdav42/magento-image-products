@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 
 /**
  * Shopping cart downloadable item render block
@@ -120,6 +117,9 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function getImage($product, $imageId, $attributes = [])
     {
+        if( !$product) {
+
+        }
         $image = parent::getImage($product, $imageId, $attributes);
 
         $this->imageProductConfiguration->updateImage($image, $this->getItem());

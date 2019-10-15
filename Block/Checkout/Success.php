@@ -1,10 +1,5 @@
 <?php
 /**
- * Copyright © Magento, Inc. All rights reserved.
- * See COPYING.txt for license details.
- */
-
-/**
  * Downloadable checkout success page
  *
  * @author     Magento Core Team <core@magentocommerce.com>
