@@ -201,6 +201,11 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                     }
                 }
                 $product->addCustomOption('usage_options', $this->serializer->serialize($submittedOptions));
+
+                if ('credits' === $buyRequest->getPaymentType() && is_numeric($usage->getCredits())) {
+                    $product->addCustomOption('required_credits', $usage->getCredits());
+                }
+
             } catch (\Magento\Framework\Exception\NoSuchEntityException $exc) {
                 if ($this->_isStrictProcessMode($processMode)) {
                     return __('Category or usage not found.')->render();

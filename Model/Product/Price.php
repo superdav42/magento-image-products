@@ -132,6 +132,12 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             $price = round($price);
         }
 
+        $paymentTypeOption = $product->getCustomOption('payment_type');
+        if ($usage->getCredits() && $paymentTypeOption && 'credits' === $paymentTypeOption->getValue()) {
+            // Price must be set to the price the customer paid so royalties are calculated correctly.
+            $price = $usage->getCredits() * 4;
+        }
+
         $product->setData('final_price', $price);
         return max(0, $product->getData('final_price'));
     }
