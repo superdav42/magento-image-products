@@ -145,7 +145,7 @@ class BeforeImageProductSave implements ObserverInterface
         $processor->quality(92);
         $processor->keepAspectRatio(true);
         $processor->constrainOnly(true);
-        $processor->resize(800, 800);
+        $processor->resize(1024, 1024);
         $processor->save();
         $this->fileStorageDb->saveFile($this->mediaConfig->getTmpMediaShortUrl($file));
     }
