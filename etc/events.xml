@@ -7,7 +7,7 @@
     <event name="admin_user_save_before">
         <observer name="devstone_user" instance="DevStone\ImageProducts\Observer\AllowAdminUserOldPassword" />
     </event>
-    
+
     <event name="sales_order_item_save_commit_after">
         <observer name="devstone_downloadable_observer" instance="DevStone\ImageProducts\Observer\SaveDownloadableOrderItemObserver" />
     </event>
@@ -19,11 +19,5 @@
     </event>
     <event name="catalog_product_load_after">
         <observer name="devstone_observer_product_option" instance="DevStone\ImageProducts\Observer\LoadProduct"/>
-    </event>
-    <event name="checkout_submit_all_after">
-        <observer name="devstone_reward_checkout_submit_all_after" instance="DevStone\ImageProducts\Observer\RewardCheckoutSubmitAllAfter" />
-    </event>
-    <event name="paypal_express_place_order_success">
-        <observer name="devstone_reward_paypal_express_place_order_success" instance="DevStone\ImageProducts\Observer\RewardCheckoutSubmitAllAfter" />
     </event>
 </config>
