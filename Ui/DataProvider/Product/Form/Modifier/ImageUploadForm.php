@@ -208,7 +208,7 @@ class ImageUploadForm extends AbstractModifier
             'elementTmpl' => 'Magento_Downloadable/components/file-uploader',
             'fileInputName' => 'links',
             'uploaderConfig' => [
-                'url' => $this->urlBuilder->addSessionParam()->getUrl(
+                'url' => $this->urlBuilder->getUrl(
                     $this->uploadPath,
                     ['type' => 'links', '_secure' => true]
                 ),

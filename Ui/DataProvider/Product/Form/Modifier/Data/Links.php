@@ -101,7 +101,7 @@ class Links extends \Magento\Downloadable\Ui\DataProvider\Product\Form\Modifier\
                     'name' => $this->downloadableFile->getFileFromPathFile($linkFile),
                     'size' => $this->downloadableFile->getFileSize($file),
                     'status' => 'old',
-                    'url' => $this->urlBuilder->addSessionParam()->getUrl(
+                    'url' => $this->urlBuilder->getUrl(
                         $area.'/downloadable_product_edit/link',
                         ['id' => $link->getId(), 'type' => 'link', '_secure' => true]
                     ),
