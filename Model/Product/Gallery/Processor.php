@@ -8,6 +8,8 @@
 
 namespace DevStone\ImageProducts\Model\Product\Gallery;
 
+use Magento\Framework\Exception\LocalizedException;
+
 class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
 {
 

@@ -2,7 +2,6 @@
 
 namespace DevStone\ImageProducts\Model\Product;
 
-use DevStone\FramedPrints\Graphik\GraphikClient;
 use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Api\Data\ProductTierPriceExtensionFactory;
@@ -51,12 +50,10 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository,
         \Magento\Framework\Serialize\Serializer\Json $serializer,
-        GraphikClient $graphikClient,
         ProductTierPriceExtensionFactory $tierPriceExtensionFactory = null
     ) {
         $this->usageRepository = $usageRepository;
         $this->serializer = $serializer;
-        $this->graphikClient = $graphikClient;
 
         parent::__construct(
             $ruleFactory,
@@ -152,7 +149,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     {
         $options = $this->serializer->unserialize($product->getCustomOption('print_options')->getValue());
 
-        $prices = $this->graphikClient->getProductGroupPrice($options);
+//        $prices = $this->graphikClient->getProductGroupPrice($options);
 
         $product->setData('final_price', $prices['finalPrice']);
         return $prices['finalPrice'];
