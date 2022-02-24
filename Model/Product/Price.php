@@ -2,6 +2,7 @@
 
 namespace DevStone\ImageProducts\Model\Product;
 
+use DevStone\FramedPrints\NWFraming\Client;
 use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Api\Data\ProductTierPriceExtensionFactory;
@@ -24,6 +25,11 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     private $serializer;
 
     /**
+     * @var Client
+     */
+    private $client;
+
+    /**
      * Constructor
      *
      * @param \Magento\CatalogRule\Model\ResourceModel\RuleFactory $ruleFactory
@@ -35,6 +41,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * @param GroupManagementInterface $groupManagement
      * @param \Magento\Catalog\Api\Data\ProductTierPriceInterfaceFactory $tierPriceFactory
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
+     * @param Client
      * @param ProductTierPriceExtensionFactory|null $tierPriceExtensionFactory
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -50,10 +57,12 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository,
         \Magento\Framework\Serialize\Serializer\Json $serializer,
+        Client $client,
         ProductTierPriceExtensionFactory $tierPriceExtensionFactory = null
     ) {
         $this->usageRepository = $usageRepository;
         $this->serializer = $serializer;
+        $this->client = $client;
 
         parent::__construct(
             $ruleFactory,
@@ -149,10 +158,10 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     {
         $options = $this->serializer->unserialize($product->getCustomOption('print_options')->getValue());
 
-//        $prices = $this->graphikClient->getProductGroupPrice($options);
+        $price = $this->client->getPrice($options);
 
-        $product->setData('final_price', $prices['finalPrice']);
-        return $prices['finalPrice'];
+        $product->setData('final_price', $price);
+        return $price;
     }
 
     /**

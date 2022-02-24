@@ -103,7 +103,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
             $options['maxH'] = 110;
             $image->setImageUrl('https://pod.cloud.graphikservices.com/renderEMF/render?'. http_build_query($options));
         }
-        if ($dataUrl = $item->getOptionByCode('template_thumbnail')) {
+        if ($dataUrl = $item->getOptionByCode('thumbnail')) {
             $image->setImageUrl($dataUrl->getValue());
         }
     }

@@ -141,17 +141,16 @@ class BeforeImageProductSave implements ObserverInterface
      */
     protected function processImage($file, \Magento\Catalog\Api\Data\ProductInterface $product)
     {
-        $processor = $this->imageFactory->create(
-            $this->mediaDirectory->getAbsolutePath(
-                $this->mediaConfig->getTmpMediaPath($file)
-            )
+        $absolutePathToImage = $this->mediaDirectory->getAbsolutePath(
+            $this->mediaConfig->getTmpMediaPath($file)
         );
+        $processor = $this->imageFactory->create($absolutePathToImage);
         $this->updateAttributes($processor, $product);
         $processor->quality(92);
         $processor->keepAspectRatio(true);
         $processor->constrainOnly(true);
         $processor->resize(1024, 1024);
-        $processor->save();
+        $processor->save($absolutePathToImage);
         $this->fileStorageDb->saveFile($this->mediaConfig->getTmpMediaShortUrl($file));
     }
 

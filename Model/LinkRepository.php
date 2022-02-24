@@ -3,6 +3,10 @@
 namespace DevStone\ImageProducts\Model;
 
 use \Magento\Downloadable\Api\Data\LinkInterface;
+use Magento\Downloadable\Model\Product\Type;
+use Magento\Downloadable\Model\Product\TypeHandler\Link as LinkHandler;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Exception\InputException;
 use Magento\Catalog\Api\Data\ProductInterface;
 
@@ -23,18 +27,14 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
             if (!$product->getTypeInstance() instanceof \Magento\Downloadable\Model\Product\Type) {
                 throw new InputException(__('Provided product must be type \'downloadable\' or \'image\'.'));
             }
-            $validateLinkContent = !($link->getLinkType() === 'file' && $link->getLinkFile());
-            $validateSampleContent = !($link->getSampleType() === 'file' && $link->getSampleFile());
-            if (!$this->contentValidator->isValid($link, $validateLinkContent, $validateSampleContent)) {
-                throw new InputException(__('Provided link information is invalid.'));
-            }
-
-            if (!in_array($link->getLinkType(), ['url', 'file'], true)) {
-                throw new InputException(__('Invalid link type.'));
+            $this->validateLinkType($link);
+            $this->validateSampleType($link);
+            if (!$this->contentValidator->isValid($link, true, $link->hasSampleType())) {
+                throw new InputException(__('The link information is invalid. Verify the link and try again.'));
             }
             $title = $link->getTitle();
             if (empty($title)) {
-                $link->setTitle($sku);
+                throw new InputException(__('The link title is empty. Enter the link title and try again.'));
             }
 
             return $this->saveLink($product, $link, $isGlobalScopeContent);
@@ -47,5 +47,34 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
             $link->setTitle($product->getSku());
         }
         return parent::updateLink($product, $link, $isGlobalScopeContent);
+    }
+
+
+    /**
+     * Check that Link type exist.
+     *
+     * @param LinkInterface $link
+     * @return void
+     * @throws InputException
+     */
+    private function validateLinkType(LinkInterface $link): void
+    {
+        if (!in_array($link->getLinkType(), ['url', 'file'], true)) {
+            throw new InputException(__('The link type is invalid. Verify and try again.'));
+        }
+    }
+
+    /**
+     * Check that Link sample type exist.
+     *
+     * @param LinkInterface $link
+     * @return void
+     * @throws InputException
+     */
+    private function validateSampleType(LinkInterface $link): void
+    {
+        if ($link->hasSampleType() && !in_array($link->getSampleType(), ['url', 'file'], true)) {
+            throw new InputException(__('The link sample type is invalid. Verify and try again.'));
+        }
     }
 }

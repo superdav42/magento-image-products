@@ -117,7 +117,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                 $options['template_options'] = $this->serializer->unserialize(
                     $templateOptions->getValue()
                 );
-                $options['template_thumbnail'] = $product->getCustomOption('template_thumbnail');
+                $options['thumbnail'] = $product->getCustomOption('thumbnail');
             }
         }
 
@@ -132,7 +132,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      */
     public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
     {
-        if ($product->getOrigData('type_id') === TYPE_ID) {
+        if ($product->getOrigData('type_id') === self::TYPE_ID) {
             $downloadableData = $product->getDownloadableData();
             $sampleItems = [];
             if (isset($downloadableData['sample'])) {
@@ -179,10 +179,10 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                             $buyRequest->getTemplateOptions()
                         )
                     );
-                    $thumbnail = $buyRequest->getTemplateThumbnail();
+                    $thumbnail = $buyRequest->getThumbnail();
 
                     if( 'data:image/' === substr($thumbnail, 0, 11) ) {
-                        $subProduct->addCustomOption('template_thumbnail', $buyRequest->getTemplateThumbnail());
+                        $subProduct->addCustomOption('thumbnail', $buyRequest->getThumbnail());
                     }
 
                     $subProduct->setCartQty(1);
@@ -295,6 +295,13 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                 $options['off'] = $buyRequest->getData('bottomMatSize');
             }
         }
+
+        $thumbnail = $buyRequest->getThumbnail();
+
+        if( 'data:image/' === substr($thumbnail, 0, 11) ) {
+            $product->addCustomOption('thumbnail', $thumbnail);
+        }
+
         $product->addCustomOption('print_options', $this->serializer->serialize($options));
     }
 
