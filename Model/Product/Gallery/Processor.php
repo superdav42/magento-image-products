@@ -8,10 +8,26 @@
 
 namespace DevStone\ImageProducts\Model\Product\Gallery;
 
+use Magento\Framework\Api\Data\ImageContentInterface;
+use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
 
 class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
 {
+
+    protected $mime;
+
+    public function __construct(
+        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
+        \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb,
+        \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
+        \Magento\Framework\Filesystem $filesystem,
+        \Magento\Catalog\Model\ResourceModel\Product\Gallery $resourceModel,
+        \Magento\Framework\File\Mime $mime = null
+    ) {
+        parent::__construct($attributeRepository, $fileStorageDb, $mediaConfig, $filesystem, $resourceModel, $mime);
+        $this->mime = $mime ?: ObjectManager::getInstance()->get(\Magento\Framework\File\Mime::class);;
+    }
 
     public function addImage(
         \Magento\Catalog\Model\Product $product,
@@ -48,14 +64,14 @@ class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
                 $this->mediaDirectory->renameFile($file, $destinationFile);
 
                 //If this is used, filesystem should be configured properly
-//                $storageHelper->saveFile($this->mediaConfig->getTmpMediaShortUrl($fileName));
+                $storageHelper->saveFile($this->mediaConfig->getTmpMediaShortUrl($fileName));
             } else {
                 $this->mediaDirectory->copyFile($file, $destinationFile);
 
-//                $storageHelper->saveFile($this->mediaConfig->getTmpMediaShortUrl($fileName));
+                $storageHelper->saveFile($this->mediaConfig->getTmpMediaShortUrl($fileName));
             }
         } catch (\Exception $e) {
-            throw new LocalizedException(__('We couldn\'t move this file: %1.', $e->getMessage()));
+            throw new LocalizedException(__('The "%1" file couldn\'t be moved.', $e->getMessage()));
         }
 
         $fileName = str_replace('\\', '/', $fileName);
@@ -63,6 +79,13 @@ class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
         $attrCode = $this->getAttribute()->getAttributeCode();
         $mediaGalleryData = $product->getData($attrCode);
         $position = 0;
+
+        $absoluteFilePath = $this->mediaDirectory->getAbsolutePath($destinationFile);
+        $imageMimeType = $this->mime->getMimeType($absoluteFilePath);
+        $imageContent = $this->mediaDirectory->readFile($absoluteFilePath);
+        $imageBase64 = base64_encode($imageContent);
+        $imageName = $pathinfo['filename'];
+
         if (!is_array($mediaGalleryData)) {
             $mediaGalleryData = ['images' => []];
         }
@@ -77,9 +100,17 @@ class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
         $mediaGalleryData['images'][] = [
             'file' => $fileName,
             'position' => $position,
-            'media_type' => 'image',
             'label' => '',
             'disabled' => (int)$exclude,
+            'media_type' => 'image',
+            'types' => $mediaAttribute,
+            'content' => [
+                'data' => [
+                    ImageContentInterface::NAME => $imageName,
+                    ImageContentInterface::BASE64_ENCODED_DATA => $imageBase64,
+                    ImageContentInterface::TYPE => $imageMimeType,
+                ]
+            ]
         ];
 
         $product->setData($attrCode, $mediaGalleryData);

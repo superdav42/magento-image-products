@@ -74,6 +74,12 @@ class BeforeImageProductSave implements ObserverInterface
     {
         $entity = $observer->getEvent()->getProduct();
         if ($entity instanceof \Magento\Catalog\Api\Data\ProductInterface &&
+            $entity->getOrigData('type_id') === \DevStone\ImageProducts\Model\Product\Type::TYPE_ID &&
+            $entity->getTypeId() !== \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
+            // Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable changes the type to downloadable we need to change it back to image.
+            $entity->setTypeId(\DevStone\ImageProducts\Model\Product\Type::TYPE_ID);
+        }
+        if ($entity instanceof \Magento\Catalog\Api\Data\ProductInterface &&
                 $entity->getTypeId() === \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
             $mediaGalleryData = $entity->getData('media_gallery');
 
@@ -82,7 +88,9 @@ class BeforeImageProductSave implements ObserverInterface
 
             if (isset($mediaGalleryData['images']) && is_array($mediaGalleryData['images'])) {
                 foreach ($mediaGalleryData['images'] as &$image) {
-                    $existingMediaFiles[] = $image['file'];
+                    if (! isset($image['removed']) || ! $image['removed']) {
+                        $existingMediaFiles[] = $image['file'];
+                    }
                 }
             }
 
