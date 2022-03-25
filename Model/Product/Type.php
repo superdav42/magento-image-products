@@ -318,4 +318,8 @@ class Type extends \Magento\Downloadable\Model\Product\Type
         }
         return true;
     }
+    public function isSalable($product)
+    {
+        return $this->hasLinks($product);
+    }
 }

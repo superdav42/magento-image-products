@@ -34,7 +34,7 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
             }
             $title = $link->getTitle();
             if (empty($title)) {
-                throw new InputException(__('The link title is empty. Enter the link title and try again.'));
+                $link->setTitle('image');
             }
 
             return $this->saveLink($product, $link, $isGlobalScopeContent);

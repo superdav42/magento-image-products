@@ -16,22 +16,22 @@ use Magento\Ui\Component\Form\Field;
  */
 class KeywordsForm extends AbstractModifier
 {
-	
+
 	/**
      * @var ArrayManager
      */
     protected $arrayManager;
-    
+
     /**
      * @var LocatorInterface
      */
     protected $locator;
-    
+
     /**
      * @var UrlInterface
      */
     protected $urlBuilder;
-	
+
 	/**
      * @var \Magento\Eav\Api\AttributeOptionManagementInterface
      */
@@ -51,7 +51,7 @@ class KeywordsForm extends AbstractModifier
      * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
      */
     protected $attributeRepository;
-	
+
     const SUGGEST_FILTER_URI = 'vendor_module/something/suggestCustomAttr';
 	const FIELD_ORDER = 22;
     /**
@@ -74,7 +74,7 @@ class KeywordsForm extends AbstractModifier
 		$this->attributeRepository = $attributeRepository;
         $this->attributeOptionManagement = $attributeOptionManagement;
         $this->optionLabelFactory = $optionLabelFactory;
-        $this->optionFactory = $optionFactory;            
+        $this->optionFactory = $optionFactory;
     }
 
     /**
@@ -93,14 +93,14 @@ class KeywordsForm extends AbstractModifier
     public function modifyData(array $data)
     {
 		foreach($data as &$productData) {
-			if(isset($productData['product']['keywords']))  {
+            // We don't need to do this with newer version of M2, Not sure why.
+			if(isset($productData['product']['keywords']) && is_string(  $productData['product']['keywords']))  {
 				$productData['product']['keywords'] = explode(',', $productData['product']['keywords']);
 			}
 		}
-		
         return $data;
     }
-	
+
 	/**
      * Customise Custom Attribute field
      *

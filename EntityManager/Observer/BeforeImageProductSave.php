@@ -3,6 +3,7 @@
 namespace DevStone\ImageProducts\EntityManager\Observer;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
@@ -41,6 +42,13 @@ class BeforeImageProductSave implements ObserverInterface
     protected $fileStorageDb;
 
     /**
+     * Request instance
+     *
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    protected $request;
+
+    /**
      *
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
      * @param \DevStone\ImageProducts\Model\Product\Gallery\Processor $mediaGalleryProcessor
@@ -54,7 +62,8 @@ class BeforeImageProductSave implements ObserverInterface
         \Magento\Framework\Image\Factory $imageFactory,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
-        \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb
+        \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb,
+        RequestInterface $request
     ) {
         $this->mediaConfig = $mediaConfig;
         $this->mediaGalleryProcessor = $mediaGalleryProcessor;
@@ -62,6 +71,7 @@ class BeforeImageProductSave implements ObserverInterface
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->attributeRepository = $attributeRepository;
         $this->fileStorageDb = $fileStorageDb;
+        $this->request = $request;
     }
     /**
      * Apply model save operation
@@ -79,6 +89,11 @@ class BeforeImageProductSave implements ObserverInterface
             // Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable changes the type to downloadable we need to change it back to image.
             $entity->setTypeId(\DevStone\ImageProducts\Model\Product\Type::TYPE_ID);
         }
+
+        if ( 'image' === $this->request->getParam('type', null) ) {
+            $entity->setTypeId(\DevStone\ImageProducts\Model\Product\Type::TYPE_ID);
+        }
+
         if ($entity instanceof \Magento\Catalog\Api\Data\ProductInterface &&
                 $entity->getTypeId() === \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
             $mediaGalleryData = $entity->getData('media_gallery');
