@@ -18,90 +18,39 @@
     <body>
 
     	<referenceBlock name="csmarketplace_vendor_navigation">
-			    <block class="Ced\CsMarketplace\Block\Link\Current" name="vendor_new_products" after="vendor_profile" ifconfig="ced_csmarketplace/general/ced_vproduct_activation">
-			       <arguments>
-					   <argument name="name" xsi:type="string">vendor_new_product</argument>
-					   <argument name="label" xsi:type="string" translate="true">New Product</argument>
-					   <argument name="path" xsi:type="string">#</argument>
-					  <argument name="font_awesome" xsi:type="string">fa fa-plus-square fa-fw</argument>
-			       </arguments>
+            <block class="Ced\CsMarketplace\Block\Link\Current" name="vendor_profile" after="vendor_dashboard">
+                <arguments>
+                    <argument name="name" xsi:type="string">vendor_profile</argument>
+                    <argument name="label" xsi:type="string" translate="true">Artist Profile</argument>
+                    <argument name="path" xsi:type="string">csmarketplace/vendor/profileview</argument>
+                    <argument name="font_awesome" xsi:type="string">fa fa-user fa-fw</argument>
+                    <argument name="sort_order" xsi:type="string">100</argument>
+                    <argument name="level" xsi:type="string">1</argument>
+                </arguments>
+            </block>
+            <block class="Ced\CsMarketplace\Block\Link\Current" name="image_product_creation"  after="vendor_profile">
+                <arguments>
+                    <argument name="name" xsi:type="string">image_product_creation</argument>
+                    <argument name="label" xsi:type="string" translate="true">Add New Image</argument>
+                    <!-- <argument name="path" xsi:type="helper" helper="Ced\CsProduct\Helper\Data::getGroupedUrl"/> -->
+                    <argument name="path" xsi:type="string">csproduct/vproducts/new/set/10/type/image/</argument>
+                    <argument name="font_awesome" xsi:type="string">fa fa-angle-double-right</argument>
+                    <argument name="sort_order" xsi:type="string">70</argument>
+                </arguments>
+            </block>
 
-					<block class="Ced\CsMarketplace\Block\Links" name="vendor_new_products_container" as="vendor_new_products_container">
-						<arguments>
-							<argument name="css_class" xsi:type="string">nav nav-second-level collapse</argument>
-						</arguments>
-						<block class="Ced\CsMarketplace\Block\Link\Current" name="simple_product_creation">
-						<arguments>
-							<argument name="name" xsi:type="string">simple_product_creation</argument>
-							<argument name="label" xsi:type="string" translate="true">Add Simple Product</argument>
-							<!-- <argument name="path" xsi:type="helper" helper="Ced\CsProduct\Helper\Data::getSimpleUrl"/> -->
-							<argument name="path" xsi:type="string">csproduct/vproducts/new/set/4/type/simple</argument>
-							<argument name="font_awesome" xsi:type="string">fa fa-angle-double-right</argument>
-							<argument name="sort_order" xsi:type="string">10</argument>
-						</arguments>
-					</block>
-					<block class="Ced\CsMarketplace\Block\Link\Current" name="configurable_product_creation">
-						<arguments>
-							<argument name="name" xsi:type="string">configurable_product_creation</argument>
-							<argument name="label" xsi:type="string" translate="true">Add Configurable Product</argument>
-							<!-- <argument name="path" xsi:type="helper" helper="Ced\CsProduct\Helper\Data::getConfigurableUrl"/> -->
-						   <argument name="path" xsi:type="string">csproduct/vproducts/new/set/4/type/configurable/</argument>
-							<argument name="font_awesome" xsi:type="string">fa fa-angle-double-right</argument>
-							<argument name="sort_order" xsi:type="string">20</argument>
-						</arguments>
-					</block>
-					<block class="Ced\CsMarketplace\Block\Link\Current" name="bundle_product_creation">
-						<arguments>
-							<argument name="name" xsi:type="string">bundle_product_creation</argument>
-							<argument name="label" xsi:type="string" translate="true">Add Bundle Product</argument>
-							<!-- <argument name="path" xsi:type="helper" helper="Ced\CsProduct\Helper\Data::getBundleUrl"/> -->
-							<argument name="path" xsi:type="string">csproduct/vproducts/new/set/4/type/bundle/</argument>
-							<argument name="font_awesome" xsi:type="string">fa fa-angle-double-right</argument>
-							<argument name="sort_order" xsi:type="string">30</argument>
-						</arguments>
-					</block>
-					<block class="Ced\CsMarketplace\Block\Link\Current" name="virtual_product_creation">
-						<arguments>
-							<argument name="name" xsi:type="string">virtual_product_creation</argument>
-							<argument name="label" xsi:type="string" translate="true">Add Virtual Product</argument>
-							<!-- <argument name="path" xsi:type="helper" helper="Ced\CsProduct\Helper\Data::getVirtualUrl"/> -->
-							<argument name="path" xsi:type="string">csproduct/vproducts/new/set/4/type/virtual/</argument>
-							<argument name="font_awesome" xsi:type="string">fa fa-angle-double-right</argument>
-							<argument name="sort_order" xsi:type="string">40</argument>
-						</arguments>
-					</block>
-					<block class="Ced\CsMarketplace\Block\Link\Current" name="downloadable_product_creation">
-						<arguments>
-							<argument name="name" xsi:type="string">downloadable_product_creation</argument>
-							<argument name="label" xsi:type="string" translate="true">Add Downloadable Product</argument>
-							<!-- <argument name="path" xsi:type="helper" helper="Ced\CsProduct\Helper\Data::getDownloadableUrl"/> -->
-							 <argument name="path" xsi:type="string">csproduct/vproducts/new/set/4/type/downloadable/</argument>
-							<argument name="font_awesome" xsi:type="string">fa fa-angle-double-right</argument>
-							<argument name="sort_order" xsi:type="string">50</argument>
-						</arguments>
-					</block>
-					<block class="Ced\CsMarketplace\Block\Link\Current" name="grouped_product_creation">
-						<arguments>
-							<argument name="name" xsi:type="string">grouped_product_creation</argument>
-							<argument name="label" xsi:type="string" translate="true">Add Grouped Product</argument>
-							<!-- <argument name="path" xsi:type="helper" helper="Ced\CsProduct\Helper\Data::getGroupedUrl"/> -->
-							 <argument name="path" xsi:type="string">csproduct/vproducts/new/set/4/type/grouped/</argument>
-							<argument name="font_awesome" xsi:type="string">fa fa-angle-double-right</argument>
-							<argument name="sort_order" xsi:type="string">60</argument>
-						</arguments>
-					</block>
-                    <block class="Ced\CsMarketplace\Block\Link\Current" name="image_product_creation">
-                        <arguments>
-                            <argument name="name" xsi:type="string">image_product_creation</argument>
-                            <argument name="label" xsi:type="string" translate="true">Add New Image</argument>
-                            <!-- <argument name="path" xsi:type="helper" helper="Ced\CsProduct\Helper\Data::getGroupedUrl"/> -->
-                            <argument name="path" xsi:type="string">csproduct/vproducts/new/set/10/type/image/</argument>
-                            <argument name="font_awesome" xsi:type="string">fa fa-angle-double-right</argument>
-                            <argument name="sort_order" xsi:type="string">70</argument>
-                        </arguments>
-                    </block>
-					</block>
-			    </block>
+            <referenceBlock name="vendor_new_products" remove="true" />
+            <referenceBlock name="vendor_products_csproduct" remove="true" />
+            <block class="Ced\CsMarketplace\Block\Link\Current" name="vendor_images" after="image_product_creation">
+                <arguments>
+                    <argument name="name" xsi:type="string">vendor_products</argument>
+                    <argument name="label" xsi:type="string" translate="true">Manage Images</argument>
+                    <argument name="path" xsi:type="string">csmarketplace/vproducts/index</argument>
+                    <argument name="font_awesome" xsi:type="string">fa fa-folder fa-fw</argument>
+                    <argument name="sort_order" xsi:type="string">40</argument>
+                    <argument name="level" xsi:type="string">1</argument>
+                </arguments>
+            </block>
 
 		</referenceBlock>
     </body>
