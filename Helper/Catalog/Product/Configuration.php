@@ -96,13 +96,6 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
         \Magento\Catalog\Block\Product\Image $image,
         \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
     ) {
-
-        if ($item->getOptionByCode('print')) {
-            $options = $this->serializer->unserialize($item->getOptionByCode('print_options')->getValue());
-            $options['maxW'] = 110;
-            $options['maxH'] = 110;
-            $image->setImageUrl('https://pod.cloud.graphikservices.com/renderEMF/render?'. http_build_query($options));
-        }
         if ($dataUrl = $item->getOptionByCode('thumbnail')) {
             $image->setImageUrl($dataUrl->getValue());
         }
@@ -174,7 +167,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
     {
 
         $options = [
-            ['label' => __('Substrate'), 'value' => $printOptions['substrate'] === "PAPER7" ? __('Paper') : __('Canvas')],
+            ['label' => __('Substrate'), 'value' => $printOptions['printOption']],
             ['label' => __('Width'), 'value' => $printOptions['imgWI'].' '.__('Inches')],
             ['label' => __('Height'), 'value' => $printOptions['imgHI'].' '.__('Inches')],
         ];

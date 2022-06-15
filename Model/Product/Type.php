@@ -272,9 +272,12 @@ class Type extends \Magento\Downloadable\Model\Product\Type
         $product->addCustomOption('print', true);
 
         $options = [
+            'printOption' => $buyRequest->getData('printOption'),
             'substrate' => $buyRequest->getSubstrate(),
             'imgHI' => $buyRequest->getHeight(),
             'imgWI' => $buyRequest->getWidth(),
+            'canvasStyle' => $buyRequest->getData('canvasStyle'),
+            'metalStyle' => $buyRequest->getData('metalStyle'),
         ];
 
         if ($buyRequest->getFramed() === 'yes') {
