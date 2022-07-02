@@ -160,7 +160,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
         } catch (\Magento\Framework\Exception\LocalizedException $exc) {
         }
 
-        return [['label' => __('Terms'), 'value' => $terms]];
+        return [['label' => __('Terms'), 'value' => $terms, 'custom_view' => true]];
     }
 
     public function getPrintOptions($printOptions)

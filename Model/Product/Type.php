@@ -105,6 +105,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
             $options['print_options'] = $this->serializer->unserialize(
                 $product->getCustomOption('print_options')->getValue()
             );
+            $options['thumbnail'] = $product->getCustomOption('thumbnail')->getValue();
         } else {
             $options = parent::getOrderOptions($product);
             if ($usageId = $product->getCustomOption('usage_id')) {
@@ -117,9 +118,11 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                 $options['template_options'] = $this->serializer->unserialize(
                     $templateOptions->getValue()
                 );
-                $options['thumbnail'] = $product->getCustomOption('thumbnail');
+                $options['thumbnail'] = $product->getCustomOption('thumbnail')->getValue();
             }
         }
+
+        $options['real_product_type'] = self::TYPE_ID;
 
         return $options;
     }
@@ -157,7 +160,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
 
     public function _prepareProduct(\Magento\Framework\DataObject $buyRequest, $product, $processMode)
     {
-
+        parent::_prepareProduct($buyRequest, $product, $processMode);
         if (($substrateSku = $buyRequest->getData('printOption'))) {
             // skip downloadable type options.
             $result = AbstractType::_prepareProduct($buyRequest, $product, $processMode);

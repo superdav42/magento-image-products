@@ -75,12 +75,14 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        /** @var \Magento\Sales\Model\Order\Item $orderItem */
         $orderItem = $observer->getEvent()->getItem();
         if (!$orderItem->getId()) {
             //order not saved in the database
             return $this;
         }
-        if ($orderItem->getProductType() != \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
+        $productType = $orderItem->getRealProductType() ?: $orderItem->getProductType();
+        if ($productType != \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
             return $this;
         }
         $product = $orderItem->getProduct();
@@ -88,6 +90,12 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
         if ($purchasedLink->getId()) {
             return $this;
         }
+        $storeId = $orderItem->getOrder()->getStoreId();
+        $orderStatusToEnableItem = $this->_scopeConfig->getValue(
+            \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS,
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
         if (!$product) {
             $product = $this->_createProductModel()->setStoreId(
                 $orderItem->getOrder()->getStoreId()
@@ -100,13 +108,13 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
                 $linkPurchased = $this->_createPurchasedModel();
                 $this->_objectCopyService->copyFieldsetToTarget(
-                    \downloadable_sales_copy_order::class,
+                    'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
                 $this->_objectCopyService->copyFieldsetToTarget(
-                    \downloadable_sales_copy_order_item::class,
+                    'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
                     $linkPurchased
@@ -119,6 +127,12 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
                         ScopeInterface::SCOPE_STORE
                     );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)->save();
+                $linkStatus = \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING;
+                if ($orderStatusToEnableItem == \Magento\Sales\Model\Order\Item::STATUS_PENDING
+                    || $orderItem->getOrder()->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE
+                ) {
+                    $linkStatus = \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_AVAILABLE;
+                }
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
                         $linkPurchasedItem = $this->_createPurchasedItemModel()->setPurchasedId(
@@ -146,7 +160,7 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
                         )->setNumberOfDownloadsBought(
                             $numberOfDownloads
                         )->setStatus(
-                            \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING
+                            $linkStatus
                         )->setCreatedAt(
                             $orderItem->getCreatedAt()
                         )->setUpdatedAt(

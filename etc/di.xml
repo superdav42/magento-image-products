@@ -33,6 +33,9 @@
         <plugin name="UserPlugin" type="DevStone\ImageProducts\Plugged\Model\User\UserPlugin" sortOrder="1"
                 disabled="false"/>
     </type>
+    <type name="Magento\Sales\Block\Adminhtml\Order\View\Items" >
+        <plugin name="CustomOrderItems" type="DevStone\ImageProducts\Plugged\Block\OrderItems" />
+    </type>
 
     <preference for="Aheadworks\Autorelated\Model\Rule\Related\Condition\Product\Attributes" type="DevStone\ImageProducts\Model\Rule\Related\Condition\Product\Attributes" />
 
@@ -40,4 +43,18 @@
     <!--<preference for="Magento\Catalog\Model\Product\Gallery\Processor" type="DevStone\ImageProducts\Model\Product\Gallery\Processor" />-->
     <preference for="Magento\Catalog\Model\Product\Gallery\CreateHandler" type="DevStone\ImageProducts\Model\Product\Gallery\CreateHandler" />
     <preference for="Magento\Catalog\Model\Product\Gallery\UpdateHandler" type="DevStone\ImageProducts\Model\Product\Gallery\UpdateHandler" />
+    <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
+        <arguments>
+            <argument name="processorPool" xsi:type="array">
+                <item name="image" xsi:type="object">DevStone\ImageProducts\Model\ProductOptionProcessor</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Sales\Model\Order\ProductOption">
+        <arguments>
+            <argument name="processorPool" xsi:type="array">
+                <item name="image" xsi:type="object">DevStone\ImageProducts\Model\ProductOptionProcessor</item>
+            </argument>
+        </arguments>
+    </type>
 </config>
