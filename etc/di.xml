@@ -37,12 +37,19 @@
         <plugin name="CustomOrderItems" type="DevStone\ImageProducts\Plugged\Block\OrderItems" />
     </type>
 
+
+    <type name="Magento\Downloadable\Model\Link\Builder">
+        <plugin name="BuilderPlugin" type="DevStone\ImageProducts\Plugged\Model\Link\BuilderPlugin" />
+    </type>
+    <!-- Need to do somethnig for Magento\Downloadable\Model\Product\TypeHandler\Link::setFiles() -->
     <preference for="Aheadworks\Autorelated\Model\Rule\Related\Condition\Product\Attributes" type="DevStone\ImageProducts\Model\Rule\Related\Condition\Product\Attributes" />
 
     <preference for="Magento\Downloadable\Controller\Download\Link" type="DevStone\ImageProducts\Controller\Downloads\Download" />
     <!--<preference for="Magento\Catalog\Model\Product\Gallery\Processor" type="DevStone\ImageProducts\Model\Product\Gallery\Processor" />-->
     <preference for="Magento\Catalog\Model\Product\Gallery\CreateHandler" type="DevStone\ImageProducts\Model\Product\Gallery\CreateHandler" />
     <preference for="Magento\Catalog\Model\Product\Gallery\UpdateHandler" type="DevStone\ImageProducts\Model\Product\Gallery\UpdateHandler" />
+    <preference for="Magento\Downloadable\Model\Product\TypeHandler\Link" type="DevStone\ImageProducts\Model\Product\TypeHandler\Link" />
+    <preference for="Magento\Downloadable\Controller\Adminhtml\Downloadable\Product\Edit\Link" type="DevStone\ImageProducts\Controller\Adminhtml\Downloadable\Product\Edit\Link" />
     <type name="Magento\Sales\Api\OrderItemRepositoryInterface">
         <arguments>
             <argument name="processorPool" xsi:type="array">

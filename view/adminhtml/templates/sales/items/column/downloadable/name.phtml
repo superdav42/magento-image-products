@@ -80,7 +80,20 @@ script;
         </dl>
     <?php endif; ?>
     <?php if ($block->isPrintProduct()): ?>
-        Preview Print: <a href="<?= $block->getDownloadUrl() ?>">Download</a>
+        DPI: <?= $block->getDPI() ?> <br />
+        Preview Print: <a target="_blank" href="<?= $block->getDownloadUrl() ?>">Download</a> <br />
+        If necessary <a target="_blank" href="<?= $block->getUrl('catalog/product/edit', ['id'=>$block->getItem()->getProduct()->getId()]) ?>">Update Image</a>
+        <?php if ( $block->getDPI() < 150): ?>
+            <p style="color: #ac2925;font-weight: bold">DPI is below 150.
+                Please correct before approval or unicorns will cry.
+                <img src="https://cataas.com/cat/sad?width=250" width="250" alt="Sad Cat" />
+            </p>
+        <?php endif; ?>
+        <?php if ( ! $block->downloadExists() ): ?>
+            <p style="color: #ac2925;font-weight: bold">
+               Image Missing!!! Do not approve or the internet will explode.
+            </p>
+        <?php endif; ?>
     <?php endif; ?>
     <?= $block->escapeHtml($_item->getDescription()) ?>
 <?php endif; ?>

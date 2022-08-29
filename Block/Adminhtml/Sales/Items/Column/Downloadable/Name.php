@@ -2,6 +2,7 @@
 
 namespace DevStone\ImageProducts\Block\Adminhtml\Sales\Items\Column\Downloadable;
 
+use DevStone\FramedPrints\Helper\OrderItemDownloadUrlBuilder;
 use Magento\Downloadable\Model\Link;
 use Magento\Downloadable\Model\Link\Purchased;
 use Magento\Framework\App\ObjectManager;
@@ -14,7 +15,7 @@ class Name extends \Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Down
 
     private \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration;
 
-    private EncryptorInterface $encryptor;
+    private OrderItemDownloadUrlBuilder $orderItemDownloadUrlBuilder;
 
     private \Magento\Framework\UrlInterface $frontendUrlBuilder;
 
@@ -27,6 +28,7 @@ class Name extends \Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Down
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration
+     * @param OrderItemDownloadUrlBuilder $orderItemDownloadUrlBuilder
      * @param array $data
      * @param CatalogHelper|null $catalogHelper
      */
@@ -39,12 +41,12 @@ class Name extends \Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Down
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory,
         \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
-        EncryptorInterface $encryptor,
+        OrderItemDownloadUrlBuilder $orderItemDownloadUrlBuilder,
         array $data = [],
         ?CatalogHelper $catalogHelper = null
     ) {
+        $this->orderItemDownloadUrlBuilder = $orderItemDownloadUrlBuilder;
         $this->configuration = $configuration;
-        $this->encryptor = $encryptor;
         parent::__construct($context, $stockRegistry, $stockConfiguration, $registry, $optionFactory, $purchasedFactory, $itemsFactory, $data, $catalogHelper);
     }
 
@@ -79,32 +81,19 @@ class Name extends \Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Down
     }
 
     public function getDownloadUrl():string {
-        $item = $this->getItem();
-        $expire = time() + (24 * 60 * 60);
-        $item_id = $item->getId();
-        $data = $this->encryptor->encrypt(join(':', [$expire,$item_id]));
-        return $this->getFrontendUrlBuilder()->getUrl(
-            'prints/download/art',
-            [
-                'id' => $data,
-                '_scope' => $this->getOrder()->getStore(),
-                '_secure' => true,
-                '_nosid' => true
-            ]
-        );
+        return $this->orderItemDownloadUrlBuilder->getDownloadUrl($this->getItem());
     }
 
+    public function downloadExists():bool {
+        return $this->orderItemDownloadUrlBuilder->downloadExists($this->getItem());
+    }
 
-    /**
-     * Get frontend URL builder
-     *
-     * @return \Magento\Framework\UrlInterface
-     */
-    private function getFrontendUrlBuilder()
-    {
-        if (!isset($this->frontendUrlBuilder)) {
-            $this->frontendUrlBuilder = ObjectManager::getInstance()->get(\Magento\Framework\Url::class);
-        }
-        return $this->frontendUrlBuilder;
+    public function getDPI() {
+        $item = $this->getItem();
+        $product = $item->getProduct();
+        $attributse = $product->getAttributes();
+
+        $printOptions = $item->getProductOptionByCode('print_options');
+        return floor($product->getWidth() / $printOptions['imgWI']);
     }
 }

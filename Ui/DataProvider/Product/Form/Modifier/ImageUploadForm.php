@@ -7,6 +7,7 @@ use DevStone\ImageProducts\Model\Product\Type as ProductType;
 
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\Catalog\Model\Locator\LocatorInterface;
+use Magento\Downloadable\Model\Link;
 use Magento\Framework\UrlInterface;
 use Magento\Ui\Component\Form;
 
@@ -131,7 +132,7 @@ class ImageUploadForm extends AbstractModifier
     protected function getDynamicRows()
     {
         $dynamicRows['arguments']['data']['config'] = [
-            'addButtonLabel' => __('Add Original Image'),
+            'addButtonLabel' => __('Add Gallery Image'),
             'componentType' => DynamicRows::NAME,
             'itemTemplate' => 'record',
             'renderDefaultRecord' => false,
@@ -176,6 +177,7 @@ class ImageUploadForm extends AbstractModifier
             [
                 'container_file' => $this->getFileColumn(),
                 'max_downloads' => $this->getMaxDownloadsColumn(),
+                'gallery_size' => $this->getGallerySizeColumn(),
             ]
         );
     }
@@ -223,7 +225,7 @@ class ImageUploadForm extends AbstractModifier
             'children',
             $fileContainer,
             [
-                'type' => $fileTypeField,
+//                'type' => $fileTypeField,
                 'links_file' => $fileUploader
             ]
         );
@@ -248,5 +250,37 @@ class ImageUploadForm extends AbstractModifier
         ];
         return $numberOfDownloadsField;
 
+    }
+
+
+    /**
+     * Returns Gallery Size columns configuration
+     *
+     * @return array
+     */
+    protected function getGallerySizeColumn()
+    {
+        $shareableField['arguments']['data']['config'] = [
+            'label' => __('Gallery Size'),
+            'formElement' => Form\Element\Select::NAME,
+            'componentType' => Form\Field::NAME,
+            'dataType' => Form\Element\DataType\Number::NAME,
+            'dataScope' => 'type',
+            'sortOrder' => 50,
+            'options' => [
+                ['value' => 'file', 'label' => __('Default Image')],
+                ['value' => 'gal_10', 'label' => __('Gallery Size of 10"')],
+                ['value' => 'gal_12', 'label' => __('Gallery Size of 12"')],
+                ['value' => 'gal_14', 'label' => __('Gallery Size of 14"')],
+                ['value' => 'gal_16', 'label' => __('Gallery Size of 16"')],
+                ['value' => 'gal_20', 'label' => __('Gallery Size of 20"')],
+                ['value' => 'gal_24', 'label' => __('Gallery Size of 24"')],
+                ['value' => 'gal_30', 'label' => __('Gallery Size of 30"')],
+                ['value' => 'gal_36', 'label' => __('Gallery Size of 36"')],
+                ['value' => 'gal_40', 'label' => __('Gallery Size of 40"')],
+            ],
+        ];
+
+        return $shareableField;
     }
 }

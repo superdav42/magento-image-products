@@ -112,6 +112,10 @@ class BeforeImageProductSave implements ObserverInterface
             /** @var \Magento\Downloadable\Api\Data\LinkInterface[] $links */
             $links = $entity->getExtensionAttributes()->getDownloadableProductLinks() ?: [];
             foreach ($links as $link) {
+                if ($link->getLinkType() !== 'file') {
+                    continue;
+                    // This is special type like gal_* or url;
+                }
                 $file = $link->getLinkFile();
                 $linkFiles[] = $file;
 

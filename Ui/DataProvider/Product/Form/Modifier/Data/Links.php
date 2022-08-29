@@ -63,6 +63,7 @@ class Links extends \Magento\Downloadable\Ui\DataProvider\Product\Form\Modifier\
             $linkData['sample']['type'] = $link->getSampleType();
             $linkData['sort_order'] = $link->getSortOrder();
             $linkData['is_unlimited'] = $linkData['number_of_downloads'] ? '0' : '1';
+            $linkData['gallery_size'] = 12;
 
             if ($this->locator->getProduct()->getStoreId()) {
                 $linkData['use_default_price'] = $link->getWebsitePrice() ? '0' : '1';
