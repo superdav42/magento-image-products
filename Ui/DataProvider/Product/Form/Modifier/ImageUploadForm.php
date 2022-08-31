@@ -51,10 +51,16 @@ class ImageUploadForm extends AbstractModifier
     protected $uploadPath;
 
     /**
+     * @var \Magento\Framework\App\State
+     */
+    protected $state;
+
+    /**
      * @param LocatorInterface $locator
      * @param UrlInterface $urlBuilder
      * @param ArrayManager $arrayManager
      * @param Data\Links $linksData
+     * @param \Magento\Framework\App\State $state
      * @param string $uploadPath
      */
     public function __construct(
@@ -62,6 +68,7 @@ class ImageUploadForm extends AbstractModifier
         UrlInterface $urlBuilder,
         ArrayManager $arrayManager,
         Data\Links $linksData,
+        \Magento\Framework\App\State $state,
         $uploadPath = 'adminhtml/downloadable_file/upload'
     ) {
         $this->locator = $locator;
@@ -69,6 +76,7 @@ class ImageUploadForm extends AbstractModifier
         $this->arrayManager = $arrayManager;
         $this->linksData = $linksData;
         $this->uploadPath = $uploadPath;
+        $this->state = $state;
     }
 
     /**
@@ -132,7 +140,7 @@ class ImageUploadForm extends AbstractModifier
     protected function getDynamicRows()
     {
         $dynamicRows['arguments']['data']['config'] = [
-            'addButtonLabel' => __('Add Gallery Image'),
+            'addButtonLabel' => __('Add New Image'),
             'componentType' => DynamicRows::NAME,
             'itemTemplate' => 'record',
             'renderDefaultRecord' => false,
@@ -171,14 +179,23 @@ class ImageUploadForm extends AbstractModifier
             'fit' => true,
         ];
 
-        return $this->arrayManager->set(
-            'children',
-            $record,
-            [
+        if ($this->state->getAreaCode() === 'adminhtml') {
+            $childern = [
                 'container_file' => $this->getFileColumn(),
                 'max_downloads' => $this->getMaxDownloadsColumn(),
                 'gallery_size' => $this->getGallerySizeColumn(),
-            ]
+            ];
+        } else {
+            $childern = [
+                'container_file' => $this->getFileColumn(),
+                'max_downloads' => $this->getMaxDownloadsColumn(),
+                'gallery_size' => $this->linkTypeColumn(),
+            ];
+        }
+        return $this->arrayManager->set(
+            'children',
+            $record,
+            $childern,
         );
     }
 
@@ -264,7 +281,7 @@ class ImageUploadForm extends AbstractModifier
             'label' => __('Gallery Size'),
             'formElement' => Form\Element\Select::NAME,
             'componentType' => Form\Field::NAME,
-            'dataType' => Form\Element\DataType\Number::NAME,
+            'dataType' => Form\Element\DataType\Text::NAME,
             'dataScope' => 'type',
             'sortOrder' => 50,
             'options' => [
@@ -282,5 +299,21 @@ class ImageUploadForm extends AbstractModifier
         ];
 
         return $shareableField;
+    }
+
+    /**
+     * @return array
+     */
+    protected function linkTypeColumn()
+    {
+        $linkTypeField['arguments']['data']['config'] = [
+            'formElement' => Form\Element\Hidden::NAME,
+            'componentType' => Form\Field::NAME,
+            'dataType' => Form\Element\DataType\Text::NAME,
+            'dataScope' => 'type',
+            'value' => 'file',
+        ];
+
+        return $linkTypeField;
     }
 }
