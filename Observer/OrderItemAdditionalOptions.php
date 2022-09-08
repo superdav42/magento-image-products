@@ -28,6 +28,8 @@ class OrderItemAdditionalOptions implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+        // This code failed. Leaving because we may want to get it working later.
+        return;
 
         $quote = $observer->getQuote();
         $order = $observer->getOrder();
