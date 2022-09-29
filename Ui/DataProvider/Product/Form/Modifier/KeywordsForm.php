@@ -177,7 +177,7 @@ class KeywordsForm extends AbstractModifier
     {
 		$product = $this->locator->getProduct();
 		$attribute = $this->attributeRepository->get('keywords');
-		$optionIds = explode(',', $product->getKeywords());
+		$optionIds = explode(',', $product->getKeywords() ?? '');
 		return $attribute->getSource()->getSpecificOptions($optionIds, false);
     }
 }

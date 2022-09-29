@@ -11,6 +11,7 @@ namespace DevStone\ImageProducts\Model\Product\Gallery;
 use Magento\Framework\Api\Data\ImageContentInterface;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\View\Asset\File\NotFoundException;
 
 class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
 {
@@ -38,7 +39,7 @@ class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
     ) {
         $file = $this->mediaDirectory->getRelativePath($file);
         if (!$this->mediaDirectory->isFile($file)) {
-            throw new LocalizedException(__('The image does not exist.'));
+            throw new NotFoundException(__("The image ({$file}) does not exist."));
         }
 
         $pathinfo = pathinfo($file);
