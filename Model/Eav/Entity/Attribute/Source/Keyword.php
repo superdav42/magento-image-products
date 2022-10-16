@@ -158,6 +158,9 @@ class Keyword extends Table
      */
     public function getOptionText($value)
     {
+        if (!$value) {
+            return false;
+        }
         $isMultiple = false;
         if (strpos($value, ',')) {
             $isMultiple = true;
@@ -300,21 +303,21 @@ class Keyword extends Table
     {
         return $this->_attrOptionFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
-	
+
 	/**
      * @param string $value
      * @return null|string
      */
     public function getOptionId($label)
     {
-		
+
 		$storeId = $this->getAttribute()->getStoreId();
         if ($storeId === null) {
             $storeId = $this->getStoreManager()->getStore()->getId();
         }
 
         $attributeId = $this->getAttribute()->getId();
-        
+
 		$collection = $this->_attrOptionCollectionFactory->create()
 			->setAttributeFilter(
 				$attributeId
@@ -331,9 +334,9 @@ class Keyword extends Table
 			return false;
 		}
 		return $options[0]['value'];
-        
 
-		
+
+
         foreach ($this->getAllOptions() as $option) {
             if (strcasecmp($option['label'], $value) == 0 || $option['value'] == $value) {
                 return $option['value'];
