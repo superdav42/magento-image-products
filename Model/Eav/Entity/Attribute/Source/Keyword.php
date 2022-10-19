@@ -113,6 +113,9 @@ class Keyword extends Table
      */
     public function getOptionText($value)
     {
+        if (!$value) {
+            return false;
+        }
         $isMultiple = false;
         if (is_string($value) && str_contains($value, ',')) {
             $isMultiple = true;
@@ -257,8 +260,6 @@ class Keyword extends Table
     }
 
     /**
-     * @param $label
-     * @return null|string
      * @throws NoSuchEntityException
      */
     public function getOptionId($label): ?string
@@ -267,9 +268,7 @@ class Keyword extends Table
         if ($storeId === null) {
             $storeId = $this->storeManager->getStore()->getId();
         }
-
         $attributeId = $this->getAttribute()->getId();
-
         $collection = $this->_attrOptionCollectionFactory->create()
             ->setAttributeFilter(
                 $attributeId

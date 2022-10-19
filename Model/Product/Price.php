@@ -121,8 +121,7 @@ class Price extends Product\Type\Price
                 }
             }
         }
-
-        if (95 !== ((int)($price * 100) % 100)) { // round prices which don't end in $.95
+        if (95 !== (int)fmod(($price * 100), 100)) { // round prices which don't end in $.95
             $price = round($price);
         }
 
