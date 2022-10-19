@@ -12,4 +12,10 @@ use Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend;
  */
 class Keyword extends ArrayBackend
 {
+
+    const KEYWORDS_ATTRIBUTES = [
+        'keywords',
+        'secondary_keywords',
+        'tertiary_keywords'
+    ];
 }

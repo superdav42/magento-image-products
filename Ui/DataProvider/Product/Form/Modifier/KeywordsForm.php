@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DevStone\ImageProducts\Ui\DataProvider\Product\Form\Modifier;
 
+use DevStone\ImageProducts\Model\Eav\Entity\Attribute\Backend\Keyword;
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 use Magento\Catalog\Model\Locator\LocatorInterface;
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
@@ -20,7 +21,6 @@ use Magento\Ui\Component\Form\Field;
  */
 class KeywordsForm extends AbstractModifier
 {
-
     protected ArrayManager $arrayManager;
     protected LocatorInterface $locator;
     protected UrlInterface $urlBuilder;
@@ -66,9 +66,11 @@ class KeywordsForm extends AbstractModifier
     public function modifyData(array $data)
     {
         foreach ($data as &$productData) {
-            // We don't need to do this with newer version of M2, Not sure why.
-            if (isset($productData['product']['keywords']) && is_string($productData['product']['keywords'])) {
-                $productData['product']['keywords'] = explode(',', $productData['product']['keywords']);
+            foreach (Keyword::KEYWORDS_ATTRIBUTES as $keywordAttribute) {
+                // We don't need to do this with newer version of M2, Not sure why.
+                if (isset($productData['product'][$keywordAttribute]) && is_string($productData['product'][$keywordAttribute])) {
+                    $productData['product'][$keywordAttribute] = explode(',', $productData['product'][$keywordAttribute]);
+                }
             }
         }
         return $data;
@@ -81,60 +83,56 @@ class KeywordsForm extends AbstractModifier
      */
     protected function customiseCustomAttrField(array $meta): array
     {
-        $fieldCode = 'keywords'; //your custom attribute code
-        $elementPath = $this->arrayManager->findPath($fieldCode, $meta, null, 'children');
-        $containerPath = $this->arrayManager->findPath(static::CONTAINER_PREFIX . $fieldCode, $meta, null, 'children');
+        foreach (Keyword::KEYWORDS_ATTRIBUTES as $keywordFieldCode) {
+            $elementPath = $this->arrayManager->findPath($keywordFieldCode, $meta, null, 'children');
+            $containerPath = $this->arrayManager->findPath(static::CONTAINER_PREFIX . $keywordFieldCode, $meta, null, 'children');
 
-        if (!$elementPath) {
-            return $meta;
-        }
+            if (!$elementPath) {
+                return $meta;
+            }
 
-        $meta = $this->arrayManager->merge(
-            $containerPath,
-            $meta,
-            [
-                'arguments' => [
-                    'data' => [
-                        'config' => [
-                            'dataScope'     => '',
-                            'breakLine'     => false,
-                            'formElement'   => 'container',
-                            'componentType' => 'container',
-                            'component'     => 'Magento_Ui/js/form/components/group',
-                            'scopeLabel'    => __('[GLOBAL]'),
-                        ],
-                    ],
-                ],
-                'children'  => [
-                    $fieldCode => [
-                        'arguments' => [
-                            'data' => [
-                                'config' => [
-                                    'component'     => 'DevStone_ImageProducts/js/components/keywords',
-                                    'componentType' => Field::NAME,
-                                    'formElement'   => 'select',
-                                    'elementTmpl'   => 'DevStone_ImageProducts/ui-select-keywords',
-                                    'disableLabel'  => true,
-                                    'multiple'      => true,
-                                    'chipsEnabled'  => true,
-                                    'filterOptions' => false,
-                                    'options'       => $this->getOptions(),
-                                    'filterUrl'     => $this->urlBuilder->getUrl(
-                                        self::SUGGEST_FILTER_URI,
-                                        ['isAjax' => 'true']
-                                    ),
-//                                    'config'           => [
-//                                        'dataScope' => $fieldCode,
-//                                        'sortOrder' => self::FIELD_ORDER,
-//                                    ],
-                                ],
+            $meta = $this->arrayManager->merge(
+                $containerPath,
+                $meta,
+                [
+                    'arguments' => [
+                        'data' => [
+                            'config' => [
+                                'dataScope' => '',
+                                'breakLine' => false,
+                                'formElement' => 'container',
+                                'componentType' => 'container',
+                                'component' => 'Magento_Ui/js/form/components/group',
+                                'scopeLabel' => __('[GLOBAL]'),
                             ],
                         ],
+                    ],
+                    'children' => [
+                        $keywordFieldCode => [
+                            'arguments' => [
+                                'data' => [
+                                    'config' => [
+                                        'component' => 'DevStone_ImageProducts/js/components/keywords',
+                                        'componentType' => Field::NAME,
+                                        'formElement' => 'select',
+                                        'elementTmpl' => 'DevStone_ImageProducts/ui-select-keywords',
+                                        'disableLabel' => true,
+                                        'multiple' => true,
+                                        'chipsEnabled' => true,
+                                        'filterOptions' => false,
+                                        'options' => $this->getOptions($keywordFieldCode),
+                                        'filterUrl' => $this->urlBuilder->getUrl(
+                                            self::SUGGEST_FILTER_URI,
+                                            ['isAjax' => 'true']
+                                        ),
+                                    ],
+                                ],
+                            ],
+                        ]
                     ]
                 ]
-            ]
-        );
-
+            );
+        }
         return $meta;
     }
 
@@ -143,11 +141,11 @@ class KeywordsForm extends AbstractModifier
      *
      * @throws NoSuchEntityException
      */
-    protected function getOptions(): array
+    protected function getOptions($keywordAttribute): array
     {
         $product = $this->locator->getProduct();
-        $attribute = $this->attributeRepository->get('keywords');
-        $optionIds = explode(',', $product->getKeywords() ?? '');
+        $attribute = $this->attributeRepository->get($keywordAttribute);
+        $optionIds = explode(',', $product->getData($keywordAttribute) ?? '');
         return $attribute->getSource()->getSpecificOptions($optionIds, false);
     }
 }

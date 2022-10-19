@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace DevStone\ImageProducts\EntityManager\Observer;
 
+use DevStone\ImageProducts\Model\Eav\Entity\Attribute\Backend\Keyword;
 use DevStone\ImageProducts\Model\Product\Type;
 use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
@@ -12,6 +13,7 @@ use Magento\Eav\Api\AttributeOptionManagementInterface;
 use Magento\Eav\Api\Data\AttributeOptionInterfaceFactory;
 use Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory;
 use Magento\Eav\Model\Entity\Attribute\OptionLabel;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
@@ -21,17 +23,20 @@ class BeforeProductSaveKeywords implements ObserverInterface
     protected AttributeOptionLabelInterfaceFactory $optionLabelFactory;
     protected AttributeOptionInterfaceFactory $optionFactory;
     protected ProductAttributeRepositoryInterface $attributeRepository;
+    protected RequestInterface $request;
 
     public function __construct(
         ProductAttributeRepositoryInterface $attributeRepository,
         AttributeOptionManagementInterface $attributeOptionManagement,
         AttributeOptionLabelInterfaceFactory $optionLabelFactory,
-        AttributeOptionInterfaceFactory $optionFactory
+        AttributeOptionInterfaceFactory $optionFactory,
+        RequestInterface $request
     ) {
         $this->attributeRepository = $attributeRepository;
         $this->attributeOptionManagement = $attributeOptionManagement;
         $this->optionLabelFactory = $optionLabelFactory;
         $this->optionFactory = $optionFactory;
+        $this->request = $request;
     }
 
     /**
@@ -45,24 +50,28 @@ class BeforeProductSaveKeywords implements ObserverInterface
         $entity = $observer->getEvent()->getProduct();
         if ($entity instanceof ProductInterface &&
             $entity->getTypeId() === Type::TYPE_ID) {
-            $keywords = $entity->getKeywords();
+            foreach (Keyword::KEYWORDS_ATTRIBUTES as $keywordAttribute) {
+                if (!isset($this->request->getParam('product')[$keywordAttribute])) {
+                    $entity->setData($keywordAttribute, []);
+                } else {
+                    $keywords = $entity->getData($keywordAttribute);
+                    if (!empty($keywords) && is_iterable($keywords)) {
+                        foreach ($keywords as &$keywordId) {
+                            if (!is_numeric($keywordId)) {
+                                $keywordId = $this->createOrGetId($keywordAttribute, trim($keywordId));
+                            }
+                        }
 
-            if (!empty($keywords) && is_iterable($keywords)) {
-
-                foreach ($keywords as &$keywordId) {
-                    if (!is_numeric($keywordId)) {
-                        $keywordId = $this->createOrGetId(trim($keywordId));
+                        $entity->setData($keywordAttribute, array_unique($keywords));
                     }
                 }
-
-                $entity->setKeywords(array_unique($keywords));
             }
         }
     }
 
-    private function createOrGetId($label)
+    private function createOrGetId($attributeCode, $label)
     {
-        $attribute = $this->attributeRepository->get('keywords');
+        $attribute = $this->attributeRepository->get($attributeCode);
 
         $optionId = $attribute->getSource()->getOptionId($label);
 
@@ -80,7 +89,7 @@ class BeforeProductSaveKeywords implements ObserverInterface
 
             $this->attributeOptionManagement->add(
                 Product::ENTITY,
-                $this->attributeRepository->get('keywords')->getAttributeId(),
+                $this->attributeRepository->get($attributeCode)->getAttributeId(),
                 $option
             );
 
