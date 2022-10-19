@@ -1,32 +1,29 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Setup;
 
+use DevStone\ImageProducts\Model\Eav\Entity\Attribute\Backend\Keyword as KeywordBackend;
+use DevStone\ImageProducts\Model\Eav\Entity\Attribute\Frontend\Keyword as KeywordFrontend;
+use DevStone\ImageProducts\Model\Eav\Entity\Attribute\Source\Keyword as KeywordSource;
+use DevStone\ImageProducts\Model\Product\Type;
+use Magento\Catalog\Model\Product;
+use Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface;
 use Magento\Eav\Setup\EavSetup;
 use Magento\Eav\Setup\EavSetupFactory;
 use Magento\Framework\Setup\InstallDataInterface;
 use Magento\Framework\Setup\ModuleContextInterface;
-use Magento\Framework\Setup\ModuleDataSetupInterface;
 
-use DevStone\ImageProducts\Model\Product\Type;
+use Magento\Framework\Setup\ModuleDataSetupInterface;
 
 /**
  * @codeCoverageIgnore
  */
 class InstallData implements InstallDataInterface
 {
-    /**
-     * EAV setup factory
-     *
-     * @var EavSetupFactory
-     */
-    private $eavSetupFactory;
+    private EavSetupFactory $eavSetupFactory;
 
-    /**
-     * Init
-     *
-     * @param EavSetupFactory $eavSetupFactory
-     */
     public function __construct(EavSetupFactory $eavSetupFactory)
     {
         $this->eavSetupFactory = $eavSetupFactory;
@@ -38,24 +35,23 @@ class InstallData implements InstallDataInterface
      */
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
-        /** @var EavSetup $eavSetup */
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
         /**
          * Add attributes to the eav/attribute table
          */
-        
+
         $eavSetup->addAttribute(
-            \Magento\Catalog\Model\Product::ENTITY,
+            Product::ENTITY,
             'keywords',
             [
                 'type' => 'varchar',
-                'backend' => \DevStone\ImageProducts\Model\Eav\Entity\Attribute\Backend\Keyword::class,
-                'frontend' => \DevStone\ImageProducts\Model\Eav\Entity\Attribute\Frontend\Keyword::class,
+                'backend' => KeywordBackend::class,
+                'frontend' => KeywordFrontend::class,
                 'label' => 'Keywords',
                 'input' => 'multiselect',
                 'class' => '',
-                'source' => \DevStone\ImageProducts\Model\Eav\Entity\Attribute\Sorce\Keyword::class,
-                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'source' => KeywordSource::class,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'visible' => true,
                 'required' => false,
                 'user_defined' => false,
@@ -67,13 +63,13 @@ class InstallData implements InstallDataInterface
                 'unique' => false,
                 'apply_to' => Type::TYPE_ID,
                 'used_in_product_listing' => false,
-				'is_html_allowed_on_front' => true,
-				'is_wysiwyg_enabled' => true,
+                'is_html_allowed_on_front' => true,
+                'is_wysiwyg_enabled' => true,
             ]
         );
-        
+
         $eavSetup->addAttribute(
-            \Magento\Catalog\Model\Product::ENTITY,
+            Product::ENTITY,
             'width',
             [
                 'type' => 'varchar',
@@ -83,7 +79,7 @@ class InstallData implements InstallDataInterface
                 'input' => 'text',
                 'class' => '',
                 'source' => '',
-                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'visible' => false,
                 'required' => false,
                 'user_defined' => false,
@@ -97,9 +93,9 @@ class InstallData implements InstallDataInterface
                 'used_in_product_listing' => false
             ]
         );
-        
+
         $eavSetup->addAttribute(
-            \Magento\Catalog\Model\Product::ENTITY,
+            Product::ENTITY,
             'height',
             [
                 'type' => 'varchar',
@@ -109,7 +105,7 @@ class InstallData implements InstallDataInterface
                 'input' => 'text',
                 'class' => '',
                 'source' => '',
-                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'visible' => false,
                 'required' => false,
                 'user_defined' => false,
@@ -123,9 +119,9 @@ class InstallData implements InstallDataInterface
                 'used_in_product_listing' => false
             ]
         );
-        
+
         $eavSetup->addAttribute(
-            \Magento\Catalog\Model\Product::ENTITY,
+            Product::ENTITY,
             'image_type',
             [
                 'type' => 'varchar',
@@ -135,7 +131,7 @@ class InstallData implements InstallDataInterface
                 'input' => 'select',
                 'class' => '',
                 'source' => '',
-                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'visible' => true,
                 'required' => true,
                 'user_defined' => true,
@@ -155,9 +151,9 @@ class InstallData implements InstallDataInterface
                 ],
             ]
         );
-        
+
         $eavSetup->addAttribute(
-            \Magento\Catalog\Model\Product::ENTITY,
+            Product::ENTITY,
             'orientation',
             [
                 'type' => 'int',
@@ -167,7 +163,7 @@ class InstallData implements InstallDataInterface
                 'input' => 'select',
                 'class' => '',
                 'source' => '',
-                'global' => \Magento\Eav\Model\Entity\Attribute\ScopedAttributeInterface::SCOPE_GLOBAL,
+                'global' => ScopedAttributeInterface::SCOPE_GLOBAL,
                 'visible' => false,
                 'required' => false,
                 'user_defined' => true,
@@ -207,12 +203,12 @@ class InstallData implements InstallDataInterface
         foreach ($fieldList as $field) {
             $applyTo = explode(
                 ',',
-                $eavSetup->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $field, 'apply_to')
+                $eavSetup->getAttribute(Product::ENTITY, $field, 'apply_to')
             );
             if (!in_array(Type::TYPE_ID, $applyTo)) {
                 $applyTo[] = Type::TYPE_ID;
                 $eavSetup->updateAttribute(
-                    \Magento\Catalog\Model\Product::ENTITY,
+                    Product::ENTITY,
                     $field,
                     'apply_to',
                     implode(',', $applyTo)

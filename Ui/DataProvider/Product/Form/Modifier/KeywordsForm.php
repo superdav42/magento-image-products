@@ -1,12 +1,16 @@
 <?php
 
+declare(strict_types=1);
 
 namespace DevStone\ImageProducts\Ui\DataProvider\Product\Form\Modifier;
 
-
-use Magento\Catalog\Api\Data\ProductAttributeInterface;
+use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 use Magento\Catalog\Model\Locator\LocatorInterface;
 use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
+use Magento\Eav\Api\AttributeOptionManagementInterface;
+use Magento\Eav\Api\Data\AttributeOptionInterfaceFactory;
+use Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\ArrayManager;
 use Magento\Framework\UrlInterface;
 use Magento\Ui\Component\Form\Field;
@@ -17,61 +21,30 @@ use Magento\Ui\Component\Form\Field;
 class KeywordsForm extends AbstractModifier
 {
 
-	/**
-     * @var ArrayManager
-     */
-    protected $arrayManager;
-
-    /**
-     * @var LocatorInterface
-     */
-    protected $locator;
-
-    /**
-     * @var UrlInterface
-     */
-    protected $urlBuilder;
-
-	/**
-     * @var \Magento\Eav\Api\AttributeOptionManagementInterface
-     */
-    protected $attributeOptionManagement;
-
-    /**
-     * @var \Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory
-     */
-    protected $optionLabelFactory;
-
-    /**
-     * @var \Magento\Eav\Api\Data\AttributeOptionInterfaceFactory
-     */
-    protected $optionFactory;
-
-	/**
-     * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
-     */
-    protected $attributeRepository;
+    protected ArrayManager $arrayManager;
+    protected LocatorInterface $locator;
+    protected UrlInterface $urlBuilder;
+    protected AttributeOptionManagementInterface $attributeOptionManagement;
+    protected AttributeOptionLabelInterfaceFactory $optionLabelFactory;
+    protected AttributeOptionInterfaceFactory $optionFactory;
+    protected ProductAttributeRepositoryInterface $attributeRepository;
 
     const SUGGEST_FILTER_URI = 'vendor_module/something/suggestCustomAttr';
-	const FIELD_ORDER = 22;
-    /**
-     * @param LocatorInterface            $locator
-     * @param UrlInterface                $urlBuilder
-     * @param ArrayManager                $arrayManager
-     */
+    const FIELD_ORDER = 22;
+
     public function __construct(
         LocatorInterface $locator,
         UrlInterface $urlBuilder,
         ArrayManager $arrayManager,
-		\Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
-		\Magento\Eav\Api\AttributeOptionManagementInterface $attributeOptionManagement,
-        \Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory $optionLabelFactory,
-        \Magento\Eav\Api\Data\AttributeOptionInterfaceFactory $optionFactory
+        ProductAttributeRepositoryInterface $attributeRepository,
+        AttributeOptionManagementInterface $attributeOptionManagement,
+        AttributeOptionLabelInterfaceFactory $optionLabelFactory,
+        AttributeOptionInterfaceFactory $optionFactory
     ) {
         $this->locator = $locator;
         $this->urlBuilder = $urlBuilder;
         $this->arrayManager = $arrayManager;
-		$this->attributeRepository = $attributeRepository;
+        $this->attributeRepository = $attributeRepository;
         $this->attributeOptionManagement = $attributeOptionManagement;
         $this->optionLabelFactory = $optionLabelFactory;
         $this->optionFactory = $optionFactory;
@@ -92,23 +65,21 @@ class KeywordsForm extends AbstractModifier
      */
     public function modifyData(array $data)
     {
-		foreach($data as &$productData) {
+        foreach ($data as &$productData) {
             // We don't need to do this with newer version of M2, Not sure why.
-			if(isset($productData['product']['keywords']) && is_string(  $productData['product']['keywords']))  {
-				$productData['product']['keywords'] = explode(',', $productData['product']['keywords']);
-			}
-		}
+            if (isset($productData['product']['keywords']) && is_string($productData['product']['keywords'])) {
+                $productData['product']['keywords'] = explode(',', $productData['product']['keywords']);
+            }
+        }
         return $data;
     }
 
-	/**
+    /**
      * Customise Custom Attribute field
      *
-     * @param array $meta
-     *
-     * @return array
+     * @throws NoSuchEntityException
      */
-    protected function customiseCustomAttrField(array $meta)
+    protected function customiseCustomAttrField(array $meta): array
     {
         $fieldCode = 'keywords'; //your custom attribute code
         $elementPath = $this->arrayManager->findPath($fieldCode, $meta, null, 'children');
@@ -125,7 +96,6 @@ class KeywordsForm extends AbstractModifier
                 'arguments' => [
                     'data' => [
                         'config' => [
-                            'label'         => __('Custom Attribute'),
                             'dataScope'     => '',
                             'breakLine'     => false,
                             'formElement'   => 'container',
@@ -146,8 +116,8 @@ class KeywordsForm extends AbstractModifier
                                     'elementTmpl'   => 'DevStone_ImageProducts/ui-select-keywords',
                                     'disableLabel'  => true,
                                     'multiple'      => true,
-									'chipsEnabled'  => true,
-									'filterOptions' => false,
+                                    'chipsEnabled'  => true,
+                                    'filterOptions' => false,
                                     'options'       => $this->getOptions(),
                                     'filterUrl'     => $this->urlBuilder->getUrl(
                                         self::SUGGEST_FILTER_URI,
@@ -171,13 +141,13 @@ class KeywordsForm extends AbstractModifier
     /**
      * Retrieve custom attribute collection
      *
-     * @return array
+     * @throws NoSuchEntityException
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
-		$product = $this->locator->getProduct();
-		$attribute = $this->attributeRepository->get('keywords');
-		$optionIds = explode(',', $product->getKeywords() ?? '');
-		return $attribute->getSource()->getSpecificOptions($optionIds, false);
+        $product = $this->locator->getProduct();
+        $attribute = $this->attributeRepository->get('keywords');
+        $optionIds = explode(',', $product->getKeywords() ?? '');
+        return $attribute->getSource()->getSpecificOptions($optionIds, false);
     }
 }

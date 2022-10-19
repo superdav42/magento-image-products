@@ -1,46 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Observer;
 
+use DevStone\ImageProducts\Model\Product\Type;
+use Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\Collection;
+use Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Item;
 use Magento\Store\Model\ScopeInterface;
 
 class SetLinkStatusObserver implements ObserverInterface
 {
-    /**
-     * Core store config
-     *
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $_scopeConfig;
+    protected ScopeConfigInterface $scopeConfig;
+    protected CollectionFactory $itemsFactory;
 
-    /**
-     * @var \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory
-     */
-    protected $_itemsFactory;
-
-    /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory
-     */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory
+        ScopeConfigInterface $scopeConfig,
+        CollectionFactory $itemsFactory
     ) {
-        $this->_scopeConfig = $scopeConfig;
-        $this->_itemsFactory = $itemsFactory;
+        $this->scopeConfig = $scopeConfig;
+        $this->itemsFactory = $itemsFactory;
     }
 
     /**
      * Set status of link
      *
-     * @param \Magento\Framework\Event\Observer $observer
+     * @param Observer $observer
      * @return $this
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();
 
@@ -49,7 +45,7 @@ class SetLinkStatusObserver implements ObserverInterface
             return $this;
         }
 
-        /* @var $order \Magento\Sales\Model\Order */
+        /* @var $order Order */
         $status = '';
         $linkStatuses = [
             'pending' => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING,
@@ -60,25 +56,25 @@ class SetLinkStatusObserver implements ObserverInterface
         ];
 
         $downloadableItemsStatuses = [];
-        $orderItemStatusToEnable = $this->_scopeConfig->getValue(
+        $orderItemStatusToEnable = $this->scopeConfig->getValue(
             \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS,
             ScopeInterface::SCOPE_STORE,
             $order->getStoreId()
         );
 
-        if ($order->getState() == \Magento\Sales\Model\Order::STATE_HOLDED) {
+        if ($order->getState() == Order::STATE_HOLDED) {
             $status = $linkStatuses['pending'];
         } elseif ($order->isCanceled()
-            || $order->getState() == \Magento\Sales\Model\Order::STATE_CLOSED
-            || $order->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE
+            || $order->getState() == Order::STATE_CLOSED
+            || $order->getState() == Order::STATE_COMPLETE
         ) {
             $expiredStatuses = [
-                \Magento\Sales\Model\Order\Item::STATUS_CANCELED,
-                \Magento\Sales\Model\Order\Item::STATUS_REFUNDED,
+                Item::STATUS_CANCELED,
+                Item::STATUS_REFUNDED,
             ];
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == \DevStone\ImageProducts\Model\Product\Type::TYPE_ID
-                    || $item->getRealProductType() == \DevStone\ImageProducts\Model\Product\Type::TYPE_ID
+                if ($item->getProductType() == Type::TYPE_ID
+                    || $item->getRealProductType() == Type::TYPE_ID
                 ) {
                     if ($order->isCanceled() || in_array($item->getStatusId(), $expiredStatuses)) {
                         $downloadableItemsStatuses[$item->getId()] = $linkStatuses['expired'];
@@ -87,25 +83,25 @@ class SetLinkStatusObserver implements ObserverInterface
                     }
                 }
             }
-        } elseif ($order->getState() == \Magento\Sales\Model\Order::STATE_PENDING_PAYMENT) {
+        } elseif ($order->getState() == Order::STATE_PENDING_PAYMENT) {
             $status = $linkStatuses['payment_pending'];
-        } elseif ($order->getState() == \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW) {
+        } elseif ($order->getState() == Order::STATE_PAYMENT_REVIEW) {
             $status = $linkStatuses['payment_review'];
         } else {
-            $availableStatuses = [$orderItemStatusToEnable, \Magento\Sales\Model\Order\Item::STATUS_INVOICED];
+            $availableStatuses = [$orderItemStatusToEnable, Item::STATUS_INVOICED];
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() == \DevStone\ImageProducts\Model\Product\Type::TYPE_ID
-                    || $item->getRealProductType() == \DevStone\ImageProducts\Model\Product\Type::TYPE_ID
+                if ($item->getProductType() == Type::TYPE_ID
+                    || $item->getRealProductType() == Type::TYPE_ID
                 ) {
-                    if ($item->getStatusId() == \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED
-                        && $orderItemStatusToEnable == \Magento\Sales\Model\Order\Item::STATUS_PENDING
+                    if ($item->getStatusId() == Item::STATUS_BACKORDERED
+                        && $orderItemStatusToEnable == Item::STATUS_PENDING
                         && !in_array(
-                            \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED,
+                            Item::STATUS_BACKORDERED,
                             $availableStatuses,
                             true
                         )
                     ) {
-                        $availableStatuses[] = \Magento\Sales\Model\Order\Item::STATUS_BACKORDERED;
+                        $availableStatuses[] = Item::STATUS_BACKORDERED;
                     }
 
                     if (in_array($item->getStatusId(), $availableStatuses)) {
@@ -116,8 +112,8 @@ class SetLinkStatusObserver implements ObserverInterface
         }
         if (!$downloadableItemsStatuses && $status) {
             foreach ($order->getAllItems() as $item) {
-                if ($item->getProductType() ==\DevStone\ImageProducts\Model\Product\Type::TYPE_ID
-                    || $item->getRealProductType() == \DevStone\ImageProducts\Model\Product\Type::TYPE_ID
+                if ($item->getProductType() == Type::TYPE_ID
+                    || $item->getRealProductType() == Type::TYPE_ID
                 ) {
                     $downloadableItemsStatuses[$item->getId()] = $status;
                 }
@@ -125,7 +121,7 @@ class SetLinkStatusObserver implements ObserverInterface
         }
 
         if ($downloadableItemsStatuses) {
-            $linkPurchased = $this->_createItemsCollection()->addFieldToFilter(
+            $linkPurchased = $this->createItemsCollection()->addFieldToFilter(
                 'order_item_id',
                 ['in' => array_keys($downloadableItemsStatuses)]
             );
@@ -141,11 +137,8 @@ class SetLinkStatusObserver implements ObserverInterface
         return $this;
     }
 
-    /**
-     * @return \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\Collection
-     */
-    protected function _createItemsCollection()
+    protected function createItemsCollection(): Collection
     {
-        return $this->_itemsFactory->create();
+        return $this->itemsFactory->create();
     }
 }

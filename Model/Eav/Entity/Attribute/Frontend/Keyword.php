@@ -1,22 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Eav\Entity\Attribute\Frontend;
+
+use Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\DataObject;
+use Magento\Framework\Escaper;
+use Magento\Framework\UrlInterface;
 
 /**
  * OverRides default frontend display so it doesn't check input type but renders all keywords.
  *
  * @author dave
  */
-class Keyword extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend
+class Keyword extends AbstractFrontend
 {
 
     /**
      * Retrieve attribute value
      *
-     * @param \Magento\Framework\DataObject $object
+     * @param DataObject $object
      * @return mixed
      */
-    public function getValue(\Magento\Framework\DataObject $object)
+    public function getValue(DataObject $object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
 
@@ -29,13 +37,13 @@ class Keyword extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFront
             $value = [$value];
         }
 
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $objectManager = ObjectManager::getInstance();
 
         $builder = $objectManager->get(
-            \Magento\Framework\UrlInterface::class
+            UrlInterface::class
         );
         $escaper = $objectManager->get(
-            \Magento\Framework\Escaper::class
+            Escaper::class
         );
         $rendered = '';
         foreach ($value as $keyword) {

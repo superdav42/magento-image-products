@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Eav\Entity\Attribute\Source;
 
-use Magento\Framework\App\ObjectManager;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Eav\Model\Entity\Collection\AbstractCollection;
+use Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\CollectionFactory;
+use Magento\Eav\Model\ResourceModel\Entity\Attribute\OptionFactory;
+use Magento\Framework\DB\Select;
 use Magento\Framework\Escaper;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * @api
@@ -12,48 +18,22 @@ use Magento\Framework\Escaper;
  */
 class Keyword extends Table
 {
-    /**
-     * Default values for option cache
-     *
-     * @var array
-     */
     protected $_optionsDefault = [];
-
-    /**
-     * @var \Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\CollectionFactory
-     */
     protected $_attrOptionCollectionFactory;
-
-    /**
-     * @var \Magento\Eav\Model\ResourceModel\Entity\Attribute\OptionFactory
-     */
     protected $_attrOptionFactory;
+    private StoreManagerInterface $storeManager;
+    private Escaper $escaper;
 
-    /**
-     * @var StoreManagerInterface
-     */
-    private $storeManager;
-
-    /**
-     * @var Escaper
-     */
-    private $escaper;
-
-    /**
-     * @param \Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
-     * @param \Magento\Eav\Model\ResourceModel\Entity\Attribute\OptionFactory $attrOptionFactory
-     * @param Escaper|null $escaper
-     * @codeCoverageIgnore
-     */
     public function __construct(
-        \Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
-        \Magento\Eav\Model\ResourceModel\Entity\Attribute\OptionFactory $attrOptionFactory,
-        Escaper $escaper = null
+        CollectionFactory $attrOptionCollectionFactory,
+        OptionFactory $attrOptionFactory,
+        Escaper $escaper,
+        StoreManagerInterface $storeManager
     ) {
         $this->_attrOptionCollectionFactory = $attrOptionCollectionFactory;
         $this->_attrOptionFactory = $attrOptionFactory;
-        $this->escaper = $escaper ?: ObjectManager::getInstance()->get(Escaper::class);
-
+        $this->escaper = $escaper;
+        $this->storeManager = $storeManager;
         parent::__construct($attrOptionCollectionFactory, $attrOptionFactory);
     }
 
@@ -66,12 +46,12 @@ class Keyword extends Table
      */
     public function getAllOptions($withEmpty = true, $defaultValues = false, $unlimited = false)
     {
-    	if ( ! $unlimited ) {
-    		return [];
-	    }
+        if (! $unlimited) {
+            return [];
+        }
         $storeId = $this->getAttribute()->getStoreId();
         if ($storeId === null) {
-            $storeId = $this->getStoreManager()->getStore()->getId();
+            $storeId = $this->storeManager->getStore()->getId();
         }
         if (!is_array($this->_options)) {
             $this->_options = [];
@@ -87,8 +67,8 @@ class Keyword extends Table
                 $attributeId
             )->setStoreFilter(
                 $storeId
-			)->setPageSize(
-				$unlimited ? false : 100
+            )->setPageSize(
+                false
             )->load();
             $this->_options[$storeId][$attributeId] = $collection->toOptionArray();
             $this->_optionsDefault[$storeId][$attributeId] = $collection->toOptionArray('default_value');
@@ -104,20 +84,6 @@ class Keyword extends Table
     }
 
     /**
-     * Get StoreManager dependency
-     *
-     * @return StoreManagerInterface
-     * @deprecated 100.1.6
-     */
-    private function getStoreManager()
-    {
-        if ($this->storeManager === null) {
-            $this->storeManager = ObjectManager::getInstance()->get(StoreManagerInterface::class);
-        }
-        return $this->storeManager;
-    }
-
-    /**
      * Retrieve Option values array by ids
      *
      * @param string|array $ids
@@ -127,17 +93,6 @@ class Keyword extends Table
     public function getSpecificOptions($ids, $withEmpty = true)
     {
         return parent::getSpecificOptions($ids, $withEmpty);
-        $options = $this->_attrOptionCollectionFactory->create()
-            ->setPositionOrder('asc')
-            ->setAttributeFilter($this->getAttribute()->getId())
-            ->addFieldToFilter('main_table.option_id', ['in' => $ids])
-            ->setStoreFilter($this->getAttribute()->getStoreId())
-            ->load()
-            ->toOptionArray();
-        if ($withEmpty) {
-            $options = $this->addEmptyOption($options);
-        }
-        return $options;
     }
 
     /**
@@ -159,7 +114,7 @@ class Keyword extends Table
     public function getOptionText($value)
     {
         $isMultiple = false;
-        if (strpos($value, ',')) {
+        if (is_string($value) && str_contains($value, ',')) {
             $isMultiple = true;
             $value = explode(',', $value);
         }
@@ -188,12 +143,12 @@ class Keyword extends Table
     /**
      * Add Value Sort To Collection Select
      *
-     * @param \Magento\Eav\Model\Entity\Collection\AbstractCollection $collection
+     * @param AbstractCollection $collection
      * @param string $dir
      *
      * @return $this
      */
-    public function addValueSortToCollection($collection, $dir = \Magento\Framework\DB\Select::SQL_ASC)
+    public function addValueSortToCollection($collection, $dir = Select::SQL_ASC)
     {
         $attribute = $this->getAttribute();
         $valueTable1 = $attribute->getAttributeCode() . '_t1';
@@ -294,51 +249,43 @@ class Keyword extends Table
      * Retrieve Select For Flat Attribute update
      *
      * @param int $store
-     * @return \Magento\Framework\DB\Select|null
+     * @return Select|null
      */
     public function getFlatUpdateSelect($store)
     {
         return $this->_attrOptionFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
     }
-	
-	/**
-     * @param string $value
+
+    /**
+     * @param $label
      * @return null|string
+     * @throws NoSuchEntityException
      */
-    public function getOptionId($label)
+    public function getOptionId($label): ?string
     {
-		
-		$storeId = $this->getAttribute()->getStoreId();
+        $storeId = $this->getAttribute()->getStoreId();
         if ($storeId === null) {
-            $storeId = $this->getStoreManager()->getStore()->getId();
+            $storeId = $this->storeManager->getStore()->getId();
         }
 
         $attributeId = $this->getAttribute()->getId();
-        
-		$collection = $this->_attrOptionCollectionFactory->create()
-			->setAttributeFilter(
-				$attributeId
-			)->setStoreFilter(
-				$storeId
-			)->addFieldToFilter(
-				'tsv.value', $label
-			)->setPageSize(
-				1
-			)->load();
-		$options = $collection->toOptionArray();
-//		var_dump($options);
-		if ( empty($options[0]['value'] )) {
-			return false;
-		}
-		return $options[0]['value'];
-        
 
-		
-        foreach ($this->getAllOptions() as $option) {
-            if (strcasecmp($option['label'], $value) == 0 || $option['value'] == $value) {
-                return $option['value'];
-            }
+        $collection = $this->_attrOptionCollectionFactory->create()
+            ->setAttributeFilter(
+                $attributeId
+            )->setStoreFilter(
+                $storeId
+            )->addFieldToFilter(
+                'tsv.value',
+                $label
+            )->setPageSize(
+                1
+            )->load();
+        $options = $collection->toOptionArray();
+        //		var_dump($options);
+        if (empty($options[0]['value'])) {
+            return null;
         }
-        return null;
+        return $options[0]['value'];
     }
 }

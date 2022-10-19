@@ -1,23 +1,45 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Ui\DataProvider\Product\Form\Modifier\Data;
 
-use \Magento\Framework\Escaper;
 use DevStone\ImageProducts\Model\Product\Type;
 
 use Magento\Catalog\Model\Locator\LocatorInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Downloadable\Helper\File as DownloadableFile;
-use Magento\Framework\UrlInterface;
-use Magento\Downloadable\Model\Link as LinkModel;
 use Magento\Downloadable\Api\Data\LinkInterface;
+use Magento\Downloadable\Helper\File as DownloadableFile;
+use Magento\Downloadable\Model\Link;
+use Magento\Downloadable\Ui\DataProvider\Product\Form\Modifier\Data\Links as ParentLinks;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\App\State;
+use Magento\Framework\Escaper;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\UrlInterface;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Override Magento's class to change the typeId check
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Links extends \Magento\Downloadable\Ui\DataProvider\Product\Form\Modifier\Data\Links
+class Links extends ParentLinks
 {
+
+    protected State $appState;
+
+    public function __construct(
+        Escaper $escaper,
+        LocatorInterface $locator,
+        ScopeConfigInterface $scopeConfig,
+        DownloadableFile $downloadableFile,
+        UrlInterface $urlBuilder,
+        Link $linkModel,
+        State $appState
+    ) {
+        parent::__construct($escaper, $locator, $scopeConfig, $downloadableFile, $urlBuilder, $linkModel);
+        $this->appState = $appState;
+    }
 
     /**
      * Retrieve default links title
@@ -30,8 +52,8 @@ class Links extends \Magento\Downloadable\Ui\DataProvider\Product\Form\Modifier\
         $this->locator->getProduct()->getTypeId() == Type::TYPE_ID
             ? $this->locator->getProduct()->getLinksTitle()
             : $this->scopeConfig->getValue(
-                \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+                Link::XML_PATH_LINKS_TITLE,
+                ScopeInterface::SCOPE_STORE
             );
     }
 
@@ -79,19 +101,17 @@ class Links extends \Magento\Downloadable\Ui\DataProvider\Product\Form\Modifier\
         return $linksData;
     }
 
-
     /**
      * Add Link File info into $linkData
      *
      * @param array $linkData
      * @param LinkInterface $link
      * @return array
+     * @throws LocalizedException
      */
-    protected function addLinkFile(array $linkData, LinkInterface $link)
+    protected function addLinkFile(array $linkData, LinkInterface $link): array
     {
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $state =  $objectManager->get('Magento\Framework\App\State');
-        $area  = 'adminhtml' === $state->getAreaCode() ? 'adminhtml' : 'csproduct' ; // See if we are in backend or frontend as vendor
+        $area = 'adminhtml' === $this->appState->getAreaCode() ? 'adminhtml' : 'csproduct'; // See if we are in backend or frontend as vendor
 
         $linkFile = $link->getLinkFile();
         if ($linkFile) {
@@ -103,7 +123,7 @@ class Links extends \Magento\Downloadable\Ui\DataProvider\Product\Form\Modifier\
                     'size' => $this->downloadableFile->getFileSize($file),
                     'status' => 'old',
                     'url' => $this->urlBuilder->getUrl(
-                        $area.'/downloadable_product_edit/link',
+                        $area . '/downloadable_product_edit/link',
                         ['id' => $link->getId(), 'type' => 'link', '_secure' => true]
                     ),
                 ];

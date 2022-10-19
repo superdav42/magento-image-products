@@ -1,9 +1,16 @@
 <?php
+
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Plugged\Model\Link;
+
+use Magento\Downloadable\Api\Data\LinkInterface;
+use Magento\Downloadable\Model\Link\Builder;
+use Magento\Framework\Exception\LocalizedException;
 
 class BuilderPlugin
 {
-    public function beforeBuild(\Magento\Downloadable\Model\Link\Builder $subject, \Magento\Downloadable\Api\Data\LinkInterface $link)
+    public function beforeBuild(Builder $subject, LinkInterface $link): array
     {
         $closure = function () use ($link, $subject) {
             if (in_array(
@@ -13,7 +20,7 @@ class BuilderPlugin
                 ]
             )) {
                 if (!isset($subject->data['file'])) {
-                    throw new \Magento\Framework\Exception\LocalizedException(__('Link file not provided'));
+                    throw new LocalizedException(__('Link file not provided'));
                 }
                 $linkFileName = $subject->downloadableFile->moveFileFromTmp(
                     $subject->getComponent()->getBaseTmpPath(),
@@ -25,7 +32,7 @@ class BuilderPlugin
             }
         };
 
-        $closure->bindTo($subject, \Magento\Downloadable\Model\Link\Builder::class)();
+        $closure->bindTo($subject, Builder::class)();
 
         return [$link];
     }

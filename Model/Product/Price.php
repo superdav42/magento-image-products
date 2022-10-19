@@ -1,62 +1,49 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Product;
 
 use DevStone\FramedPrints\NWFraming\Client;
+use DevStone\UsageCalculator\Api\UsageRepositoryInterface;
+use DevStone\UsageCalculator\Model\Usage\Option\Value;
+use Magento\Catalog\Api\Data\ProductTierPriceInterfaceFactory;
+use Magento\Catalog\Model\Product;
+use Magento\CatalogRule\Model\ResourceModel\RuleFactory;
 use Magento\Customer\Api\GroupManagementInterface;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Catalog\Api\Data\ProductTierPriceExtensionFactory;
+use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Price class for calculated prices
  *
  * @author David Stone
  */
-class Price extends \Magento\Catalog\Model\Product\Type\Price
+class Price extends Product\Type\Price
 {
-    /**
-     * @var \DevStone\UsageCalculator\Api\UsageRepositoryInterface
-     */
-    private $usageRepository;
+    private UsageRepositoryInterface $usageRepository;
+    private Json $serializer;
+    private Client $client;
 
-    /**
-     * @var \Magento\Framework\Serialize\Serializer\Json
-     */
-    private $serializer;
-
-    /**
-     * @var Client
-     */
-    private $client;
-
-    /**
-     * Constructor
-     *
-     * @param \Magento\CatalogRule\Model\ResourceModel\RuleFactory $ruleFactory
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param PriceCurrencyInterface $priceCurrency
-     * @param GroupManagementInterface $groupManagement
-     * @param \Magento\Catalog\Api\Data\ProductTierPriceInterfaceFactory $tierPriceFactory
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
-     * @param Client
-     * @param ProductTierPriceExtensionFactory|null $tierPriceExtensionFactory
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
     public function __construct(
-        \Magento\CatalogRule\Model\ResourceModel\RuleFactory $ruleFactory,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
+        RuleFactory $ruleFactory,
+        StoreManagerInterface $storeManager,
+        TimezoneInterface $localeDate,
+        Session $customerSession,
+        ManagerInterface $eventManager,
         PriceCurrencyInterface $priceCurrency,
         GroupManagementInterface $groupManagement,
-        \Magento\Catalog\Api\Data\ProductTierPriceInterfaceFactory $tierPriceFactory,
-        \Magento\Framework\App\Config\ScopeConfigInterface $config,
-        \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository,
-        \Magento\Framework\Serialize\Serializer\Json $serializer,
+        ProductTierPriceInterfaceFactory $tierPriceFactory,
+        ScopeConfigInterface $config,
+        UsageRepositoryInterface $usageRepository,
+        Json $serializer,
         Client $client,
         ProductTierPriceExtensionFactory $tierPriceExtensionFactory = null
     ) {
@@ -82,8 +69,9 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * Retrieve product final price
      *
      * @param integer $qty
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return float
+     * @throws LocalizedException
      */
     public function getFinalPrice($qty, $product)
     {
@@ -107,7 +95,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
 
         $usageId = $product->getCustomOption('usage_id')->getValue();
 
-        $usage = $this->usageRepository->getById($usageId);
+        $usage = $this->usageRepository->getById((int)$usageId);
 
         $price = $usage->getPrice();
 
@@ -118,7 +106,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             if ($option->hasValues()) {
                 $value = $option->getValueById($selectedOptions[$option->getId()]);
 
-                if ($value->getPriceType() == \DevStone\UsageCalculator\Model\Usage\Option\Value::TYPE_PERCENT) {
+                if ($value->getPriceType() == Value::TYPE_PERCENT) {
                     $price *= ($value->getPrice() / 100);
                 } else {
                     $price += $value->getPrice();
@@ -126,7 +114,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             } elseif ($option->getPrice()) {
                 $value = $selectedOptions[$option->getId()];
 
-                if ($option->getPriceType() == \DevStone\UsageCalculator\Model\Usage\Option\Value::TYPE_PERCENT) {
+                if ($option->getPriceType() == Value::TYPE_PERCENT) {
                     $price *= ($option->getPrice() / 100);
                 } else {
                     $price += $option->getPrice();
@@ -134,7 +122,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
             }
         }
 
-        if (95 !== (($price * 100) % 100)) { // round prices which don't end in $.95
+        if (95 !== ((int)($price * 100) % 100)) { // round prices which don't end in $.95
             $price = round($price);
         }
 
@@ -151,10 +139,10 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Retrieve product final price for print product.
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return float
      */
-    private function getPriceForPrint($product)
+    private function getPriceForPrint($product): float
     {
         $options = $this->serializer->unserialize($product->getCustomOption('print_options')->getValue());
 
@@ -167,10 +155,10 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Retrieve product final price for image in template.
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return float
      */
-    private function getPriceForTemplate($product)
+    private function getPriceForTemplate($product): float|int
     {
         $options = $this->serializer->unserialize($product->getCustomOption('template_options')->getValue());
 

@@ -1,12 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dave
- * Date: 3/15/19
- * Time: 4:53 PM
- */
+
+declare(strict_types=1);
 
 namespace DevStone\ImageProducts\Model\Product\Gallery;
+
+use Magento\Framework\Exception\FileSystemException;
 
 class CreateHandler extends \Magento\Catalog\Model\Product\Gallery\CreateHandler
 {
@@ -15,7 +13,7 @@ class CreateHandler extends \Magento\Catalog\Model\Product\Gallery\CreateHandler
      * @param string $file
      *
      * @return mixed|string
-     * @throws \Magento\Framework\Exception\FileSystemException
+     * @throws FileSystemException
      */
     protected function moveImageFromTmp($file)
     {
@@ -46,7 +44,7 @@ class CreateHandler extends \Magento\Catalog\Model\Product\Gallery\CreateHandler
      * @param string $file
      * @return string
      */
-    private function getSafeFilename($file)
+    private function getSafeFilename($file): string
     {
         $file = DIRECTORY_SEPARATOR . ltrim($file, DIRECTORY_SEPARATOR);
 

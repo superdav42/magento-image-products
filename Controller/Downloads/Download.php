@@ -235,7 +235,7 @@ class Download extends \Magento\Downloadable\Controller\Download
         if (empty($usageIdOption)) {
             throw new LocalizedException(__("Failed to get usage"));
         }
-        $usage = $this->usageRepository->getById($usageIdOption->getValue());
+        $usage = $this->usageRepository->getById((int)$usageIdOption->getValue());
 
         $submittedOptions = $this->serializer->unserialize($quoteItem->getOptionByCode('usage_options')->getValue());
 

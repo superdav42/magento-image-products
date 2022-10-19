@@ -1,7 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Helper;
 
+use DevStone\ImageProducts\Model\Product\Type;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Registry;
+use Magento\MediaStorage\Helper\File\Storage\Database;
+use Magento\MediaStorage\Model\File\Uploader;
 
 /**
  * Downloadable Products File Helper
@@ -10,24 +18,19 @@ namespace DevStone\ImageProducts\Helper;
  */
 class File extends \Magento\Downloadable\Helper\File
 {
-    
-    /**
-     *
-     * @var \Magento\Framework\Registry
-     */
-    protected $registry;
-    
+    protected Registry $registry;
+
     public function __construct(
-        \Magento\Framework\App\Helper\Context $context, 
-        \Magento\MediaStorage\Helper\File\Storage\Database $coreFileStorageDatabase, 
-        \Magento\Framework\Filesystem $filesystem, 
-        \Magento\Framework\Registry $registry,
-        array $mimeTypes = array()
+        Context $context,
+        Database $coreFileStorageDatabase,
+        Filesystem $filesystem,
+        Registry $registry,
+        array $mimeTypes = []
     ) {
         $this->registry = $registry;
         parent::__construct($context, $coreFileStorageDatabase, $filesystem, $mimeTypes);
     }
-    
+
     /**
      * Move file from tmp path to base path
      *
@@ -41,16 +44,15 @@ class File extends \Magento\Downloadable\Helper\File
         if (strrpos($file, '.tmp') == strlen($file) - 4) {
             $file = substr($file, 0, strlen($file) - 4);
         }
-        
-        $product = $this->registry->registry('product');
-        if ($product->getTypeId() === \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
-            $pathinfo = pathinfo($file);
-            $destFile = $product->getSku().'.'.$pathinfo['extension'];
 
-            $destFile = \Magento\MediaStorage\Model\File\Uploader::getCorrectFileName($destFile);
-            $dispretionPath = \Magento\MediaStorage\Model\File\Uploader::getDispretionPath($destFile);
+        $product = $this->registry->registry('product');
+        if ($product->getTypeId() === Type::TYPE_ID) {
+            $pathinfo = pathinfo($file);
+            $destFile = $product->getSku() . '.' . $pathinfo['extension'];
+
+            $destFile = Uploader::getCorrectFileName($destFile);
+            $dispretionPath = Uploader::getDispretionPath($destFile);
             $destFile = $dispretionPath . '/' . $destFile;
-            
         } else {
             $destFile = $file;
         }
@@ -63,7 +65,7 @@ class File extends \Magento\Downloadable\Helper\File
         } else {
             $destinationFile = $this->_mediaDirectory->getAbsolutePath($this->getFilePath($basePath, $destFile));
             $destFile = dirname($destFile) . '/'
-                . \Magento\MediaStorage\Model\File\Uploader::getNewFileName($destinationFile);
+                . Uploader::getNewFileName($destinationFile);
         }
 
         $this->_coreFileStorageDatabase->copyFile(

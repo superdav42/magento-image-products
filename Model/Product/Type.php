@@ -1,10 +1,30 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Product;
 
+use DevStone\UsageCalculator\Api\UsageRepositoryInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Option;
 use Magento\Catalog\Model\Product\Type\AbstractType;
+use Magento\Downloadable\Model\LinkFactory;
+use Magento\Downloadable\Model\Product\TypeHandler\TypeHandlerInterface;
+use Magento\Downloadable\Model\ResourceModel\Link;
+use Magento\Downloadable\Model\ResourceModel\Sample\CollectionFactory;
+use Magento\Downloadable\Model\SampleFactory;
+use Magento\Eav\Model\Config;
 use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
+use Magento\Framework\DataObject;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Registry;
+use Magento\Framework\Serialize\Serializer\Json;
+use Magento\MediaStorage\Helper\File\Storage\Database;
+use Psr\Log\LoggerInterface;
 
 /**
  * Custom Product type for Image products
@@ -14,59 +34,29 @@ use Magento\Framework\Api\ExtensionAttribute\JoinProcessorInterface;
 class Type extends \Magento\Downloadable\Model\Product\Type
 {
     const TYPE_ID = 'image';
+    private UsageRepositoryInterface $usageRepository;
 
-    /**
-     *
-     * @var \DevStone\UsageCalculator\Api\UsageRepositoryInterface
-     */
-    private $usageRepository;
-
-    /**
-     * Construct
-     *
-     * @param \Magento\Catalog\Model\Product\Option $catalogProductOption
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Model\Product\Type $catalogProductType
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb
-     * @param \Magento\Framework\Filesystem $filesystem
-     * @param \Magento\Framework\Registry $coreRegistry
-     * @param \Psr\Log\LoggerInterface $logger
-     * @param ProductRepositoryInterface $productRepository
-     * @param \Magento\Downloadable\Model\ResourceModel\SampleFactory $sampleResFactory
-     * @param \Magento\Downloadable\Model\ResourceModel\Link $linkResource
-     * @param \Magento\Downloadable\Model\ResourceModel\Link\CollectionFactory $linksFactory
-     * @param \Magento\Downloadable\Model\ResourceModel\Sample\CollectionFactory $samplesFactory
-     * @param \Magento\Downloadable\Model\SampleFactory $sampleFactory
-     * @param \Magento\Downloadable\Model\LinkFactory $linkFactory
-     * @param TypeHandler\TypeHandlerInterface $typeHandler
-     * @param JoinProcessorInterface $extensionAttributesJoinProcessor
-     * @param \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository
-     * @param \Magento\Framework\Serialize\Serializer\Json|null $serializer
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
-     */
     public function __construct(
-        \Magento\Catalog\Model\Product\Option $catalogProductOption,
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Model\Product\Type $catalogProductType,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb,
-        \Magento\Framework\Filesystem $filesystem,
-        \Magento\Framework\Registry $coreRegistry,
-        \Psr\Log\LoggerInterface $logger,
-        ProductRepositoryInterface $productRepository,
+        Option                                                  $catalogProductOption,
+        Config                                                  $eavConfig,
+        Product\Type                                            $catalogProductType,
+        ManagerInterface                                        $eventManager,
+        Database                                                $fileStorageDb,
+        Filesystem                                              $filesystem,
+        Registry                                                $coreRegistry,
+        LoggerInterface                                         $logger,
+        ProductRepositoryInterface                              $productRepository,
         \Magento\Downloadable\Model\ResourceModel\SampleFactory $sampleResFactory,
-        \Magento\Downloadable\Model\ResourceModel\Link $linkResource,
-        \Magento\Downloadable\Model\ResourceModel\Link\CollectionFactory $linksFactory,
-        \Magento\Downloadable\Model\ResourceModel\Sample\CollectionFactory $samplesFactory,
-        \Magento\Downloadable\Model\SampleFactory $sampleFactory,
-        \Magento\Downloadable\Model\LinkFactory $linkFactory,
-        \Magento\Downloadable\Model\Product\TypeHandler\TypeHandlerInterface $typeHandler,
-        JoinProcessorInterface $extensionAttributesJoinProcessor,
-        \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository,
-        \Magento\Framework\Serialize\Serializer\Json $serializer = null
+        Link                                                    $linkResource,
+        Link\CollectionFactory                                  $linksFactory,
+        CollectionFactory                                       $samplesFactory,
+        SampleFactory                                           $sampleFactory,
+        LinkFactory                                             $linkFactory,
+        TypeHandlerInterface                                    $typeHandler,
+        JoinProcessorInterface                                  $extensionAttributesJoinProcessor,
+        UsageRepositoryInterface                                $usageRepository,
+        Json                                                    $serializer = null
     ) {
-
         $this->usageRepository = $usageRepository;
 
         parent::__construct(
@@ -95,7 +85,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      * Prepare additional options/information for order item which will be
      * created from this product
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return array
      */
     public function getOrderOptions($product)
@@ -130,10 +120,10 @@ class Type extends \Magento\Downloadable\Model\Product\Type
     /**
      * Delete data specific for Downloadable product type
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return void
      */
-    public function deleteTypeSpecificData(\Magento\Catalog\Model\Product $product)
+    public function deleteTypeSpecificData(Product $product)
     {
         if ($product->getOrigData('type_id') === self::TYPE_ID) {
             $downloadableData = $product->getDownloadableData();
@@ -158,7 +148,10 @@ class Type extends \Magento\Downloadable\Model\Product\Type
         }
     }
 
-    public function _prepareProduct(\Magento\Framework\DataObject $buyRequest, $product, $processMode)
+    /**
+     * @throws LocalizedException
+     */
+    public function _prepareProduct(DataObject $buyRequest, $product, $processMode)
     {
         parent::_prepareProduct($buyRequest, $product, $processMode);
         if (($substrateSku = $buyRequest->getData('printOption'))) {
@@ -184,17 +177,17 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                     );
                     $thumbnail = $buyRequest->getThumbnail();
 
-                    if( 'data:image/' === substr($thumbnail, 0, 11) ) {
+                    if ('data:image/' === substr($thumbnail, 0, 11)) {
                         $subProduct->addCustomOption('thumbnail', $buyRequest->getThumbnail());
                     }
 
                     $subProduct->setCartQty(1);
                     $product->setCartQty(1);
-                    $product->addCustomOption( 'used_for_template', 1 );
+                    $product->addCustomOption('used_for_template', 1);
                     array_push($result, $subProduct);
                 }
 
-                $usage = $this->usageRepository->getById($usageId);
+                $usage = $this->usageRepository->getById((int)$usageId);
                 $product->addCustomOption('usage_id', $usageId);
                 $submittedOptions = $buyRequest->getOptions();
 
@@ -208,8 +201,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                 if ('credits' === $buyRequest->getPaymentType() && is_numeric($usage->getCredits())) {
                     $product->addCustomOption('required_credits', $usage->getCredits());
                 }
-
-            } catch (\Magento\Framework\Exception\NoSuchEntityException $exc) {
+            } catch (NoSuchEntityException $exc) {
                 if ($this->_isStrictProcessMode($processMode)) {
                     return __('Category or usage not found.')->render();
                 }
@@ -229,7 +221,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
     /**
      * Check if downloadable product has links and they can be purchased separately
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return bool
      */
     public function canConfigure($product)
@@ -241,7 +233,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
     /**
      * Check if product cannot be purchased with no links selected
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return boolean
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
@@ -254,8 +246,8 @@ class Type extends \Magento\Downloadable\Model\Product\Type
     /**
      * Prepare selected options for downloadable product
      *
-     * @param  \Magento\Catalog\Model\Product $product
-     * @param  \Magento\Framework\DataObject $buyRequest
+     * @param  Product $product
+     * @param  DataObject $buyRequest
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -270,7 +262,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
 //
 //        return $options;
 //    }
-    private function prepareProductForPrint(\Magento\Framework\DataObject $buyRequest, $product)
+    private function prepareProductForPrint(DataObject $buyRequest, $product)
     {
         $product->addCustomOption('print', true);
 
@@ -304,7 +296,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
 
         $thumbnail = $buyRequest->getThumbnail();
 
-        if( 'data:image/' === substr($thumbnail, 0, 11) ) {
+        if ('data:image/' === substr($thumbnail, 0, 11)) {
             $product->addCustomOption('thumbnail', $thumbnail);
         }
 
@@ -314,21 +306,23 @@ class Type extends \Magento\Downloadable\Model\Product\Type
     /**
      * Check is virtual product
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return bool
      */
-    public function isVirtual($product)
+    public function isVirtual($product): bool
     {
         if ($product->getCustomOption('print')) {
             return false;
         }
         return true;
     }
-    public function isSalable($product)
+
+    public function isSalable($product): bool
     {
         return $this->hasLinks($product);
     }
-    public function getWeight($product)
+
+    public function getWeight($product): ?float
     {
         if ($product->getCustomOption('print')) {
             $options = $this->serializer->unserialize(

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model;
 
 use Magento\Catalog\Api\Data\ProductOptionInterface;
@@ -11,26 +13,10 @@ use Magento\Framework\DataObject\Factory as DataObjectFactory;
 
 class ProductOptionProcessor implements ProductOptionProcessorInterface
 {
-    /**
-     * @var DataObjectFactory
-     */
-    protected $objectFactory;
+    protected DataObjectFactory $objectFactory;
+    protected DataObjectHelper $dataObjectHelper;
+    protected DownloadableOptionFactory $downloadableOptionFactory;
 
-    /**
-     * @var DataObjectHelper
-     */
-    protected $dataObjectHelper;
-
-    /**
-     * @var DownloadableOptionFactory
-     */
-    protected $downloadableOptionFactory;
-
-    /**
-     * @param DataObjectFactory $objectFactory
-     * @param DataObjectHelper $dataObjectHelper
-     * @param DownloadableOptionFactory $downloadableOptionFactory
-     */
     public function __construct(
         DataObjectFactory $objectFactory,
         DataObjectHelper $dataObjectHelper,

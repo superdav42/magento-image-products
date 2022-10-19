@@ -1,44 +1,44 @@
 <?php
+
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Observer;
 
-
+use DevStone\ImageProducts\Model\Product\Type;
+use Magento\Checkout\Model\Session;
+use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Sales\Model\Order\Item;
 
 class SetHasDownloadableProductsObserver implements ObserverInterface
 {
-    /**
-     * @var \Magento\Checkout\Model\Session
-     */
-    protected $_checkoutSession;
+    protected Session $checkoutSession;
 
-    /**
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     */
     public function __construct(
-        \Magento\Checkout\Model\Session $checkoutSession
+        Session $checkoutSession
     ) {
-        $this->_checkoutSession = $checkoutSession;
+        $this->checkoutSession = $checkoutSession;
     }
 
     /**
      * Set checkout session flag if order has downloadable product(s)
      *
-     * @param \Magento\Framework\Event\Observer $observer
+     * @param Observer $observer
      * @return $this
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
-        if (!$this->_checkoutSession->getHasDownloadableProducts()) {
+        if (!$this->checkoutSession->getHasDownloadableProducts()) {
             $order = $observer->getEvent()->getOrder();
             foreach ($order->getAllItems() as $item) {
-                /* @var $item \Magento\Sales\Model\Order\Item */
-                if (($item->getProductType() == \DevStone\ImageProducts\Model\Product\Type::TYPE_ID
-                    || $item->getRealProductType() == \DevStone\ImageProducts\Model\Product\Type::TYPE_ID
+                /* @var $item Item */
+                if (($item->getProductType() == Type::TYPE_ID
+                    || $item->getRealProductType() == Type::TYPE_ID
                     || $item->getProductOptionByCode(
                         'is_downloadable'
                     )) && !$item->getProductOptionByCode('print')
                 ) {
-                    $this->_checkoutSession->setHasDownloadableProducts(true);
+                    $this->checkoutSession->setHasDownloadableProducts(true);
                     break;
                 }
             }

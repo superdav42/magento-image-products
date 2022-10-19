@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Product\TypeHandler;
 
 use Magento\Downloadable\Model\ComponentInterface;
+use Magento\Framework\Exception\LocalizedException;
 
-class Link extends \Magento\Downloadable\Model\Product\TypeHandler\Link {
+class Link extends \Magento\Downloadable\Model\Product\TypeHandler\Link
+{
 
     /**
      * @param ComponentInterface $model
      * @param array $files
      * @return void
+     * @throws LocalizedException
      */
     protected function setFiles(ComponentInterface $model, array $files)
     {

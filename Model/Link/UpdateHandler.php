@@ -1,8 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Link;
 
-use Magento\Downloadable\Api\LinkRepositoryInterface as LinkRepository;
+use DevStone\ImageProducts\Model\Product\Type;
+use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Catalog\Model\Product\Media\Config;
+use Magento\Downloadable\Api\Data\LinkInterface;
+use Magento\Downloadable\Api\LinkRepositoryInterface;
 use Magento\Framework\EntityManager\Operation\ExtensionInterface;
 
 /**
@@ -10,24 +16,17 @@ use Magento\Framework\EntityManager\Operation\ExtensionInterface;
  */
 class UpdateHandler implements ExtensionInterface
 {
-    /**
-     * @var LinkRepository
-     */
-    protected $linkRepository;
+    protected LinkRepositoryInterface $linkRepository;
 
-    /**
-     *
-     * @var \Magento\Catalog\Model\Product\Media\Config
-     */
     protected $mediaConfig;
 
     /**
-     * @param LinkRepository $linkRepository
-     * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+     * @param LinkRepositoryInterface $linkRepository
+     * @param Config $mediaConfig
      */
     public function __construct(
-        LinkRepository $linkRepository,
-        \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+        LinkRepositoryInterface                     $linkRepository,
+        Config $mediaConfig
     ) {
         $this->linkRepository = $linkRepository;
         $this->mediaConfig = $mediaConfig;
@@ -36,17 +35,17 @@ class UpdateHandler implements ExtensionInterface
     /**
      * @param object $entity
      * @param array $arguments
-     * @return \Magento\Catalog\Api\Data\ProductInterface|object
+     * @return ProductInterface|object
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function execute($entity, $arguments = [])
     {
-        /** @var $entity \Magento\Catalog\Api\Data\ProductInterface */
-        if ($entity->getTypeId() != \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
+        /** @var $entity ProductInterface */
+        if ($entity->getTypeId() != Type::TYPE_ID) {
             return $entity;
         }
 
-        /** @var \Magento\Downloadable\Api\Data\LinkInterface[] $links */
+        /** @var LinkInterface[] $links */
         $links = $entity->getExtensionAttributes()->getDownloadableProductLinks() ?: [];
         $updatedLinks = [];
         $oldLinks = $this->linkRepository->getList($entity->getSku());
@@ -58,7 +57,7 @@ class UpdateHandler implements ExtensionInterface
             $this->linkRepository->save($entity->getSku(), $link, !(bool)$entity->getStoreId());
         }
 
-        /** @var \Magento\Catalog\Api\Data\ProductInterface $entity */
+        /** @var ProductInterface $entity */
         foreach ($oldLinks as $link) {
             if (!isset($updatedLinks[$link->getId()])) {
                 $this->linkRepository->delete($link->getId());

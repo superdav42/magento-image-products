@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Link;
 
-use Magento\Downloadable\Api\LinkRepositoryInterface as LinkRepository;
+use Magento\Downloadable\Api\LinkRepositoryInterface;
 use Magento\Framework\EntityManager\Operation\ExtensionInterface;
 
 /**
@@ -10,15 +12,9 @@ use Magento\Framework\EntityManager\Operation\ExtensionInterface;
  */
 class ReadHandler implements ExtensionInterface
 {
-    /**
-     * @var LinkRepository
-     */
-    protected $linkRepository;
+    protected LinkRepositoryInterface $linkRepository;
 
-    /**
-     * @param LinkRepository $linkRepository
-     */
-    public function __construct(LinkRepository $linkRepository)
+    public function __construct(LinkRepositoryInterface $linkRepository)
     {
         $this->linkRepository = $linkRepository;
     }

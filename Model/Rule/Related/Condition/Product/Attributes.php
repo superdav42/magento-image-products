@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dave
- * Date: 7/10/18
- * Time: 5:17 PM
- */
+
+declare(strict_types=1);
 
 namespace DevStone\ImageProducts\Model\Rule\Related\Condition\Product;
 
@@ -42,6 +38,6 @@ class Attributes extends \Aheadworks\Autorelated\Model\Rule\Related\Condition\Pr
 
         $condition = join(' + ', $conditions);
 
-        return $condition.' > '.min(floor(count($value) * 0.5), 7);
+        return $condition . ' > ' . min(floor(count($value) * 0.5), 7);
     }
 }

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Eav\Entity\Attribute\Source;
 
 class Table extends \Magento\Eav\Model\Entity\Attribute\Source\Table
 {
 
-    private $cacheForIndexOptions;
+    private array $cacheForIndexOptions;
 
     /**
      * Get a text for index option value

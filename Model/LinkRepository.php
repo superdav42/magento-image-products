@@ -1,23 +1,39 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model;
 
-use \Magento\Downloadable\Api\Data\LinkInterface;
+use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Downloadable\Api\Data\File\ContentUploaderInterface;
+use Magento\Downloadable\Api\Data\LinkInterface;
+use Magento\Downloadable\Api\Data\LinkInterfaceFactory;
+use Magento\Downloadable\Model\Link;
+use Magento\Downloadable\Model\LinkFactory;
 use Magento\Downloadable\Model\Product\Type;
-use Magento\Downloadable\Model\Product\TypeHandler\Link as LinkHandler;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\Exception\InputException;
-use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Json\EncoderInterface;
 
 class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
 {
+    private MetadataPool $metadataPool;
 
-    /**
-     * @var MetadataPool
-     */
-    private $metadataPool;
+    public function __construct(
+        ProductRepositoryInterface $productRepository,
+        Type $downloadableType,
+        LinkInterfaceFactory $linkDataObjectFactory,
+        LinkFactory $linkFactory,
+        Link\ContentValidator $contentValidator,
+        EncoderInterface $jsonEncoder,
+        ContentUploaderInterface $fileContentUploader,
+        MetadataPool $metadataPool
+    ) {
+        parent::__construct($productRepository, $downloadableType, $linkDataObjectFactory, $linkFactory, $contentValidator, $jsonEncoder, $fileContentUploader);
+        $this->metadataPool = $metadataPool;
+    }
 
     /**
      * {@inheritdoc}
@@ -30,7 +46,7 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
         if ($link->getId() !== null) {
             return $this->updateLink($product, $link, $isGlobalScopeContent);
         } else {
-            if (!$product->getTypeInstance() instanceof \Magento\Downloadable\Model\Product\Type) {
+            if (!$product->getTypeInstance() instanceof Type) {
                 throw new InputException(__('Provided product must be type \'downloadable\' or \'image\'.'));
             }
             $this->validateLinkType($link);
@@ -47,28 +63,28 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
         }
     }
 
-
     /**
      * Update existing Link.
      *
-     * @param \Magento\Catalog\Api\Data\ProductInterface $product
+     * @param ProductInterface $product
      * @param LinkInterface $link
      * @param bool $isGlobalScopeContent
      * @return mixed
      * @throws InputException
      * @throws NoSuchEntityException
+     * @throws \Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
     protected function updateLink(
-        \Magento\Catalog\Api\Data\ProductInterface $product,
-        LinkInterface $link,
-                                                   $isGlobalScopeContent
+        ProductInterface $product,
+        LinkInterface    $link,
+        $isGlobalScopeContent
     ) {
-        if( empty($link->getTitle())) {
+        if (empty($link->getTitle())) {
             $link->setTitle($product->getSku());
         }
-        /** @var $existingLink \Magento\Downloadable\Model\Link */
+        /** @var $existingLink Link */
         $existingLink = $this->linkFactory->create()->load($link->getId());
         if (!$existingLink->getId()) {
             throw new NoSuchEntityException(
@@ -76,7 +92,7 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
             );
         }
         $linkFieldValue = $product->getData(
-            $this->getMetadataPool()->getMetadata(ProductInterface::class)->getLinkField()
+            $this->metadataPool->getMetadata(ProductInterface::class)->getLinkField()
         );
         if ($existingLink->getProductId() != $linkFieldValue) {
             throw new InputException(
@@ -115,7 +131,6 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
      */
     private function validateLinkType(LinkInterface $link): void
     {
-
         if (!in_array($link->getLinkType(), ['url', 'file', 'gal_10', 'gal_12','gal_14', 'gal_16', 'gal_20', 'gal_24', 'gal_30', 'gal_36', 'gal_40'], true)) {
             throw new InputException(__('The link type is invalid. Verify and try again.'));
         }
@@ -151,21 +166,5 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
         } else {
             $link->setSampleUrl($existingLink->getSampleUrl());
         }
-    }
-
-
-    /**
-     * Get MetadataPool instance
-     *
-     * @deprecated 100.1.0 MAGETWO-52273
-     * @return MetadataPool
-     */
-    private function getMetadataPool()
-    {
-        if (!$this->metadataPool) {
-            $this->metadataPool = ObjectManager::getInstance()->get(MetadataPool::class);
-        }
-
-        return $this->metadataPool;
     }
 }

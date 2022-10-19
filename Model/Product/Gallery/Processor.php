@@ -1,37 +1,41 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dave
- * Date: 7/19/18
- * Time: 1:59 PM
- */
+
+declare(strict_types=1);
 
 namespace DevStone\ImageProducts\Model\Product\Gallery;
 
+use Exception;
+use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Media\Config;
+use Magento\Catalog\Model\ResourceModel\Product\Gallery;
 use Magento\Framework\Api\Data\ImageContentInterface;
 use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\File\Mime;
+use Magento\Framework\Filesystem;
 use Magento\Framework\View\Asset\File\NotFoundException;
+use Magento\MediaStorage\Helper\File\Storage\Database;
+use Magento\MediaStorage\Model\File\Uploader;
 
-class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
+class Processor extends Product\Gallery\Processor
 {
-
-    protected $mime;
+    protected mixed $mime;
 
     public function __construct(
-        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
-        \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb,
-        \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
-        \Magento\Framework\Filesystem $filesystem,
-        \Magento\Catalog\Model\ResourceModel\Product\Gallery $resourceModel,
-        \Magento\Framework\File\Mime $mime = null
+        ProductAttributeRepositoryInterface $attributeRepository,
+        Database $fileStorageDb,
+        Config $mediaConfig,
+        Filesystem $filesystem,
+        Gallery $resourceModel,
+        Mime $mime = null
     ) {
         parent::__construct($attributeRepository, $fileStorageDb, $mediaConfig, $filesystem, $resourceModel, $mime);
-        $this->mime = $mime ?: ObjectManager::getInstance()->get(\Magento\Framework\File\Mime::class);;
+        $this->mime = $mime ?: ObjectManager::getInstance()->get(Mime::class);
     }
 
     public function addImage(
-        \Magento\Catalog\Model\Product $product,
+        Product $product,
         $file,
         $mediaAttribute = null,
         $move = false,
@@ -48,10 +52,10 @@ class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
             throw new LocalizedException(__('Please correct the image file type.'));
         }
 
-        $fileName = $product->getUrlKey().'-GoodSalt-'.$pathinfo['filename'].'.'.$pathinfo['extension'];
+        $fileName = $product->getUrlKey() . '-GoodSalt-' . $pathinfo['filename'] . '.' . $pathinfo['extension'];
 
-        $fileName = \Magento\MediaStorage\Model\File\Uploader::getCorrectFileName($fileName);
-        $dispretionPath = \Magento\MediaStorage\Model\File\Uploader::getDispersionPath($fileName);
+        $fileName = Uploader::getCorrectFileName($fileName);
+        $dispretionPath = Uploader::getDispersionPath($fileName);
         $fileName = $dispretionPath . '/' . $fileName;
 
         $fileName = $this->getNotDuplicatedFilename($fileName, $dispretionPath);
@@ -59,7 +63,7 @@ class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
         $destinationFile = $this->mediaConfig->getTmpMediaPath($fileName);
 
         try {
-            /** @var $storageHelper \Magento\MediaStorage\Helper\File\Storage\Database */
+            /** @var $storageHelper Database */
             $storageHelper = $this->fileStorageDb;
             if ($move) {
                 $this->mediaDirectory->renameFile($file, $destinationFile);
@@ -71,7 +75,7 @@ class Processor extends \Magento\Catalog\Model\Product\Gallery\Processor
 
                 $storageHelper->saveFile($this->mediaConfig->getTmpMediaShortUrl($fileName));
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             throw new LocalizedException(__('The "%1" file couldn\'t be moved.', $e->getMessage()));
         }
 

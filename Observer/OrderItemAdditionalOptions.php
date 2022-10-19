@@ -1,32 +1,43 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Observer;
 
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\View\LayoutInterface;
+use Magento\Store\Model\StoreManagerInterface;
+use Psr\Log\LoggerInterface;
 
 class OrderItemAdditionalOptions implements ObserverInterface
 {
+    protected LayoutInterface $layout;
+    protected StoreManagerInterface $storeManager;
+    protected RequestInterface $request;
+    protected LoggerInterface $logger;
+    protected Json $serializer;
 
     public function __construct(
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\View\LayoutInterface $layout,
-        \Magento\Framework\App\RequestInterface $request,
-        \Psr\Log\LoggerInterface $logger,
-        Json $serializer = null
-    )
-    {
-        $this->_layout = $layout;
-        $this->_storeManager = $storeManager;
-        $this->_request = $request;
+        StoreManagerInterface $storeManager,
+        LayoutInterface $layout,
+        RequestInterface $request,
+        LoggerInterface $logger,
+        Json $serializer
+    ) {
+        $this->layout = $layout;
+        $this->storeManager = $storeManager;
+        $this->request = $request;
         $this->logger = $logger;
-        $this->serializer = $serializer ?: \Magento\Framework\App\ObjectManager::getInstance()
-            ->get(\Magento\Framework\Serialize\Serializer\Json::class);
+        $this->serializer = $serializer;
     }
     /**
-     * @param \Magento\Framework\Event\Observer $observer
+     * @param Observer $observer
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
         // This code failed. Leaving because we may want to get it working later.
         return;
@@ -45,7 +56,6 @@ class OrderItemAdditionalOptions implements ObserverInterface
             $quoteItem = $quoteItems[$quoteItemId];
             $additionalOptions = $quoteItem->getOptionByCode('print_options');
 
-
             if ($additionalOptions) {
                 // Get Order Item's other options
                 $options = $orderItem->getProductOptions();
@@ -56,6 +66,5 @@ class OrderItemAdditionalOptions implements ObserverInterface
 //                $orderItem->setProductOptions($options);
             }
         }
-
     }
 }

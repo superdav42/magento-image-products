@@ -1,7 +1,27 @@
 <?php
+
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Observer;
 
+use DevStone\ImageProducts\Model\Product\Type;
+use downloadable_sales_copy_link;
+use Exception;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\ProductFactory;
+use Magento\Downloadable\Model\Link;
+use Magento\Downloadable\Model\Link\Purchased;
+use Magento\Downloadable\Model\Link\Purchased\Item;
+use Magento\Downloadable\Model\Link\Purchased\ItemFactory;
+use Magento\Downloadable\Model\Link\PurchasedFactory;
+use Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\Collection;
+use Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\DataObject;
+use Magento\Framework\DataObject\Copy;
+use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
+use Magento\Sales\Model\Order;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -9,111 +29,79 @@ use Magento\Store\Model\ScopeInterface;
  */
 class SaveDownloadableOrderItemObserver implements ObserverInterface
 {
-    /**
-     * Core store config
-     *
-     * @var \Magento\Framework\App\Config\ScopeConfigInterface
-     */
-    protected $_scopeConfig;
+    protected ScopeConfigInterface $scopeConfig;
+    protected PurchasedFactory $purchasedFactory;
+    protected ProductFactory $productFactory;
+    protected ItemFactory $itemFactory;
+    protected Copy $objectCopyService;
+    protected CollectionFactory $itemsFactory;
 
-    /**
-     * @var \Magento\Downloadable\Model\Link\PurchasedFactory
-     */
-    protected $_purchasedFactory;
-
-    /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_productFactory;
-
-    /**
-     * @var \Magento\Downloadable\Model\Link\Purchased\ItemFactory
-     */
-    protected $_itemFactory;
-
-    /**
-     * @var \Magento\Framework\DataObject\Copy
-     */
-    protected $_objectCopyService;
-
-    /**
-     * @var \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory
-     */
-    protected $_itemsFactory;
-
-    /**
-     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Downloadable\Model\Link\Purchased\ItemFactory $itemFactory
-     * @param \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Framework\DataObject\Copy $objectCopyService
-     */
     public function __construct(
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Downloadable\Model\Link\Purchased\ItemFactory $itemFactory,
-        \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory,
-        \Magento\Framework\DataObject\Copy $objectCopyService
+        ScopeConfigInterface $scopeConfig,
+        PurchasedFactory $purchasedFactory,
+        ProductFactory $productFactory,
+        ItemFactory $itemFactory,
+        CollectionFactory $itemsFactory,
+        Copy $objectCopyService
     ) {
-        $this->_scopeConfig = $scopeConfig;
-        $this->_purchasedFactory = $purchasedFactory;
-        $this->_productFactory = $productFactory;
-        $this->_itemFactory = $itemFactory;
-        $this->_itemsFactory = $itemsFactory;
-        $this->_objectCopyService = $objectCopyService;
+        $this->scopeConfig = $scopeConfig;
+        $this->purchasedFactory = $purchasedFactory;
+        $this->productFactory = $productFactory;
+        $this->itemFactory = $itemFactory;
+        $this->itemsFactory = $itemsFactory;
+        $this->objectCopyService = $objectCopyService;
     }
 
     /**
      * Save data from order to purchased links
      *
-     * @param \Magento\Framework\DataObject $observer
+     * @param Observer $observer
      * @return $this
+     * @throws Exception
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function execute(\Magento\Framework\Event\Observer $observer)
+    public function execute(Observer $observer)
     {
-        /** @var \Magento\Sales\Model\Order\Item $orderItem */
+        /** @var Order\Item $orderItem */
         $orderItem = $observer->getEvent()->getItem();
         if (!$orderItem->getId()) {
             //order not saved in the database
             return $this;
         }
         $productType = $orderItem->getRealProductType() ?: $orderItem->getProductType();
-        if ($productType != \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
+        if ($productType != Type::TYPE_ID) {
             return $this;
         }
         $product = $orderItem->getProduct();
-        $purchasedLink = $this->_createPurchasedModel()->load($orderItem->getId(), 'order_item_id');
+        $purchasedLink = $this->createPurchasedModel()->load($orderItem->getId(), 'order_item_id');
         if ($purchasedLink->getId()) {
             return $this;
         }
         $storeId = $orderItem->getOrder()->getStoreId();
-        $orderStatusToEnableItem = $this->_scopeConfig->getValue(
-            \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS,
+        $orderStatusToEnableItem = $this->scopeConfig->getValue(
+            Item::XML_PATH_ORDER_ITEM_STATUS,
             ScopeInterface::SCOPE_STORE,
             $storeId
         );
         if (!$product) {
-            $product = $this->_createProductModel()->setStoreId(
+            $product = $this->createProductModel()->setStoreId(
                 $orderItem->getOrder()->getStoreId()
             )->load(
                 $orderItem->getProductId()
             );
         }
-        if ($product->getTypeId() == \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
+        if ($product->getTypeId() == Type::TYPE_ID) {
             $links = $product->getTypeInstance()->getLinks($product);
             if ($linkIds = $orderItem->getProductOptionByCode('links')) {
-                $linkPurchased = $this->_createPurchasedModel();
-                $this->_objectCopyService->copyFieldsetToTarget(
+                $linkPurchased = $this->createPurchasedModel();
+                $this->objectCopyService->copyFieldsetToTarget(
                     'downloadable_sales_copy_order',
                     'to_downloadable',
                     $orderItem->getOrder(),
                     $linkPurchased
                 );
-                $this->_objectCopyService->copyFieldsetToTarget(
+                $this->objectCopyService->copyFieldsetToTarget(
                     'downloadable_sales_copy_order_item',
                     'to_downloadable',
                     $orderItem,
@@ -121,28 +109,28 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
                 );
                 $linkSectionTitle = $product->getLinksTitle() ? $product
                     ->getLinksTitle() : $this
-                    ->_scopeConfig
+                    ->scopeConfig
                     ->getValue(
-                        \Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE,
+                        Link::XML_PATH_LINKS_TITLE,
                         ScopeInterface::SCOPE_STORE
                     );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)->save();
-                $linkStatus = \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING;
-                if ($orderStatusToEnableItem == \Magento\Sales\Model\Order\Item::STATUS_PENDING
-                    || $orderItem->getOrder()->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE
+                $linkStatus = Item::LINK_STATUS_PENDING;
+                if ($orderStatusToEnableItem == Order\Item::STATUS_PENDING
+                    || $orderItem->getOrder()->getState() == Order::STATE_COMPLETE
                 ) {
-                    $linkStatus = \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_AVAILABLE;
+                    $linkStatus = Item::LINK_STATUS_AVAILABLE;
                 }
                 foreach ($linkIds as $linkId) {
                     if (isset($links[$linkId])) {
-                        $linkPurchasedItem = $this->_createPurchasedItemModel()->setPurchasedId(
+                        $linkPurchasedItem = $this->createPurchasedItemModel()->setPurchasedId(
                             $linkPurchased->getId()
                         )->setOrderItemId(
                             $orderItem->getId()
                         );
 
-                        $this->_objectCopyService->copyFieldsetToTarget(
-                            \downloadable_sales_copy_link::class,
+                        $this->objectCopyService->copyFieldsetToTarget(
+                            downloadable_sales_copy_link::class,
                             'to_purchased',
                             $links[$linkId],
                             $linkPurchasedItem
@@ -174,35 +162,23 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
         return $this;
     }
 
-    /**
-     * @return \Magento\Downloadable\Model\Link\Purchased
-     */
-    protected function _createPurchasedModel()
+    protected function createPurchasedModel(): Purchased
     {
-        return $this->_purchasedFactory->create();
+        return $this->purchasedFactory->create();
     }
 
-    /**
-     * @return \Magento\Catalog\Model\Product
-     */
-    protected function _createProductModel()
+    protected function createProductModel(): Product
     {
-        return $this->_productFactory->create();
+        return $this->productFactory->create();
     }
 
-    /**
-     * @return \Magento\Downloadable\Model\Link\Purchased\Item
-     */
-    protected function _createPurchasedItemModel()
+    protected function createPurchasedItemModel(): Item
     {
-        return $this->_itemFactory->create();
+        return $this->itemFactory->create();
     }
 
-    /**
-     * @return \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\Collection
-     */
-    protected function _createItemsCollection()
+    protected function createItemsCollection(): Collection
     {
-        return $this->_itemsFactory->create();
+        return $this->itemsFactory->create();
     }
 }

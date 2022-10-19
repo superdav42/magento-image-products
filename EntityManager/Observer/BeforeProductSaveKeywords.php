@@ -1,40 +1,32 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\EntityManager\Observer;
 
+use DevStone\ImageProducts\Model\Product\Type;
+use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Eav\Api\AttributeOptionManagementInterface;
+use Magento\Eav\Api\Data\AttributeOptionInterfaceFactory;
+use Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory;
+use Magento\Eav\Model\Entity\Attribute\OptionLabel;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 
 class BeforeProductSaveKeywords implements ObserverInterface
 {
-    /**
-     * @var \Magento\Eav\Api\AttributeOptionManagementInterface
-     */
-    protected $attributeOptionManagement;
+    protected AttributeOptionManagementInterface $attributeOptionManagement;
+    protected AttributeOptionLabelInterfaceFactory $optionLabelFactory;
+    protected AttributeOptionInterfaceFactory $optionFactory;
+    protected ProductAttributeRepositoryInterface $attributeRepository;
 
-    /**
-     * @var \Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory
-     */
-    protected $optionLabelFactory;
-
-    /**
-     * @var \Magento\Eav\Api\Data\AttributeOptionInterfaceFactory
-     */
-    protected $optionFactory;
-
-    /**
-     * @var \Magento\Catalog\Api\ProductAttributeRepositoryInterface
-     */
-    protected $attributeRepository;
-
-    /**
-     * @param \Magento\Downloadable\Api\LinkRepositoryInterface $linkRepository
-     */
     public function __construct(
-        \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
-        \Magento\Eav\Api\AttributeOptionManagementInterface $attributeOptionManagement,
-        \Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory $optionLabelFactory,
-        \Magento\Eav\Api\Data\AttributeOptionInterfaceFactory $optionFactory
+        ProductAttributeRepositoryInterface $attributeRepository,
+        AttributeOptionManagementInterface $attributeOptionManagement,
+        AttributeOptionLabelInterfaceFactory $optionLabelFactory,
+        AttributeOptionInterfaceFactory $optionFactory
     ) {
         $this->attributeRepository = $attributeRepository;
         $this->attributeOptionManagement = $attributeOptionManagement;
@@ -46,14 +38,13 @@ class BeforeProductSaveKeywords implements ObserverInterface
      * Apply model save operation
      *
      * @param Observer $observer
-     * @throws \Magento\Framework\Validator\Exception
      * @return void
      */
     public function execute(Observer $observer)
     {
         $entity = $observer->getEvent()->getProduct();
-        if ($entity instanceof \Magento\Catalog\Api\Data\ProductInterface &&
-            $entity->getTypeId() === \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
+        if ($entity instanceof ProductInterface &&
+            $entity->getTypeId() === Type::TYPE_ID) {
             $keywords = $entity->getKeywords();
 
             if (!empty($keywords) && is_iterable($keywords)) {
@@ -76,7 +67,7 @@ class BeforeProductSaveKeywords implements ObserverInterface
         $optionId = $attribute->getSource()->getOptionId($label);
 
         if (!$optionId) {
-            /** @var \Magento\Eav\Model\Entity\Attribute\OptionLabel $optionLabel */
+            /** @var OptionLabel $optionLabel */
             $optionLabel = $this->optionLabelFactory->create();
             $optionLabel->setStoreId(0);
             $optionLabel->setLabel($label);
@@ -88,7 +79,7 @@ class BeforeProductSaveKeywords implements ObserverInterface
             $option->setIsDefault(false);
 
             $this->attributeOptionManagement->add(
-                \Magento\Catalog\Model\Product::ENTITY,
+                Product::ENTITY,
                 $this->attributeRepository->get('keywords')->getAttributeId(),
                 $option
             );

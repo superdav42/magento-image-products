@@ -1,50 +1,41 @@
 <?php
 
+declare(strict_types=1);
 
 // @codingStandardsIgnoreFile
 
 namespace DevStone\ImageProducts\Helper\Catalog\Product;
+
+use DevStone\UsageCalculator\Api\UsageRepositoryInterface;
+use Magento\Catalog\Block\Product\Image;
+use Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
+use Magento\Downloadable\Model\Link;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Store\Model\ScopeInterface;
 
 /**
  * Helper for fetching properties by product configurational item
  *
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-class Configuration extends \Magento\Framework\App\Helper\AbstractHelper implements
-    \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
+class Configuration extends AbstractHelper implements
+    ConfigurationInterface
 {
-    /**
-     * Catalog product configuration
-     *
-     * @var \Magento\Catalog\Helper\Product\Configuration
-     */
-    protected $productConfig = null;
+    protected \Magento\Catalog\Helper\Product\Configuration $productConfig;
+    protected UsageRepositoryInterface $usageRepository;
+    protected Json $serializer;
 
-    /**
-     *
-     * @var \DevStone\UsageCalculator\Api\UsageRepositoryInterface
-     */
-    protected $usageRepository;
-
-    /**
-     *
-     * @var \Magento\Framework\Serialize\Serializer\Json
-     */
-    protected $serializer;
-
-    /**
-     * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
-     * @param \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository
-     * @param \Magento\Framework\Serialize\Serializer\Json $serializer
-     */
     public function __construct(
-        \Magento\Framework\App\Helper\Context $context,
+        Context                                       $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
-        \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository,
-        \Magento\Framework\Serialize\Serializer\Json $serializer
-    )
-    {
+        UsageRepositoryInterface                      $usageRepository,
+        Json                                          $serializer
+    ) {
         $this->productConfig = $productConfig;
         $this->usageRepository = $usageRepository;
         $this->serializer = $serializer;
@@ -54,10 +45,10 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
     /**
      * Retrieves item links options
      *
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param ItemInterface $item
      * @return array
      */
-    public function getLinks(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
+    public function getLinks(ItemInterface $item): array
     {
         $product = $item->getProduct();
         $itemLinks = [];
@@ -76,25 +67,25 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
     /**
      * Retrieves product links section title
      *
-     * @param \Magento\Catalog\Model\Product $product
+     * @param Product $product
      * @return string
      */
-    public function getLinksTitle($product)
+    public function getLinksTitle($product): string
     {
         $title = $product->getLinksTitle();
         if (strlen($title)) {
             return $title;
         }
-        return $this->scopeConfig->getValue(\Magento\Downloadable\Model\Link::XML_PATH_LINKS_TITLE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
+        return $this->scopeConfig->getValue(Link::XML_PATH_LINKS_TITLE, ScopeInterface::SCOPE_STORE);
     }
 
     /**
-     * @param \Magento\Catalog\Block\Product\Image $image
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param Image $image
+     * @param ItemInterface $item
      */
     public function updateImage(
-        \Magento\Catalog\Block\Product\Image $image,
-        \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+        Image         $image,
+        ItemInterface $item
     ) {
         if ($dataUrl = $item->getOptionByCode('thumbnail')) {
             $image->setImageUrl($dataUrl->getValue());
@@ -104,10 +95,10 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
     /**
      * Retrieves product options
      *
-     * @param \Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item
+     * @param ItemInterface $item
      * @return array
      */
-    public function getOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
+    public function getOptions(ItemInterface $item): array
     {
         $options = $this->productConfig->getOptions($item);
 
@@ -117,7 +108,7 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
                     $item->getOptionByCode('print_options')->getValue()
                 )
             );
-        } elseif(($usageOption = $item->getOptionByCode('usage_id'))) {
+        } elseif (($usageOption = $item->getOptionByCode('usage_id'))) {
             $newOptions = $this->getUsageOptions(
                 $usageOption->getValue(),
                 $this->serializer->unserialize(
@@ -133,17 +124,17 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
         return $options;
     }
 
-    public function getUsageOptions($usageId, $usageOptions)
+    public function getUsageOptions($usageId, $usageOptions): array
     {
         $terms = '';
         try {
-            $usage = $this->usageRepository->getById($usageId);
+            $usage = $this->usageRepository->getById((int)$usageId);
 
             $terms = $usage->getTerms();
 
-            foreach($usage->getOptions() as $option) {
-                if ( !empty($usageOptions[$option->getId()])) {
-                    if ( is_numeric($usageOptions[$option->getId()])) {
+            foreach ($usage->getOptions() as $option) {
+                if (!empty($usageOptions[$option->getId()])) {
+                    if (is_numeric($usageOptions[$option->getId()])) {
                         $valueObject = $option->getValueById($usageOptions[$option->getId()]);
                         if (!$valueObject) {
                             $value = $usageOptions[$option->getId()];
@@ -153,23 +144,21 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
                     } else {
                         $value = $usageOptions[$option->getId()];
                     }
-                    $terms = str_replace('('.$option->getTitle().')', '<strong>'.$value.'</strong>', $terms);
+                    $terms = str_replace('(' . $option->getTitle() . ')', '<strong>' . $value . '</strong>', $terms);
                 }
             }
-
-        } catch (\Magento\Framework\Exception\LocalizedException $exc) {
+        } catch (LocalizedException $exc) {
         }
 
         return [['label' => __('Terms'), 'value' => $terms, 'custom_view' => true]];
     }
 
-    public function getPrintOptions($printOptions)
+    public function getPrintOptions($printOptions): array
     {
-
         $options = [
             ['label' => __('Substrate'), 'value' => $printOptions['printOption']],
-            ['label' => __('Width'), 'value' => $printOptions['imgWI'].' '.__('Inches')],
-            ['label' => __('Height'), 'value' => $printOptions['imgHI'].' '.__('Inches')],
+            ['label' => __('Width'), 'value' => $printOptions['imgWI'] . ' ' . __('Inches')],
+            ['label' => __('Height'), 'value' => $printOptions['imgHI'] . ' ' . __('Inches')],
         ];
 
         if (!empty($printOptions['sku'])) {
@@ -178,12 +167,12 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
 
         if (!empty($printOptions['mat2'])) {
             $options[] = ['label' => __('Top Mat'), 'value' => $printOptions['mat2']];
-            $options[] = ['label' => __('Top Mat Size'), 'value' => $printOptions['t'].' '.__('Inches')];
+            $options[] = ['label' => __('Top Mat Size'), 'value' => $printOptions['t'] . ' ' . __('Inches')];
             $options[] = ['label' => __('Bottom Mat'), 'value' => $printOptions['mat1']];
-            $options[] = ['label' => __('Bottom Mat Size'), 'value' => $printOptions['off'].' '.__('Inches')];
+            $options[] = ['label' => __('Bottom Mat Size'), 'value' => $printOptions['off'] . ' ' . __('Inches')];
         } elseif (!empty($printOptions['mat1'])) {
             $options[] = ['label' => __('Top Mat'), 'value' => $printOptions['mat1']];
-            $options[] = ['label' => __('Top Mat Size'), 'value' => $printOptions['t'].' '.__('Inches')];
+            $options[] = ['label' => __('Top Mat Size'), 'value' => $printOptions['t'] . ' ' . __('Inches')];
         }
 
         return $options;

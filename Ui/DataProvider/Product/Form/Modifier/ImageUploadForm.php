@@ -1,23 +1,21 @@
 <?php
 
-namespace DevStone\ImageProducts\Ui\DataProvider\Product\Form\Modifier;
+declare(strict_types=1);
 
+namespace DevStone\ImageProducts\Ui\DataProvider\Product\Form\Modifier;
 
 use DevStone\ImageProducts\Model\Product\Type as ProductType;
 
-use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\Catalog\Model\Locator\LocatorInterface;
-use Magento\Downloadable\Model\Link;
-use Magento\Framework\UrlInterface;
-use Magento\Ui\Component\Form;
-
-
-use Magento\Framework\Stdlib\ArrayManager;
-
+use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\Downloadable\Ui\DataProvider\Product\Form\Modifier\Composite;
+use Magento\Framework\App\State;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Stdlib\ArrayManager;
+use Magento\Framework\UrlInterface;
 use Magento\Ui\Component\Container;
 use Magento\Ui\Component\DynamicRows;
-
+use Magento\Ui\Component\Form;
 
 /**
  * Customize Downloadable panel
@@ -25,50 +23,19 @@ use Magento\Ui\Component\DynamicRows;
 class ImageUploadForm extends AbstractModifier
 {
 
-    /**
-     * @var ArrayManager
-     */
-    protected $arrayManager;
+    protected ArrayManager $arrayManager;
+    protected LocatorInterface $locator;
+    protected UrlInterface $urlBuilder;
+    protected Data\Links $linksData;
+    protected string $uploadPath;
+    protected State $state;
 
-    /**
-     * @var LocatorInterface
-     */
-    protected $locator;
-
-    /**
-     * @var UrlInterface
-     */
-    protected $urlBuilder;
-
-    /**
-     * @var Data\Links
-     */
-    protected $linksData;
-
-    /**
-     * @var string
-     */
-    protected $uploadPath;
-
-    /**
-     * @var \Magento\Framework\App\State
-     */
-    protected $state;
-
-    /**
-     * @param LocatorInterface $locator
-     * @param UrlInterface $urlBuilder
-     * @param ArrayManager $arrayManager
-     * @param Data\Links $linksData
-     * @param \Magento\Framework\App\State $state
-     * @param string $uploadPath
-     */
     public function __construct(
         LocatorInterface $locator,
         UrlInterface $urlBuilder,
         ArrayManager $arrayManager,
         Data\Links $linksData,
-        \Magento\Framework\App\State $state,
+        State $state,
         $uploadPath = 'adminhtml/downloadable_file/upload'
     ) {
         $this->locator = $locator;
@@ -89,7 +56,6 @@ class ImageUploadForm extends AbstractModifier
             $data[$product->getId()]['downloadable']['link'] = $this->linksData->getLinksData();
 
             return $data;
-
         }
 
         return $data;
@@ -101,7 +67,6 @@ class ImageUploadForm extends AbstractModifier
      */
     public function modifyMeta(array $meta)
     {
-
         $panelConfig['arguments']['data']['config'] = [
             'componentType' => Form\Fieldset::NAME,
             'label' => __('Image Information'),
@@ -137,7 +102,7 @@ class ImageUploadForm extends AbstractModifier
     /**
      * @return array
      */
-    protected function getDynamicRows()
+    protected function getDynamicRows(): array
     {
         $dynamicRows['arguments']['data']['config'] = [
             'addButtonLabel' => __('Add New Image'),
@@ -155,9 +120,9 @@ class ImageUploadForm extends AbstractModifier
     }
 
     /**
-     * @return array
+     * @throws LocalizedException
      */
-    protected function getRecord()
+    protected function getRecord(): array
     {
         $record['arguments']['data']['config'] = [
             'componentType' => Container::NAME,
@@ -199,10 +164,7 @@ class ImageUploadForm extends AbstractModifier
         );
     }
 
-    /**
-     * @return array
-     */
-    protected function getFileColumn()
+    protected function getFileColumn(): array
     {
         $fileContainer['arguments']['data']['config'] = [
             'componentType' => Container::NAME,
@@ -248,12 +210,8 @@ class ImageUploadForm extends AbstractModifier
         );
     }
 
-    /**
-     * @return array
-     */
-    protected function getMaxDownloadsColumn()
+    protected function getMaxDownloadsColumn(): array
     {
-
         $numberOfDownloadsField['arguments']['data']['config'] = [
             'formElement' => Form\Element\Hidden::NAME,
             'componentType' => Form\Field::NAME,
@@ -266,16 +224,9 @@ class ImageUploadForm extends AbstractModifier
             ],
         ];
         return $numberOfDownloadsField;
-
     }
 
-
-    /**
-     * Returns Gallery Size columns configuration
-     *
-     * @return array
-     */
-    protected function getGallerySizeColumn()
+    protected function getGallerySizeColumn(): array
     {
         $shareableField['arguments']['data']['config'] = [
             'label' => __('Gallery Size'),
@@ -301,10 +252,7 @@ class ImageUploadForm extends AbstractModifier
         return $shareableField;
     }
 
-    /**
-     * @return array
-     */
-    protected function linkTypeColumn()
+    protected function linkTypeColumn(): array
     {
         $linkTypeField['arguments']['data']['config'] = [
             'formElement' => Form\Element\Hidden::NAME,

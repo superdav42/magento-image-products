@@ -1,12 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dave
- * Date: 3/15/19
- * Time: 5:35 PM
- */
+
+declare(strict_types=1);
 
 namespace DevStone\ImageProducts\Model\Product\Gallery;
+
+use Magento\Framework\Exception\FileSystemException;
 
 class UpdateHandler extends \Magento\Catalog\Model\Product\Gallery\UpdateHandler
 {
@@ -15,7 +13,7 @@ class UpdateHandler extends \Magento\Catalog\Model\Product\Gallery\UpdateHandler
      * @param string $file
      *
      * @return mixed|string
-     * @throws \Magento\Framework\Exception\FileSystemException
+     * @throws FileSystemException
      */
     protected function moveImageFromTmp($file)
     {

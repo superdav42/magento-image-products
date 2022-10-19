@@ -1,22 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DevStone\ImageProducts\Model\Link;
 
+use DevStone\ImageProducts\Model\Product\Type;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Media\Config;
+use Magento\Downloadable\Api\Data\LinkInterface;
+use Magento\Downloadable\Api\LinkRepositoryInterface;
 
-class CreateHandler extends \Magento\Downloadable\Model\Link\CreateHandler 
+class CreateHandler extends \Magento\Downloadable\Model\Link\CreateHandler
 {
-    /**
-     *
-     * @var \Magento\Catalog\Model\Product\Media\Config 
-     */
-    protected $mediaConfig;
-    
-    /**
-     * @param \Magento\Downloadable\Api\LinkRepositoryInterface $linkRepository
-     */
+    protected Config $mediaConfig;
+
     public function __construct(
-        \Magento\Downloadable\Api\LinkRepositoryInterface $linkRepository, 
-        \Magento\Catalog\Model\Product\Media\Config $mediaConfig
+        LinkRepositoryInterface $linkRepository,
+        Config $mediaConfig
     ) {
         parent::__construct($linkRepository);
         $this->mediaConfig = $mediaConfig;
@@ -27,18 +27,18 @@ class CreateHandler extends \Magento\Downloadable\Model\Link\CreateHandler
      */
     public function execute($entity, $arguments = [])
     {
-        /** @var $entity \Magento\Catalog\Model\Product */
-        if ($entity->getTypeId() != \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
+        /** @var $entity Product */
+        if ($entity->getTypeId() != Type::TYPE_ID) {
             return $entity;
         }
 
-        /** @var \Magento\Downloadable\Api\Data\LinkInterface[] $links */
+        /** @var LinkInterface[] $links */
         $links = $entity->getExtensionAttributes()->getDownloadableProductLinks() ?: [];
         foreach ($links as $link) {
             $link->setId(null);
             $this->linkRepository->save($entity->getSku(), $link, !(bool)$entity->getStoreId());
         }
-        
+
         return $entity;
     }
 }
