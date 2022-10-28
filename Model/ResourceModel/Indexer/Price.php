@@ -38,12 +38,13 @@ class Price implements DimensionalIndexerInterface
     private MetadataPool $metadataPool;
     private ResourceConnection $resource;
     private string $connectionName;
-    private AdapterInterface $connection;
+    private ?AdapterInterface $connection = null;
     private Config $eavConfig;
     private BasePriceModifier $basePriceModifier;
 
     public function __construct(
         BaseFinalPrice $baseFinalPrice,
+
         IndexTableStructureFactory $indexTableStructureFactory,
         TableMaintainer $tableMaintainer,
         MetadataPool $metadataPool,

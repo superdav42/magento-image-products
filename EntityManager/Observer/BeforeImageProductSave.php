@@ -156,6 +156,9 @@ class BeforeImageProductSave implements ObserverInterface
 
             if (isset($updatedMediaGalleryData['images']) && is_array($updatedMediaGalleryData['images'])) {
                 foreach ($updatedMediaGalleryData['images'] as &$image) {
+                    if (isset($image['types']) && $this->stringInArray('frame_image', $image['types'])) {
+                        continue;
+                    }
                     $filename = pathinfo($image['file'], PATHINFO_FILENAME);
                     $siteIdDelimiter ='-GoodSalt-';
                     $skuFromFileName = str_contains($filename, $siteIdDelimiter) ?
