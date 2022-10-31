@@ -2,15 +2,17 @@
 define([
     'Magento_Ui/js/form/element/ui-select',
     'Magento_Ui/js/lib/key-codes',
-    'underscore'
-], function (Select, keyCodes, _) {
+    'underscore',
+    'mage/translate'
+], function (Select, keyCodes, _, $t) {
     'use strict';
 
     return Select.extend({
         defaults: {
-            keywordInput: ''
+            keywordInput: '',
+            maxInput: 0
         },
-        
+
         initObservable: function () {
             this._super();
             this.observe([
@@ -19,7 +21,7 @@ define([
 
             return this;
         },
-        
+
         /**
          * Handler keydown event to filter options input
          *
@@ -28,9 +30,12 @@ define([
         inputKeydown: function (data, event) {
             var key = keyCodes[event.keyCode];
             event.stopPropagation();
-            
+
             if (key === 'enterKey' || event.keyCode === 188) {
                 event.preventDefault();
+                if (!this.validateCount()) {
+                    return false;
+                }
                 var value = data.keywordInput();
                 var option = _.findWhere(this.cacheOptions.plain, {'label': value});
                 if (option) {
@@ -46,7 +51,14 @@ define([
             return true;
         },
 
-        
+        validateCount: function () {
+            if (this.maxInput > 0 && this.value().size() >= this.maxInput) {
+                this.error($t('Can\'t add more than %s keywords!').replace('%s', this.maxInput));
+                return false;
+            }
+            return true
+        },
+
         /**
          * Parse data and set it to options.
          *

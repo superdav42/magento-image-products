@@ -11,6 +11,7 @@ use Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\AbstractModifier;
 use Magento\Eav\Api\AttributeOptionManagementInterface;
 use Magento\Eav\Api\Data\AttributeOptionInterfaceFactory;
 use Magento\Eav\Api\Data\AttributeOptionLabelInterfaceFactory;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\ArrayManager;
 use Magento\Framework\UrlInterface;
@@ -31,8 +32,10 @@ class KeywordsForm extends AbstractModifier
 
     const SUGGEST_FILTER_URI = 'vendor_module/something/suggestCustomAttr';
     const FIELD_ORDER = 22;
+    private ScopeConfigInterface $scopeConfig;
 
     public function __construct(
+        ScopeConfigInterface $scopeConfig,
         LocatorInterface $locator,
         UrlInterface $urlBuilder,
         ArrayManager $arrayManager,
@@ -48,6 +51,7 @@ class KeywordsForm extends AbstractModifier
         $this->attributeOptionManagement = $attributeOptionManagement;
         $this->optionLabelFactory = $optionLabelFactory;
         $this->optionFactory = $optionFactory;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -86,6 +90,7 @@ class KeywordsForm extends AbstractModifier
         foreach (Keyword::KEYWORDS_ATTRIBUTES as $keywordFieldCode) {
             $elementPath = $this->arrayManager->findPath($keywordFieldCode, $meta, null, 'children');
             $containerPath = $this->arrayManager->findPath(static::CONTAINER_PREFIX . $keywordFieldCode, $meta, null, 'children');
+            $limit = $this->scopeConfig->getValue('catalog/keywords/limit_' . $keywordFieldCode);
 
             if (!$elementPath) {
                 return $meta;
@@ -121,6 +126,7 @@ class KeywordsForm extends AbstractModifier
                                         'chipsEnabled' => true,
                                         'filterOptions' => false,
                                         'options' => $this->getOptions($keywordFieldCode),
+                                        'maxInput' => $limit ?: 0,
                                         'filterUrl' => $this->urlBuilder->getUrl(
                                             self::SUGGEST_FILTER_URI,
                                             ['isAjax' => 'true']
