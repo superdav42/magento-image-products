@@ -9,8 +9,6 @@
 namespace DevStone\ImageProducts\Controller\Downloads;
 
 use DevStone\UsageCalculator\Api\SizeRepositoryInterface;
-use DevStone\UsageCalculator\Model\SizeRepository;
-use Imagine\Filter\Basic\Fill;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Point;
@@ -254,7 +252,7 @@ class Download extends \Magento\Downloadable\Controller\Download
 
         $size = $this->sizeRepository->getById($sizeId);
 
-        $cachePath = 'downloadable/cache/'.$size->getCode().$linkPurchasedItem->getLinkFile();
+        $cachePath = 'downloadable/cache/' . $size->getCode() . $linkPurchasedItem->getLinkFile();
 
         if (! $this->mediaDirectory->isExist($cachePath)) {
             $processor = $this->imageFactory->create(
@@ -276,10 +274,9 @@ class Download extends \Magento\Downloadable\Controller\Download
 
     protected function generateTemplate($path, $resourceType, array $options, $id)
     {
-        $cachePath = 'downloadable/cache/template/'.$id.'.jpg';
+        $cachePath = 'downloadable/cache/template/' . $id . '.jpg';
 
         if (! $this->mediaDirectory->isExist($cachePath)) {
-
             $imagine = new Imagine();
             $image = $imagine->open($this->mediaDirectory->getAbsolutePath($path));
 
@@ -290,13 +287,13 @@ class Download extends \Magento\Downloadable\Controller\Download
 
             $backgroundName = $options['backgroundName'] ?? 'Hieroglyphics';
             $background = $imagine->open(
-                __DIR__.'/../../../TemplateBuilder/view/frontend/web/templates_full/'.
-                $backgroundName.'/'.$backgroundName.'_'.$size.'_Background.jpg'
+                __DIR__ . '/../../../TemplateBuilder/view/frontend/web/templates_full/' .
+                $backgroundName . '/' . $backgroundName . '_' . $size . '_Background.jpg'
             );
 
             $mask = $imagine->open(
-                __DIR__.'/../../../TemplateBuilder/view/frontend/web/templates_full/Alpha masks/'.
-                $size.'_'.$orientation.'.jpg'
+                __DIR__ . '/../../../TemplateBuilder/view/frontend/web/templates_full/Alpha masks/' .
+                $size . '_' . $orientation . '.jpg'
             );
 
             $finalImage = $imagine->create($background->getSize(), $mask->palette()->color('fff', 0));
@@ -319,17 +316,17 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $image->crop(
                     new Point(
                         $options['left'] < 0 ? abs($options['left']) : 0,
-                        $options['top'] < 0 ? abs($options['top']): 0
+                        $options['top'] < 0 ? abs($options['top']) : 0
                     ),
                     new Box(
                         min($background->getSize()->getWidth(), $image->getSize()->getWidth() + $options['left']),
                         min($background->getSize()->getHeight(), $image->getSize()->getHeight() +$options['top'])
                     )
                 );
-                if ($options['left'] < 0 ) {
+                if ($options['left'] < 0) {
                     $options['left'] = 0;
                 }
-                if ($options['top'] < 0 ) {
+                if ($options['top'] < 0) {
                     $options['top'] = 0;
                 }
             }
@@ -349,8 +346,9 @@ class Download extends \Magento\Downloadable\Controller\Download
             $finalImage = $background->paste($finalImage, new Point(0, 0));
             if ($options['showTitleBar'] === 'true') {
                 $titlebar = $imagine->open(
-                    __DIR__.'/../../../TemplateBuilder/view/frontend/web/templates_full/'.$backgroundName.'/'.
-                    $backgroundName.'_'.$size.'_TitleBar.png');
+                    __DIR__ . '/../../../TemplateBuilder/view/frontend/web/templates_full/' . $backgroundName . '/' .
+                    $backgroundName . '_' . $size . '_TitleBar.png'
+                );
                 $finalImage->paste($titlebar, new Point(0, $options['titleTop'] < 0 ? 0 : $options['titleTop']));
             }
 
