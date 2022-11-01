@@ -141,6 +141,9 @@ class BeforeImageProductSave implements ObserverInterface
 
                 if (!$this->stringInArray(pathinfo($file, PATHINFO_FILENAME), $existingMediaFiles)) {
                     $mediaAttributeCodes = $this->mediaConfig->getMediaAttributeCodes();
+                    if (($key = array_search('frame_image', $mediaAttributeCodes)) !== false) {
+                        unset($mediaAttributeCodes[$key]);
+                    }
                     $file = $this->mediaGalleryProcessor->addImage(
                         $entity,
                         $link->getBasePath() . $file,

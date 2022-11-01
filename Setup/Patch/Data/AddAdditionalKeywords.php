@@ -46,7 +46,7 @@ class AddAdditionalKeywords implements DataPatchInterface
             Product::ENTITY,
             'secondary_keywords',
             [
-                'type' => 'varchar',
+                'type' => 'text',
                 'backend' => KeywordBackend::class,
                 'frontend' => KeywordFrontend::class,
                 'label' => 'Secondary Keywords',
@@ -75,7 +75,7 @@ class AddAdditionalKeywords implements DataPatchInterface
             Product::ENTITY,
             'tertiary_keywords',
             [
-                'type' => 'varchar',
+                'type' => 'text',
                 'backend' => KeywordBackend::class,
                 'frontend' => KeywordFrontend::class,
                 'label' => 'Tertiary Keywords',
