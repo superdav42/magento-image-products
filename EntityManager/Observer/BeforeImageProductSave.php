@@ -219,8 +219,10 @@ class BeforeImageProductSave implements ObserverInterface
         $height = $processor->getOriginalHeight();
         $product->setWidth($width);
         $product->setHeight($height);
-        $dar = $width / $height;
-
+        $dar = 0;
+        if ($height > 0) {
+            $dar = $width / $height;
+        }
         if ($dar < 0.9) {
             $orientation = 'Vertical';
         } elseif ($dar >= 0.9 && $dar <= 1.1) {
