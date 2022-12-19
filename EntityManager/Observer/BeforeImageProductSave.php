@@ -138,7 +138,6 @@ class BeforeImageProductSave implements ObserverInterface
                 }
                 $file = $link->getLinkFile();
                 $linkFiles[] = $file;
-
                 if (!$this->stringInArray(pathinfo($file, PATHINFO_FILENAME), $existingMediaFiles)) {
                     $mediaAttributeCodes = $this->mediaConfig->getMediaAttributeCodes();
                     if (($key = array_search('frame_image', $mediaAttributeCodes)) !== false) {
@@ -263,7 +262,7 @@ class BeforeImageProductSave implements ObserverInterface
     private function stringInArray($needle, array $haystack): bool
     {
         foreach ($haystack as $value) {
-            if (strpos($value, $needle) !== false) {
+            if (strpos($value, $needle) !== false && strpos($value, 'frameImage') === false) {
                 return true;
             }
         }
