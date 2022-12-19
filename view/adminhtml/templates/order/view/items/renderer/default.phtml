@@ -19,7 +19,7 @@
         $image_url = $_item->getBuyRequest()->getThumbnail();
         if ( ! $image_url ) {
             $imageHelper = $objectManager->get('\Magento\Catalog\Helper\Image');
-            $image_url = $imageHelper->init($product, 'small_image')->getUrl();
+            $image_url = $imageHelper->init($product, 'product_thumbnail_image')->getUrl();
         }
         ?>
         <img src="<?php echo $image_url;?>" />
