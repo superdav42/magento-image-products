@@ -153,7 +153,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      */
     public function _prepareProduct(DataObject $buyRequest, $product, $processMode)
     {
-        parent::_prepareProduct($buyRequest, $product, $processMode);
+        $result = parent::_prepareProduct($buyRequest, $product, $processMode);
         if (($substrateSku = $buyRequest->getData('printOption'))) {
             // skip downloadable type options.
             $result = AbstractType::_prepareProduct($buyRequest, $product, $processMode);
