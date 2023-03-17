@@ -329,9 +329,10 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                 $product->getCustomOption('print_options')->getValue()
             );
             $substrate = $options['substrate'];
-            if ('canvasPrint' === $options['printOption']) {
+            $printOption = $options['printOption'] ?? null;
+            if ('canvasPrint' === $printOption) {
                 $substrate = 'canvas_'.$options['canvasStyle'];
-            } elseif ('metal' === $options['printOption']) {
+            } elseif ('metal' === $printOption) {
                 $substrate = 'metal'; // all metal have the same price.
             }
 

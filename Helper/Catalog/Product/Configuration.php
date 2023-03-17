@@ -156,7 +156,7 @@ class Configuration extends AbstractHelper implements
     public function getPrintOptions($printOptions): array
     {
         $options = [
-            ['label' => __('Substrate'), 'value' => $printOptions['printOption']],
+            ['label' => __('Substrate'), 'value' => $printOptions['printOption'] ?? ''],
             ['label' => __('Width'), 'value' => $printOptions['imgWI'] . ' ' . __('Inches')],
             ['label' => __('Height'), 'value' => $printOptions['imgHI'] . ' ' . __('Inches')],
         ];
