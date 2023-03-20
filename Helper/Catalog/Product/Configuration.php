@@ -30,6 +30,20 @@ class Configuration extends AbstractHelper implements
     protected UsageRepositoryInterface $usageRepository;
     protected Json $serializer;
 
+    const SUBSTRATE_USER_FRIENDLY_MAP = [
+        'archival' => "Premium Archival Matte",
+        'canvas_unstretched' => 'Unstretched Fine Art Canvas' ,
+        'canvas_stretched' => 'Mounted Canvas',
+        'canvas_galleryWrap'  => 'Gallery Wrap Canvas',
+        'luster' => 'Photo Paper - Semigloss',
+        'sunset' => 'Photo Rag - Matte',
+        'watercolor' => 'Watercolor Paper',
+        'metal_matte_wood' => 'Chroma Print - Matte White-Wood',
+        'metal_gloss_wood' => 'Chroma Print - Gloss White-Wood',
+        'metal_panel_matte' => 'Chroma Print Panel - Matte White',
+        'metal_panel_gloss' => 'Chroma Print Panel - Gloss White',
+    ];
+
     public function __construct(
         Context                                       $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
@@ -155,8 +169,20 @@ class Configuration extends AbstractHelper implements
 
     public function getPrintOptions($printOptions): array
     {
+
+        $substrate = $printOptions['substrate'] ?? '';
+        if (isset( $printOptions['printOption'] ) && 'canvasPrint' === $printOptions['printOption']) {
+            $substrate = 'canvas_' . $printOptions['canvasStyle'];
+        } elseif (isset( $printOptions['printOption'] ) && 'metal' === $printOptions['printOption']) {
+            $substrate = 'metal_' . $printOptions['metalStyle'];
+        }
+
+        if ( $substrate ) {
+            $substrate = self::SUBSTRATE_USER_FRIENDLY_MAP[ $substrate ];
+        }
+
         $options = [
-            ['label' => __('Substrate'), 'value' => $printOptions['printOption'] ?? ''],
+            ['label' => __('Substrate'), 'value' => $substrate],
             ['label' => __('Width'), 'value' => $printOptions['imgWI'] . ' ' . __('Inches')],
             ['label' => __('Height'), 'value' => $printOptions['imgHI'] . ' ' . __('Inches')],
         ];
