@@ -60,6 +60,11 @@ class Download extends \Magento\Downloadable\Controller\Download
      */
     private $downloadableFile;
 
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
     public function __construct(
         ItemRepository $itemRepository,
         Context $context,
@@ -68,7 +73,8 @@ class Download extends \Magento\Downloadable\Controller\Download
         SizeRepositoryInterface $sizeRepository,
         \Magento\Framework\Image\Factory $imageFactory,
         \Magento\Framework\Filesystem $filesystem,
-        \Magento\Downloadable\Helper\File $downloadableFile
+        \Magento\Downloadable\Helper\File $downloadableFile,
+        \Psr\Log\LoggerInterface $logger,
     ) {
         $this->itemRepository = $itemRepository;
         $this->usageRepository = $usageRepository;
@@ -77,6 +83,7 @@ class Download extends \Magento\Downloadable\Controller\Download
         $this->imageFactory = $imageFactory;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->downloadableFile = $downloadableFile;
+        $this->logger = $logger;
         parent::__construct($context);
     }
 
@@ -189,6 +196,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $linkPurchasedItem->save();
                 exit(0);
             } catch (\Exception $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $this->messageManager->addError(__('Something went wrong while getting the requested content.'));
             }
         } elseif ($status == PurchasedLink::LINK_STATUS_EXPIRED) {
