@@ -424,4 +424,9 @@ class Type extends \Magento\Downloadable\Model\Product\Type
         }
         return parent::getWeight($product);
     }
+
+    public function isComposite($product)
+    {
+        return true;
+    }
 }
