@@ -82,7 +82,7 @@ script;
     <?php if ($block->isPrintProduct()): ?>
         DPI: <?= $block->getDPI() ?> <br />
         Preview Print: <a target="_blank" href="<?= $block->getDownloadUrl() ?>">Download</a> <br />
-        If necessary <a target="_blank" href="<?= $block->getUrl('catalog/product/edit', ['id'=>$block->getItem()->getProduct()->getId()]) ?>">Update Image</a>
+        If necessary <a target="_blank" href="<?= $block->getUrl('catalog/product/edit', ['id'=>$block?->getItem()?->getProduct()?->getId()]) ?>">Update Image</a>
         <?php if ( $block->getDPI() < 150): ?>
             <p style="color: #ac2925;font-weight: bold">DPI is below 150.
                 Please correct before approval or unicorns will cry.
