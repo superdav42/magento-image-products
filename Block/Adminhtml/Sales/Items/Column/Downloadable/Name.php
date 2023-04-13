@@ -91,9 +91,15 @@ class Name extends \Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Down
     public function getDPI() {
         $item = $this->getItem();
         $product = $item->getProduct();
+        if ( ! $product ) {
+            return 'N/A';
+        }
         $attributse = $product->getAttributes();
 
         $printOptions = $item->getProductOptionByCode('print_options');
+        if ( empty($printOptions['imgWI']) || empty($product->getWidth()) ) {
+            return 'N/A';
+        }
         return floor($product->getWidth() / $printOptions['imgWI']);
     }
 }
