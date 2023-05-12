@@ -121,8 +121,8 @@ class Price extends Product\Type\Price
                 }
             }
         }
-        if (95 !== (int)fmod(($price * 100), 100)) { // round prices which don't end in $.95
-            $price = round($price);
+        if ($price > 0 && 95 !== (int)fmod(($price * 100), 100)) { // round prices which don't end in $.95
+            $price = round((float)$price);
         }
 
         $paymentTypeOption = $product->getCustomOption('payment_type');
