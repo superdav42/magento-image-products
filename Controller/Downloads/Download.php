@@ -19,7 +19,6 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Quote\Model\Quote\Item;
 use Magento\Sales\Model\Order\ItemRepository;
 
 class Download extends \Magento\Downloadable\Controller\Download
@@ -213,37 +212,28 @@ class Download extends \Magento\Downloadable\Controller\Download
     private function resizeFile($path, $resourceType, \Magento\Downloadable\Model\Link\Purchased\Item $linkPurchasedItem)
     {
         $orderItem = $this->itemRepository->get($linkPurchasedItem->getOrderItemId());
-        $quoteItem = $this->_objectManager->create(Item::class);
 
-        $quoteItem->load($orderItem->getQuoteItemId());
+        $productOptions = $orderItem->getProductOptions();
 
-        $optionCollection = $this->_objectManager->create(
-            \Magento\Quote\Model\Quote\Item\Option::class
-        )->getCollection()->addItemFilter(
-            $quoteItem
-        );
-
-        $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
-
-        $templateOptionsObject = $quoteItem->getOptionByCode('template_options');
+        $templateOptionsObject = $productOptions['template_options'] ?? '';
 
         if ($templateOptionsObject) {
             return $this->generateTemplate(
                 $path,
                 $resourceType,
-                $this->serializer->unserialize($templateOptionsObject->getValue()),
+                $this->serializer->unserialize($templateOptionsObject),
                 $orderItem->getQuoteItemId()
             );
         }
 
-        $usageIdOption = $quoteItem->getOptionByCode('usage_id');
+        $usageIdOption= $productOptions['usage_id'] ?? '';
 
         if (empty($usageIdOption)) {
             throw new LocalizedException(__("Failed to get usage"));
         }
-        $usage = $this->usageRepository->getById((int)$usageIdOption->getValue());
+        $usage = $this->usageRepository->getById((int)$usageIdOption);
 
-        $submittedOptions = $this->serializer->unserialize($quoteItem->getOptionByCode('usage_options')->getValue());
+        $submittedOptions = $productOptions['usage_options'] ?? [];
 
         $sizeId = $usage->getSizeId();
 
