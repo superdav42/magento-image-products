@@ -221,7 +221,7 @@ class Download extends \Magento\Downloadable\Controller\Download
             return $this->generateTemplate(
                 $path,
                 $resourceType,
-                $this->serializer->unserialize($templateOptionsObject),
+                $templateOptionsObject,
                 $orderItem->getQuoteItemId()
             );
         }
