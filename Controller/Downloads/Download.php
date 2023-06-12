@@ -23,6 +23,7 @@ use Magento\Sales\Model\Order\ItemRepository;
 
 class Download extends \Magento\Downloadable\Controller\Download
 {
+    protected \Magento\Framework\Module\Dir\Reader $moduleReader;
 
     /**
      * @var ItemRepository
@@ -65,6 +66,7 @@ class Download extends \Magento\Downloadable\Controller\Download
     private $logger;
 
     public function __construct(
+        \Magento\Framework\Module\Dir\Reader $moduleReader,
         ItemRepository $itemRepository,
         Context $context,
         \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository,
@@ -84,6 +86,7 @@ class Download extends \Magento\Downloadable\Controller\Download
         $this->downloadableFile = $downloadableFile;
         $this->logger = $logger;
         parent::__construct($context);
+        $this->moduleReader = $moduleReader;
     }
 
     /**
@@ -253,6 +256,9 @@ class Download extends \Magento\Downloadable\Controller\Download
         $cachePath = 'downloadable/cache/' . $size->getCode() . $linkPurchasedItem->getLinkFile();
 
         if (! $this->mediaDirectory->isExist($cachePath)) {
+            $absolutePath = $this->mediaDirectory->getAbsolutePath(
+                $path
+            );
             $processor = $this->imageFactory->create(
                 $this->mediaDirectory->getAbsolutePath(
                     $path
@@ -276,7 +282,7 @@ class Download extends \Magento\Downloadable\Controller\Download
 
         if (! $this->mediaDirectory->isExist($cachePath)) {
             $imagine = new Imagine();
-            $image = $imagine->open($this->mediaDirectory->getAbsolutePath($path));
+            $image = $imagine->load($this->mediaDirectory->readFile($path));
 
             $size = $options['size'] ?? 'SD';
             $orientation = $options['orientation'] ?? 'SD';
@@ -284,13 +290,17 @@ class Download extends \Magento\Downloadable\Controller\Download
             $canvasWidth = $size === 'SD' ? 1024 : 1920;
 
             $backgroundName = $options['backgroundName'] ?? 'Hieroglyphics';
+            $templateBuilderViewDir = $this->moduleReader->getModuleDir(
+                \Magento\Framework\Module\Dir::MODULE_VIEW_DIR,
+                'DevStone_TemplateBuilder'
+            );
             $background = $imagine->open(
-                __DIR__ . '/../../../TemplateBuilder/view/frontend/web/templates_full/' .
+                $templateBuilderViewDir . '/frontend/web/templates_full/' .
                 $backgroundName . '/' . $backgroundName . '_' . $size . '_Background.jpg'
             );
 
             $mask = $imagine->open(
-                __DIR__ . '/../../../TemplateBuilder/view/frontend/web/templates_full/Alpha masks/' .
+                $templateBuilderViewDir . '/frontend/web/templates_full/Alpha masks/' .
                 $size . '_' . $orientation . '.jpg'
             );
 
@@ -344,7 +354,7 @@ class Download extends \Magento\Downloadable\Controller\Download
             $finalImage = $background->paste($finalImage, new Point(0, 0));
             if ($options['showTitleBar'] === 'true') {
                 $titlebar = $imagine->open(
-                    __DIR__ . '/../../../TemplateBuilder/view/frontend/web/templates_full/' . $backgroundName . '/' .
+                    $templateBuilderViewDir . '/frontend/web/templates_full/' . $backgroundName . '/' .
                     $backgroundName . '_' . $size . '_TitleBar.png'
                 );
                 $finalImage->paste($titlebar, new Point(0, $options['titleTop'] < 0 ? 0 : $options['titleTop']));
@@ -354,7 +364,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $this->mediaDirectory->create(dirname($cachePath));
             }
 
-            $finalImage->save($this->mediaDirectory->getAbsolutePath($cachePath));
+            $this->mediaDirectory->writeFile($this->mediaDirectory->getAbsolutePath($cachePath), $finalImage->get('png'));
         }
         return $this->_processDownload($cachePath, $resourceType);
     }
