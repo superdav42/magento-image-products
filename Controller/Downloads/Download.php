@@ -280,7 +280,7 @@ class Download extends \Magento\Downloadable\Controller\Download
     {
         $cachePath = 'downloadable/cache/template/' . $id . '.jpg';
 
-        if (! $this->mediaDirectory->isExist($cachePath)) {
+//        if (! $this->mediaDirectory->isExist($cachePath)) {
             $imagine = new Imagine();
             $image = $imagine->load($this->mediaDirectory->readFile($path));
 
@@ -303,24 +303,31 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $templateBuilderViewDir . '/frontend/web/templates_full/Alpha masks/' .
                 $size . '_' . $orientation . '.jpg'
             );
+            if ($options['hideBackground'] == ' true') {
+                $background = $imagine->create($background->getSize());
+            }
 
             $finalImage = $imagine->create($background->getSize(), $mask->palette()->color('fff', 0));
 
             $black = $imagine->create($mask->getSize(), $mask->palette()->color('000'));
             $mask = $black->paste($mask, new Point(0, 0));
 
-            $image->resize(
-                $image->getSize()->widen(
-                    $canvasWidth * ($options['scale'] * 600 / $canvasWidth)
-                ),
-                ImageInterface::FILTER_LANCZOS
-            );
+
+            if (isset($options['baseScale'])) {
+                $image->resize(
+                    $image->getSize()->widen(
+                        $canvasWidth * $options['scale'] / $options['baseScale']
+                    ),
+                    ImageInterface::FILTER_LANCZOS
+                );
+            }
 
             if ($options['flipImage'] === 'true') {
                 $image->flipHorizontally();
             }
 
             if ($options['left'] < 0 || $options['top'] < 0) {
+
                 $image->crop(
                     new Point(
                         $options['left'] < 0 ? abs($options['left']) : 0,
@@ -331,6 +338,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                         min($background->getSize()->getHeight(), $image->getSize()->getHeight() +$options['top'])
                     )
                 );
+
                 if ($options['left'] < 0) {
                     $options['left'] = 0;
                 }
@@ -339,6 +347,33 @@ class Download extends \Magento\Downloadable\Controller\Download
                 }
             }
 
+
+            $backgroundWidth = $background->getSize()->getWidth();
+            $backgroundHeight = $background->getSize()->getHeight();
+            $imageWidth = $image->getSize()->getWidth();
+            $imageHeight = $image->getSize()->getHeight();
+            $cornerSize = 1;
+            if (in_array($orientation, ['TLCorner', 'BLCorner'])) {
+                $cornerSize = 0.7;
+            }
+            if (in_array($orientation, ['TRCorner'])) {
+                $cornerSize = 0.8;
+            }
+            if ($imageWidth / $imageHeight < $backgroundWidth / $backgroundHeight) {
+                $image->resize(
+                    $image->getSize()->widen(
+                        $backgroundWidth * $cornerSize
+                    ),
+                    ImageInterface::FILTER_LANCZOS
+                );
+            } else {
+                $image->resize(
+                    $image->getSize()->heighten(
+                        $backgroundHeight * $cornerSize
+                    ),
+                    ImageInterface::FILTER_LANCZOS
+                );
+            }
             $location = new Point($options['left'], $options['top']);
             $finalImage->paste($image, $location)
                 ->applyMask($mask);
@@ -363,9 +398,11 @@ class Download extends \Magento\Downloadable\Controller\Download
             if (!$this->mediaDirectory->isWritable(dirname($cachePath))) {
                 $this->mediaDirectory->create(dirname($cachePath));
             }
+        header('Content-type: image/png');
+        echo $finalImage->get('png'); exit;
 
             $this->mediaDirectory->writeFile($this->mediaDirectory->getAbsolutePath($cachePath), $finalImage->get('png'));
-        }
+//        }
         return $this->_processDownload($cachePath, $resourceType);
     }
 }
