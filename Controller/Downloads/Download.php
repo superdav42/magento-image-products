@@ -279,8 +279,7 @@ class Download extends \Magento\Downloadable\Controller\Download
     protected function generateTemplate($path, $resourceType, array $options, $id)
     {
         $cachePath = 'downloadable/cache/template/' . $id . '.jpg';
-
-//        if (! $this->mediaDirectory->isExist($cachePath)) {
+        if (! $this->mediaDirectory->isExist($cachePath)) {
             $imagine = new Imagine();
             $image = $imagine->load($this->mediaDirectory->readFile($path));
 
@@ -312,11 +311,10 @@ class Download extends \Magento\Downloadable\Controller\Download
             $black = $imagine->create($mask->getSize(), $mask->palette()->color('000'));
             $mask = $black->paste($mask, new Point(0, 0));
 
-
             if (isset($options['baseScale'])) {
                 $image->resize(
                     $image->getSize()->widen(
-                        $canvasWidth * $options['scale'] / $options['baseScale']
+                         $image->getSize()->getWidth() * $options['scale']
                     ),
                     ImageInterface::FILTER_LANCZOS
                 );
@@ -326,55 +324,35 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $image->flipHorizontally();
             }
 
-            if ($options['left'] < 0 || $options['top'] < 0) {
+            $imageHeigt = $image->getSize()->getHeight();
+            $imageWidth = $image->getSize()->getWidth();
+            $left = $options['left'];
+            $top = $options['top'];
 
+            if ($left < 0 || $top < 0) {
+
+                $boxH = min($background->getSize()->getHeight(), $imageHeigt);
+                $boxw = min($background->getSize()->getWidth(), $imageWidth);
                 $image->crop(
                     new Point(
-                        $options['left'] < 0 ? abs($options['left']) : 0,
-                        $options['top'] < 0 ? abs($options['top']) : 0
+                        $left < 0 ? abs($left) : 0,
+                        $top < 0 ? abs($top) : 0
                     ),
                     new Box(
-                        min($background->getSize()->getWidth(), $image->getSize()->getWidth() + $options['left']),
-                        min($background->getSize()->getHeight(), $image->getSize()->getHeight() +$options['top'])
+                        $boxw,
+                        $boxH
                     )
                 );
 
-                if ($options['left'] < 0) {
-                    $options['left'] = 0;
+                if ($left < 0) {
+                    $left = 0;
                 }
-                if ($options['top'] < 0) {
-                    $options['top'] = 0;
+                if ($top < 0) {
+                    $top = 0;
                 }
             }
 
-
-            $backgroundWidth = $background->getSize()->getWidth();
-            $backgroundHeight = $background->getSize()->getHeight();
-            $imageWidth = $image->getSize()->getWidth();
-            $imageHeight = $image->getSize()->getHeight();
-            $cornerSize = 1;
-            if (in_array($orientation, ['TLCorner', 'BLCorner'])) {
-                $cornerSize = 0.7;
-            }
-            if (in_array($orientation, ['TRCorner'])) {
-                $cornerSize = 0.8;
-            }
-            if ($imageWidth / $imageHeight < $backgroundWidth / $backgroundHeight) {
-                $image->resize(
-                    $image->getSize()->widen(
-                        $backgroundWidth * $cornerSize
-                    ),
-                    ImageInterface::FILTER_LANCZOS
-                );
-            } else {
-                $image->resize(
-                    $image->getSize()->heighten(
-                        $backgroundHeight * $cornerSize
-                    ),
-                    ImageInterface::FILTER_LANCZOS
-                );
-            }
-            $location = new Point($options['left'], $options['top']);
+            $location = new Point($left, $top);
             $finalImage->paste($image, $location)
                 ->applyMask($mask);
 
@@ -398,11 +376,9 @@ class Download extends \Magento\Downloadable\Controller\Download
             if (!$this->mediaDirectory->isWritable(dirname($cachePath))) {
                 $this->mediaDirectory->create(dirname($cachePath));
             }
-        header('Content-type: image/png');
-        echo $finalImage->get('png'); exit;
 
             $this->mediaDirectory->writeFile($this->mediaDirectory->getAbsolutePath($cachePath), $finalImage->get('png'));
-//        }
+        }
         return $this->_processDownload($cachePath, $resourceType);
     }
 }
