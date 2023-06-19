@@ -65,6 +65,114 @@ class Download extends \Magento\Downloadable\Controller\Download
      */
     private $logger;
 
+    private $orientationSizeArray = [
+        "Center_SD" => [
+            "width" => 500,
+            "height" => 375
+        ],
+        "LSide_SD" => [
+            "width" => 279,
+            "height" => 375
+        ],
+        "LSide_Pan_SD" => [
+            "width" => 177,
+            "height" => 375
+        ],
+        "RSide_SD" => [
+            "width" => 279,
+            "height" => 375
+        ],
+        "RSide_Pan_SD" => [
+            "width" => 177,
+            "height" => 375
+        ],
+        "TLCorner_SD" => [
+            "width" => 290,
+            "height" => 250
+        ],
+        "Top_SD" => [
+            "width" => 500,
+            "height" => 302
+        ],
+        "Top_Pan_SD" => [
+            "width" => 500,
+            "height" => 174
+        ],
+        "TRCorner_SD" => [
+            "width" => 290,
+            "height" => 250
+        ],
+        "BLCorner_SD" => [
+            "width" => 290,
+            "height" => 250
+        ],
+        "Bottom_SD" => [
+            "width" => 500,
+            "height" => 302
+        ],
+        "Bottom_Pan_SD" => [
+            "width" => 500,
+            "height" => 172
+        ],
+        "BRCorner_SD" => [
+            "width" => 290,
+            "height" => 250
+        ],
+        "Center_HD" => [
+            "width" => 500,
+            "height" => 281
+        ],
+        "LSide_HD" => [
+            "width" => 314,
+            "height" => 281
+        ],
+        "LSide_Pan_HD" => [
+            "width" => 179,
+            "height" => 281
+        ],
+        "RSide_HD" => [
+            "width" => 314,
+            "height" => 281
+        ],
+        "RSide_Pan_HD" => [
+            "width" => 179,
+            "height" => 281
+        ],
+        "TLCorner_HD" => [
+            "width" => 288,
+            "height" => 241
+        ],
+        "Top_HD" => [
+            "width" => 500,
+            "height" => 226
+        ],
+        "Top_Pan_HD" => [
+            "width" => 500,
+            "height" => 142
+        ],
+        "TRCorner_HD" => [
+            "width" => 288,
+            "height" => 241
+        ],
+        "BLCorner_HD" => [
+            "width" => 288,
+            "height" => 241
+        ],
+        "Bottom_HD" => [
+            "width" => 500,
+            "height" => 226
+        ],
+        "Bottom_Pan_HD" => [
+            "width" => 500,
+            "height" => 142
+        ],
+        "BRCorner_HD" => [
+            "width" => 288,
+            "height" => 241
+        ]
+    ];
+
+
     public function __construct(
         \Magento\Framework\Module\Dir\Reader $moduleReader,
         ItemRepository $itemRepository,
@@ -82,6 +190,7 @@ class Download extends \Magento\Downloadable\Controller\Download
         $this->sizeRepository = $sizeRepository;
         $this->serializer = $serializer;
         $this->imageFactory = $imageFactory;
+        $this->filesystem = $filesystem;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->downloadableFile = $downloadableFile;
         $this->logger = $logger;
@@ -278,9 +387,11 @@ class Download extends \Magento\Downloadable\Controller\Download
 
     protected function generateTemplate($path, $resourceType, array $options, $id)
     {
-        $cachePath = 'downloadable/cache/template/' . $id . '.jpg';
+        try {
+            $cachePath = 'downloadable/cache/template/' . $id . '.jpg';
         if (! $this->mediaDirectory->isExist($cachePath)) {
             $imagine = new Imagine();
+            $pubDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
             $image = $imagine->load($this->mediaDirectory->readFile($path));
 
             $size = $options['size'] ?? 'SD';
@@ -310,11 +421,28 @@ class Download extends \Magento\Downloadable\Controller\Download
 
             $black = $imagine->create($mask->getSize(), $mask->palette()->color('000'));
             $mask = $black->paste($mask, new Point(0, 0));
-
+            $scale = 1;
             if (isset($options['baseScale'])) {
+                $scale = $options['scale'] / $options['baseScale'];
+            }
+
+            $position = $options['orientation'] . '_' . $options['size'];
+            $imageHeight = $image->getSize()->getHeight();
+            $imageWidth = $image->getSize()->getWidth();
+            $positionHeight = $this->orientationSizeArray[$position]['height'];
+            $positionWidth = $this->orientationSizeArray[$position]['width'];
+            if ($positionWidth / $positionHeight >= $imageWidth / $imageHeight) {
                 $image->resize(
                     $image->getSize()->widen(
-                         $image->getSize()->getWidth() * $options['scale']
+                        $background->getSize()->getWidth() * $scale * $positionWidth / 500
+                    ),
+                    ImageInterface::FILTER_LANCZOS
+                );
+            } else {
+                $value = $positionHeight / ($options['size'] === 'HD' ? 281 : 375);
+                $image->resize(
+                    $image->getSize()->heighten(
+                        $background->getSize()->getHeight() * $scale * $positionHeight / ($options['size'] === 'HD' ? 281 : 375)
                     ),
                     ImageInterface::FILTER_LANCZOS
                 );
@@ -339,8 +467,8 @@ class Download extends \Magento\Downloadable\Controller\Download
                         $top < 0 ? abs($top) : 0
                     ),
                     new Box(
-                        $boxw,
-                        $boxH
+                        $imageWidth,
+                        $imageHeigt
                     )
                 );
 
@@ -351,6 +479,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                     $top = 0;
                 }
             }
+
 
             $location = new Point($left, $top);
             $finalImage->paste($image, $location)
@@ -376,9 +505,12 @@ class Download extends \Magento\Downloadable\Controller\Download
             if (!$this->mediaDirectory->isWritable(dirname($cachePath))) {
                 $this->mediaDirectory->create(dirname($cachePath));
             }
-
             $this->mediaDirectory->writeFile($this->mediaDirectory->getAbsolutePath($cachePath), $finalImage->get('png'));
         }
-        return $this->_processDownload($cachePath, $resourceType);
+            return $this->_processDownload($cachePath, $resourceType);
+        } catch (\Exception $e) {
+            $this->messageManager->addWarningMessage(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
+            throw new \Exception(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
+        }
     }
 }
