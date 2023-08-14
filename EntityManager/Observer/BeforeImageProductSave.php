@@ -171,6 +171,7 @@ class BeforeImageProductSave implements ObserverInterface
                             ),
                             strlen($siteIdDelimiter)
                         ) : $filename;
+                    $skuFromFileName = preg_replace( '/_\d*$/i', '',$skuFromFileName);
                     if (
                         !$this->stringInArray(
                             $skuFromFileName,
