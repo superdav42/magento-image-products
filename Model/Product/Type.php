@@ -95,7 +95,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
             $options['print_options'] = $this->serializer->unserialize(
                 $product->getCustomOption('print_options')->getValue()
             );
-            $options['thumbnail'] = $product->getCustomOption('thumbnail')->getValue();
+            $options['thumbnail'] = $product->getCustomOption('thumbnail') ?  $product->getCustomOption('thumbnail')->getValue() : "";
         } else {
             $options = parent::getOrderOptions($product);
             if ($usageId = $product->getCustomOption('usage_id')) {
@@ -108,7 +108,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                 $options['template_options'] = $this->serializer->unserialize(
                     $templateOptions->getValue()
                 );
-                $options['thumbnail'] = $product->getCustomOption('thumbnail')->getValue();
+                $options['thumbnail'] = $product->getCustomOption('thumbnail') ? $product->getCustomOption('thumbnail')->getValue() : "";
             }
         }
 
