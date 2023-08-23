@@ -413,7 +413,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $templateBuilderViewDir . '/frontend/web/templates_full/Alpha masks/' .
                 $size . '_' . $orientation . '.jpg'
             );
-            if ($options['hideBackground'] == ' true') {
+            if ($options['hideBackground'] == 'true') {
                 $background = $imagine->create($background->getSize());
             }
 
