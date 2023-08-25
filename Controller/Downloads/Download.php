@@ -11,6 +11,7 @@ namespace DevStone\ImageProducts\Controller\Downloads;
 use DevStone\UsageCalculator\Api\SizeRepositoryInterface;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
+use Imagine\Image\Palette\RGB;
 use Imagine\Image\Point;
 use Imagine\Imagick\Imagine;
 use Magento\Downloadable\Helper\Download as DownloadHelper;
@@ -388,7 +389,7 @@ class Download extends \Magento\Downloadable\Controller\Download
     protected function generateTemplate($path, $resourceType, array $options, $id)
     {
         try {
-            $cachePath = 'downloadable/cache/template/' . $id . '.jpg';
+            $cachePath = 'downloadable/cache/template/' . $id . '.png';
         if (! $this->mediaDirectory->isExist($cachePath)) {
             $imagine = new Imagine();
             $pubDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
@@ -414,7 +415,9 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $size . '_' . $orientation . '.jpg'
             );
             if ($options['hideBackground'] == 'true') {
-                $background = $imagine->create($background->getSize());
+                $pallet = new RGB();
+                $color = $pallet->color('#000', 0);
+                $background = $imagine->create($background->getSize(),$color);
             }
 
             $finalImage = $imagine->create($background->getSize(), $mask->palette()->color('fff', 0));
