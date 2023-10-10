@@ -1,0 +1,8 @@
+<?php
+
+// @codingStandardsIgnoreFile
+
+?>
+<?php if ($block->getOrderHasDownloadable()): ?>
+    <?= /* @escapeNotVerified */ __('<a href="%1">Click here to go to your downloadable products</a>', $block->getDownloadableProductsUrl()) ?>
+<?php endif; ?>
