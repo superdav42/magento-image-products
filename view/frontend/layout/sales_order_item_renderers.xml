@@ -5,7 +5,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceBlock name="sales.order.items.renderers">
-            <block class="DevStone\ImageProducts\Block\Sales\Order\Item\Renderer\Image" name="sales.order.items.renderer.image" as="image" template="Magento_Sales::order/items/renderer/default.phtml"/>
+            <block class="DevStone\ImageProducts\Block\Sales\Order\Item\Renderer\Image" name="sales.order.items.renderer.image" as="image" template="DevStone_ImageProducts::order/items/renderer/image.phtml"/>
         </referenceBlock>
     </body>
 </page>
