@@ -51,7 +51,13 @@ class BeforeProductSaveKeywords implements ObserverInterface
         if ($entity instanceof ProductInterface &&
             $entity->getTypeId() === Type::TYPE_ID) {
             foreach (Keyword::KEYWORDS_ATTRIBUTES as $keywordAttribute) {
-                if (!isset($this->request->getParam('product')[$keywordAttribute])) {
+                if ($this->request instanceof \Magento\Framework\HTTP\PhpEnvironment\Request &&
+                    in_array($this->request->getModuleName(), ['catalog', 'csproduct']) &&
+                    in_array($this->request->getControllerName(), ['product', 'vproducts']) &&
+                    $this->request->getActionName() === 'save' &&
+                    !isset($this->request->getParam('product')[$keywordAttribute])) {
+
+					// This is an ugly hack to allow removing all keywords from input
                     $entity->setData($keywordAttribute, []);
                 } else {
                     $keywords = $entity->getData($keywordAttribute);
