@@ -52,7 +52,7 @@ class Processor extends Product\Gallery\Processor
             throw new LocalizedException(__('Please correct the image file type.'));
         }
 
-        $fileName = $product->getUrlKey() . '-GoodSalt-' . $pathinfo['filename'] . '.' . $pathinfo['extension'];
+        $fileName = $product->getUrlKey() . '-GoodSalt-' . '.' . $pathinfo['extension'];
 
         $fileName = Uploader::getCorrectFileName($fileName);
         $dispretionPath = Uploader::getDispersionPath($fileName);
