@@ -9,64 +9,72 @@
 namespace DevStone\ImageProducts\Controller\Downloads;
 
 use DevStone\UsageCalculator\Api\SizeRepositoryInterface;
+use DevStone\UsageCalculator\Api\UsageRepositoryInterface;
+use Exception;
+use Imagick;
 use Imagine\Image\Box;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Palette\RGB;
 use Imagine\Image\Point;
 use Imagine\Imagick\Imagine;
+use Magento\Catalog\Model\Product;
+use Magento\Customer\Model\Session;
+use Magento\Downloadable\Helper\Data;
 use Magento\Downloadable\Helper\Download as DownloadHelper;
+use Magento\Downloadable\Helper\File;
+use Magento\Downloadable\Model\Link\Purchased;
 use Magento\Downloadable\Model\Link\Purchased\Item as PurchasedLink;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Exception\FileSystemException;
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\SessionException;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\Directory\WriteInterface;
+use Magento\Framework\Image\Factory;
+use Magento\Framework\Module\Dir;
+use Magento\Framework\Module\Dir\Reader;
+use Magento\Framework\Serialize\Serializer\Json;
+use Magento\Framework\UrlInterface;
 use Magento\Sales\Model\Order\ItemRepository;
+use Psr\Log\LoggerInterface;
 
 class Download extends \Magento\Downloadable\Controller\Download
 {
-    protected \Magento\Framework\Module\Dir\Reader $moduleReader;
+    protected Reader $moduleReader;
 
     /**
      * @var ItemRepository
      */
-    private $itemRepository;
+    private ItemRepository $itemRepository;
 
     /**
-     * @var \DevStone\UsageCalculator\Api\UsageRepositoryInterface
+     * @var UsageRepositoryInterface
      */
-    private $usageRepository;
+    private UsageRepositoryInterface $usageRepository;
 
     /**
      * @var SizeRepositoryInterface
      */
-    private $sizeRepository;
+    private SizeRepositoryInterface $sizeRepository;
+
+    private Factory $imageFactory;
+
+	private Filesystem $filesystem;
+
+    private WriteInterface $mediaDirectory;
+
+    private File $downloadableFile;
 
     /**
-     * @var \Magento\Framework\Serialize\Serializer\Json
+     * @var LoggerInterface
      */
-    private $serializer;
+    private LoggerInterface $logger;
 
-    /**
-     * @var \Magento\Framework\Image\Factory
-     */
-    private $imageFactory;
-
-    /**
-     * @var \Magento\Framework\Filesystem\Directory\WriteInterface
-     */
-    private $mediaDirectory;
-
-    /**
-     * @var \Magento\Downloadable\Helper\File
-     */
-    private $downloadableFile;
-
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
-    private $logger;
-
-    private $orientationSizeArray = [
+    private array $orientationSizeArray = [
         "Center_SD" => [
             "width" => 500,
             "height" => 375
@@ -174,22 +182,24 @@ class Download extends \Magento\Downloadable\Controller\Download
     ];
 
 
-    public function __construct(
-        \Magento\Framework\Module\Dir\Reader $moduleReader,
+	/**
+	 * @throws FileSystemException
+	 */
+	public function __construct(
+        Reader $moduleReader,
         ItemRepository $itemRepository,
         Context $context,
-        \DevStone\UsageCalculator\Api\UsageRepositoryInterface $usageRepository,
-        \Magento\Framework\Serialize\Serializer\Json $serializer,
+        UsageRepositoryInterface $usageRepository,
+        Json $serializer,
         SizeRepositoryInterface $sizeRepository,
-        \Magento\Framework\Image\Factory $imageFactory,
-        \Magento\Framework\Filesystem $filesystem,
-        \Magento\Downloadable\Helper\File $downloadableFile,
-        \Psr\Log\LoggerInterface $logger,
+        Factory $imageFactory,
+        Filesystem $filesystem,
+        File $downloadableFile,
+        LoggerInterface $logger,
     ) {
         $this->itemRepository = $itemRepository;
         $this->usageRepository = $usageRepository;
         $this->sizeRepository = $sizeRepository;
-        $this->serializer = $serializer;
         $this->imageFactory = $imageFactory;
         $this->filesystem = $filesystem;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
@@ -202,21 +212,22 @@ class Download extends \Magento\Downloadable\Controller\Download
     /**
      * Return customer session object
      *
-     * @return \Magento\Customer\Model\Session
+     * @return Session
      */
-    private function _getCustomerSession()
-    {
-        return $this->_objectManager->get(\Magento\Customer\Model\Session::class);
+    private function _getCustomerSession(): Session {
+        return $this->_objectManager->get( Session::class);
     }
-    /**
-     * Download link action
-     *
-     * @return void|ResponseInterface
-     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-     * @SuppressWarnings(PHPMD.NPathComplexity)
-     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-     * @SuppressWarnings(PHPMD.ExitExpression)
-     */
+
+	/**
+	 * Download link action
+	 *
+	 * @return void|ResponseInterface
+	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+	 * @SuppressWarnings(PHPMD.NPathComplexity)
+	 * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+	 * @SuppressWarnings(PHPMD.ExitExpression)
+	 * @throws SessionException
+	 */
     public function execute()
     {
         $session = $this->_getCustomerSession();
@@ -224,7 +235,7 @@ class Download extends \Magento\Downloadable\Controller\Download
         $id = $this->getRequest()->getParam('id', 0);
         /** @var PurchasedLink $linkPurchasedItem */
         $linkPurchasedItem = $this->_objectManager->create(
-            \Magento\Downloadable\Model\Link\Purchased\Item::class
+            PurchasedLink::class
         )->load(
             $id,
             'link_hash'
@@ -233,12 +244,12 @@ class Download extends \Magento\Downloadable\Controller\Download
             $this->messageManager->addNotice(__("We can't find the link you requested."));
             return $this->_redirect('*/customer/products');
         }
-        if (!$this->_objectManager->get(\Magento\Downloadable\Helper\Data::class)->getIsShareable($linkPurchasedItem)) {
+        if (!$this->_objectManager->get( Data::class)->getIsShareable($linkPurchasedItem)) {
             $customerId = $session->getCustomerId();
             if (!$customerId) {
-                /** @var \Magento\Catalog\Model\Product $product */
+                /** @var Product $product */
                 $product = $this->_objectManager->create(
-                    \Magento\Catalog\Model\Product::class
+                    Product::class
                 )->load(
                     $linkPurchasedItem->getProductId()
                 );
@@ -255,7 +266,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $session->authenticate();
                 $session->setBeforeAuthUrl(
                     $this->_objectManager->create(
-                        \Magento\Framework\UrlInterface::class
+                        UrlInterface::class
                     )->getUrl(
                         'downloadable/customer/products/',
                         ['_secure' => true]
@@ -263,9 +274,9 @@ class Download extends \Magento\Downloadable\Controller\Download
                 );
                 return;
             }
-            /** @var \Magento\Downloadable\Model\Link\Purchased $linkPurchased */
+            /** @var Purchased $linkPurchased */
             $linkPurchased = $this->_objectManager->create(
-                \Magento\Downloadable\Model\Link\Purchased::class
+                Purchased::class
             )->load(
                 $linkPurchasedItem->getPurchasedId()
             );
@@ -288,13 +299,13 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $resourceType = DownloadHelper::LINK_TYPE_URL;
             } elseif ($linkPurchasedItem->getLinkType() == DownloadHelper::LINK_TYPE_FILE) {
                 $resource = $this->_objectManager->get(
-                    \Magento\Downloadable\Helper\File::class
+                    File::class
                 )->getFilePath(
                     $this->_getLink()->getBasePath(),
                     $linkPurchasedItem->getLinkFile()
                 );
 
-                $fileExists = $this->downloadableFile->ensureFileInFilesystem($resource);
+                $this->downloadableFile->ensureFileInFilesystem($resource);
 
                 $resourceType = DownloadHelper::LINK_TYPE_FILE;
             }
@@ -307,7 +318,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                 }
                 $linkPurchasedItem->save();
                 exit(0);
-            } catch (\Exception $e) {
+            } catch ( Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $this->messageManager->addError(__('Something went wrong while getting the requested content.'));
             }
@@ -322,8 +333,12 @@ class Download extends \Magento\Downloadable\Controller\Download
         return $this->_redirect('*/customer/products');
     }
 
-    private function resizeFile($path, $resourceType, \Magento\Downloadable\Model\Link\Purchased\Item $linkPurchasedItem)
-    {
+	/**
+	 * @throws NoSuchEntityException
+	 * @throws InputException
+	 * @throws LocalizedException
+	 */
+	private function resizeFile($path, $resourceType, PurchasedLink $linkPurchasedItem): void {
         $orderItem = $this->itemRepository->get($linkPurchasedItem->getOrderItemId());
 
         $productOptions = $orderItem->getProductOptions();
@@ -331,12 +346,14 @@ class Download extends \Magento\Downloadable\Controller\Download
         $templateOptionsObject = $productOptions['template_options'] ?? '';
 
         if ($templateOptionsObject) {
-            return $this->generateTemplate(
-                $path,
-                $resourceType,
-                $templateOptionsObject,
-                $orderItem->getQuoteItemId()
-            );
+	        $this->generateTemplate(
+		        $path,
+		        $resourceType,
+		        $templateOptionsObject,
+		        $orderItem->getQuoteItemId()
+	        );
+
+	        return;
         }
 
         $usageIdOption= $productOptions['usage_id'] ?? '';
@@ -386,8 +403,10 @@ class Download extends \Magento\Downloadable\Controller\Download
         $this->_processDownload($cachePath, $resourceType);
     }
 
-    protected function generateTemplate($path, $resourceType, array $options, $id)
-    {
+	/**
+	 * @throws Exception
+	 */
+	protected function generateTemplate($path, $resourceType, array $options, $id): void {
         try {
             $cachePath = 'downloadable/cache/template/' . $id . '.png';
         if (! $this->mediaDirectory->isExist($cachePath)) {
@@ -402,7 +421,7 @@ class Download extends \Magento\Downloadable\Controller\Download
 
             $backgroundName = $options['backgroundName'] ?? 'Hieroglyphics';
             $templateBuilderViewDir = $this->moduleReader->getModuleDir(
-                \Magento\Framework\Module\Dir::MODULE_VIEW_DIR,
+                Dir::MODULE_VIEW_DIR,
                 'DevStone_TemplateBuilder'
             );
             $background = $imagine->open(
@@ -445,7 +464,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $value = $positionHeight / ($options['size'] === 'HD' ? 281 : 375);
                 $image->resize(
                     $image->getSize()->heighten(
-                        $background->getSize()->getHeight() * $scale * $positionHeight / ($options['size'] === 'HD' ? 281 : 375)
+                        $background->getSize()->getHeight() * $scale * $value
                     ),
                     ImageInterface::FILTER_LANCZOS
                 );
@@ -455,23 +474,21 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $image->flipHorizontally();
             }
 
-            $imageHeigt = $image->getSize()->getHeight();
-            $imageWidth = $image->getSize()->getWidth();
             $left = $options['left'];
             $top = $options['top'];
 
             if ($left < 0 || $top < 0) {
 
-                $boxH = min($background->getSize()->getHeight(), $imageHeigt);
-                $boxw = min($background->getSize()->getWidth(), $imageWidth);
+                $boxH = min($background->getSize()->getHeight(), $imageHeight);
+                $boxW = min($background->getSize()->getWidth(), $imageWidth);
                 $image->crop(
                     new Point(
                         $left < 0 ? abs($left) : 0,
                         $top < 0 ? abs($top) : 0
                     ),
                     new Box(
-                        $imageWidth,
-                        $imageHeigt
+                        $boxW,
+                        $boxH,
                     )
                 );
 
@@ -490,9 +507,9 @@ class Download extends \Magento\Downloadable\Controller\Download
 
             if ($options['opacity'] < 1) {
                 $finalImage->getImagick()->evaluateImage(
-                    \Imagick::EVALUATE_MULTIPLY,
+                    Imagick::EVALUATE_MULTIPLY,
                     $options['opacity'],
-                    \Imagick::CHANNEL_ALPHA
+                    Imagick::CHANNEL_ALPHA
                 );
             }
 
@@ -510,10 +527,10 @@ class Download extends \Magento\Downloadable\Controller\Download
             }
             $this->mediaDirectory->writeFile($this->mediaDirectory->getAbsolutePath($cachePath), $finalImage->get('png'));
         }
-            return $this->_processDownload($cachePath, $resourceType);
-        } catch (\Exception $e) {
+            $this->_processDownload($cachePath, $resourceType);
+        } catch ( Exception $e) {
             $this->messageManager->addWarningMessage(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
-            throw new \Exception(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
+            throw new Exception(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
         }
     }
 }
