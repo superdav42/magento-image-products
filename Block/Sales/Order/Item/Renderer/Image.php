@@ -8,24 +8,37 @@
 
 namespace DevStone\ImageProducts\Block\Sales\Order\Item\Renderer;
 
-use Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer;
+use Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable;
+use Magento\Downloadable\Model\Link\Purchased\Item;
 
-class Image extends DefaultRenderer
+class Image extends Downloadable
 {
     /**
      * @var \DevStone\ImageProducts\Helper\Catalog\Product\Configuration
      */
     private $configuration;
 
-    public function __construct(
-        \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Framework\Stdlib\StringUtils $string,
-        \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
-        \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
-        array $data = []
-    ) {
+	/**
+	 * @param \Magento\Framework\View\Element\Template\Context $context
+	 * @param \Magento\Framework\Stdlib\StringUtils $string
+	 * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
+	 * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
+	 * @param \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory
+	 * @param array $data
+	 * @param \Magento\Downloadable\Model\Sales\Order\Link\Purchased|null $purchasedLink
+	 */
+	public function __construct(
+		\Magento\Framework\View\Element\Template\Context $context,
+		\Magento\Framework\Stdlib\StringUtils $string,
+		\Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
+		\Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
+		\Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory,
+		\Magento\Downloadable\Model\Sales\Order\Link\Purchased $purchasedLink,
+		\DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
+		array $data = [],
+	) {
+		parent::__construct($context, $string, $productOptionFactory, $purchasedFactory, $itemsFactory, $data, $purchasedLink);
         $this->configuration = $configuration;
-        parent::__construct($context, $string, $productOptionFactory, $data);
     }
 
     public function getItemOptions()
@@ -45,5 +58,30 @@ class Image extends DefaultRenderer
             );
         }
         return $options;
+    }
+
+	/**
+	 * Return url to download link
+	 *
+	 * @param Item $item
+	 * @return string
+	 */
+	public function getDownloadUrl($item)
+	{
+		return $this->getUrl('downloadable/download/link', ['id' => $item->getLinkHash(), '_secure' => true]);
+	}
+
+    /**
+     * Return true if target of link new window
+     *
+     * @return bool
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
+     */
+    public function getIsOpenInNewWindow()
+    {
+        return $this->_scopeConfig->isSetFlag(
+            \Magento\Downloadable\Model\Link::XML_PATH_TARGET_NEW_WINDOW,
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
     }
 }
