@@ -1,0 +1,70 @@
+"Custom Template","Aangepast sjabloon"
+"Something went wrong while getting the requested content.","Er is iets misgegaan bij het ophalen van de opgevraagde inhoud."
+"We can't find the link you requested.","We kunnen de link waar je om vroeg niet vinden."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Meld u aan om uw product te downloaden of <a href=""%1"">%2</a> te kopen."
+"Please sign in to download your product.","Meld u aan om uw product te downloaden."
+"The link has expired.","De link is verlopen."
+"The link is not available.","De link is niet beschikbaar."
+"Failed to get usage","Gebruik niet gelukt"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","We konden uw sjabloon niet genereren. Neem contact op met support, want misschien moet u de sjabloon opnieuw bestellen."
+Terms,Voorwaarden
+Substrate,Substraat
+Width,Breedte
+Inches,Inches
+Height,Hoogte
+Frame,Frame
+"Top Mat","Top Mat"
+"Top Mat Size","Bovenste Mat Maat"
+"Bottom Mat",Ondermat
+"Bottom Mat Size","Onderkant Mat Maat"
+"Provided product must be type 'downloadable' or 'image'.","Het geleverde product moet van het type 'downloadbaar' of 'afbeelding' zijn."
+"The link information is invalid. Verify the link and try again.","De linkinformatie is ongeldig. Controleer de link en probeer het opnieuw."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Er is geen downloadbare link met de opgegeven ID gevonden. Controleer de ID en probeer het opnieuw."
+"The downloadable link isn't related to the product. Verify the link and try again.","De downloadlink is niet gerelateerd aan het product. Controleer de link en probeer het opnieuw."
+"The link title is empty. Enter the link title and try again.","De titel van de link is leeg. Voer de titel van de link in en probeer het opnieuw."
+"The link type is invalid. Verify and try again.","Het linktype is ongeldig. Controleer dit en probeer het opnieuw."
+"The link sample type is invalid. Verify and try again.","Het voorbeeldtype van de link is ongeldig. Controleer dit en probeer het opnieuw."
+"Please correct the image file type.","Corrigeer het type afbeeldingsbestand."
+"The ""%1"" file couldn't be moved.","Het bestand ""%1"" kon niet worden verplaatst."
+"Option ""%1"" is required.","Optie ""%1"" is vereist."
+"Category or usage not found.","Categorie of gebruik niet gevonden."
+"Please choose a category and usage.","Kies een categorie en gebruik."
+"Link file not provided","Linkbestand niet verstrekt"
+"Image Information",Beeldinformatie
+"Add New Image","Nieuwe afbeelding toevoegen"
+"Gallery Size","Galerij formaat"
+"Default Image","Standaard afbeelding"
+"Gallery Size of 10""","Galerieformaat van 10"""
+"Gallery Size of 12""","Galerieformaat van 12"""
+"Gallery Size of 14""","Gallery-formaat van 14"""
+"Gallery Size of 16""","Galerijformaat van 16"""
+"Gallery Size of 20""","Galerijformaat van 20"""
+"Gallery Size of 24""","Galerieformaat van 24"""
+"Gallery Size of 30""","Gallery Maat van 30"""
+"Gallery Size of 36""","Galerijformaat van 36"""
+"Gallery Size of 40""","Galerijformaat van 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Onbeperkt
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Klik hier om naar je downloadbare producten te gaan</a>"
+"Product Name",Productnaam
+"Start Download","Begin download"
+"Download Image","Afbeelding downloaden"
+Price,Prijs
+Qty,Qty
+Ordered,Besteld
+Shipped,Verzonden
+Canceled,Geannuleerd
+Refunded,Terugbetaald
+Subtotal,Subtotaal
+Close,Sluit
+"Can't add more than %s keywords!","Kan niet meer dan %s trefwoorden toevoegen!"
+Keywords,Trefwoorden
+"Amount Limit Keywords","Bedrag Limiet Trefwoorden"
+"Amount Limit Secondary Keywords","Bedrag Limiet Secundaire Trefwoorden"
+"Amount Limit Tertiary Keywords","Bedrag Limiet Tertiaire Trefwoorden"
+"Product Image","Product afbeelding"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Profiel kunstenaar"
+"Manage Images","Afbeeldingen beheren"

@@ -1,0 +1,70 @@
+"Custom Template","Custom Template"
+"Something went wrong while getting the requested content.","Something went wrong while getting the requested content."
+"We can't find the link you requested.","We can't find the link you requested."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Please sign in to download your product or purchase <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Please sign in to download your product."
+"The link has expired.","The link has expired."
+"The link is not available.","The link is not available."
+"Failed to get usage","Failed to get usage"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","We were unable to generate your template. Please contact support as you might need to reorder the template."
+Terms,Terms
+Substrate,Substrate
+Width,Width
+Inches,Inches
+Height,Height
+Frame,Frame
+"Top Mat","Top Mat"
+"Top Mat Size","Top Mat Size"
+"Bottom Mat","Bottom Mat"
+"Bottom Mat Size","Bottom Mat Size"
+"Provided product must be type 'downloadable' or 'image'.","Provided product must be type 'downloadable' or 'image'."
+"The link information is invalid. Verify the link and try again.","The link information is invalid. Verify the link and try again."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","No downloadable link with the provided ID was found. Verify the ID and try again."
+"The downloadable link isn't related to the product. Verify the link and try again.","The downloadable link isn't related to the product. Verify the link and try again."
+"The link title is empty. Enter the link title and try again.","The link title is empty. Enter the link title and try again."
+"The link type is invalid. Verify and try again.","The link type is invalid. Verify and try again."
+"The link sample type is invalid. Verify and try again.","The link sample type is invalid. Verify and try again."
+"Please correct the image file type.","Please correct the image file type."
+"The ""%1"" file couldn't be moved.","The ""%1"" file couldn't be moved."
+"Option ""%1"" is required.","Option ""%1"" is required."
+"Category or usage not found.","Category or usage not found."
+"Please choose a category and usage.","Please choose a category and usage."
+"Link file not provided","Link file not provided"
+"Image Information","Image Information"
+"Add New Image","Add New Image"
+"Gallery Size","Gallery Size"
+"Default Image","Default Image"
+"Gallery Size of 10""","Gallery Size of 10"""
+"Gallery Size of 12""","Gallery Size of 12"""
+"Gallery Size of 14""","Gallery Size of 14"""
+"Gallery Size of 16""","Gallery Size of 16"""
+"Gallery Size of 20""","Gallery Size of 20"""
+"Gallery Size of 24""","Gallery Size of 24"""
+"Gallery Size of 30""","Gallery Size of 30"""
+"Gallery Size of 36""","Gallery Size of 36"""
+"Gallery Size of 40""","Gallery Size of 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Unlimited
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Click here to go to your downloadable products</a>"
+"Product Name","Product Name"
+"Start Download","Start Download"
+"Download Image","Download Image"
+Price,Price
+Qty,Qty
+Ordered,Ordered
+Shipped,Shipped
+Canceled,Canceled
+Refunded,Refunded
+Subtotal,Subtotal
+Close,Close
+"Can't add more than %s keywords!","Can't add more than %s keywords!"
+Keywords,Keywords
+"Amount Limit Keywords","Amount Limit Keywords"
+"Amount Limit Secondary Keywords","Amount Limit Secondary Keywords"
+"Amount Limit Tertiary Keywords","Amount Limit Tertiary Keywords"
+"Product Image","Product Image"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Artist Profile"
+"Manage Images","Manage Images"

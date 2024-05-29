@@ -1,0 +1,70 @@
+"Custom Template",カスタムテンプレート
+"Something went wrong while getting the requested content.",リクエストされたコンテンツを取得する際に、何か問題が発生しました。
+"We can't find the link you requested.",ご希望のリンクが見つかりません。
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","<a href=""%1"">2</a>.製品をダウンロードまたは購入するにはサインインしてください。"
+"Please sign in to download your product.",製品をダウンロードするにはサインインしてください。
+"The link has expired.",リンクの有効期限が切れています。
+"The link is not available.",リンクは利用できない。
+"Failed to get usage",使用量の取得に失敗
+"We were unable to generate your template. Please contact support as you might need to reorder the template.",テンプレートを生成できませんでした。テンプレートを再注文する必要があるかもしれませんので、サポートにご連絡ください。
+Terms,条件
+Substrate,基板
+Width,幅
+Inches,インチ
+Height,高さ
+Frame,フレーム
+"Top Mat",トップマット
+"Top Mat Size",トップマットのサイズ
+"Bottom Mat",ボトムマット
+"Bottom Mat Size",ボトムマットのサイズ
+"Provided product must be type 'downloadable' or 'image'.",提供される製品は、「ダウンロード可能」または「画像」タイプでなければなりません。
+"The link information is invalid. Verify the link and try again.",リンク情報が無効です。リンクを確認し、再試行してください。
+"No downloadable link with the provided ID was found. Verify the ID and try again.",指定されたIDのダウンロード可能なリンクが見つかりません。IDを確認し、再度お試しください。
+"The downloadable link isn't related to the product. Verify the link and try again.",ダウンロード可能なリンクが製品に関連していません。リンクを確認し、再度お試しください。
+"The link title is empty. Enter the link title and try again.",リンクタイトルが空です。リンクのタイトルを入力して、もう一度やり直してください。
+"The link type is invalid. Verify and try again.",リンクタイプが無効です。確認後、再度お試しください。
+"The link sample type is invalid. Verify and try again.",リンクサンプルのタイプが無効です。確認後、再度お試しください。
+"Please correct the image file type.",画像ファイルの種類を修正してください。
+"The ""%1"" file couldn't be moved.","1 ""ファイルを移動できませんでした。"
+"Option ""%1"" is required.","オプション ""%1"" が必要です。"
+"Category or usage not found.",カテゴリーまたは使用法が見つかりません。
+"Please choose a category and usage.",カテゴリーと用途をお選びください。
+"Link file not provided",リンクファイルが提供されていない
+"Image Information",画像情報
+"Add New Image",新しい画像を追加する
+"Gallery Size",ギャラリーサイズ
+"Default Image",デフォルト画像
+"Gallery Size of 10""",ギャラリーサイズ10インチ
+"Gallery Size of 12""",ギャラリーサイズ12インチ
+"Gallery Size of 14""","14 ""のギャラリーサイズ"
+"Gallery Size of 16""",16インチのギャラリーサイズ
+"Gallery Size of 20""",20インチのギャラリーサイズ
+"Gallery Size of 24""",ギャラリーサイズ24インチ
+"Gallery Size of 30""",30インチのギャラリーサイズ
+"Gallery Size of 36""",36インチのギャラリーサイズ
+"Gallery Size of 40""",40インチのギャラリーサイズ
+[GLOBAL],[グローバル］
+SKU,SKU
+Unlimited,無制限
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">ダウンロード可能な製品はこちら</a>"
+"Product Name",製品名
+"Start Download",ダウンロード開始
+"Download Image",画像をダウンロード
+Price,価格
+Qty,数量
+Ordered,注文済み
+Shipped,出荷済み
+Canceled,キャンセル
+Refunded,払い戻し
+Subtotal,小計
+Close,閉じる
+"Can't add more than %s keywords!","キーワードを %s 個以上追加できません！"
+Keywords,キーワード
+"Amount Limit Keywords","限度額 キーワード"
+"Amount Limit Secondary Keywords","金額制限 セカンダリーキーワード"
+"Amount Limit Tertiary Keywords","金額制限 3次キーワード"
+"Product Image",商品画像
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile",アーティスト・プロフィール
+"Manage Images",画像の管理

@@ -1,0 +1,70 @@
+"Custom Template","Modèle personnalisé"
+"Something went wrong while getting the requested content.","Un problème s'est produit lors de l'obtention du contenu demandé."
+"We can't find the link you requested.","Nous ne trouvons pas le lien que vous avez demandé."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Veuillez vous connecter pour télécharger votre produit ou acheter <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Veuillez vous identifier pour télécharger votre produit."
+"The link has expired.","Le lien a expiré."
+"The link is not available.","Le lien n'est pas disponible."
+"Failed to get usage","Échec de l'utilisation"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Nous n'avons pas pu générer votre modèle. Veuillez contacter le service d'assistance car il se peut que vous deviez commander à nouveau le modèle."
+Terms,Conditions
+Substrate,Substrat
+Width,Largeur
+Inches,Pouces
+Height,Hauteur
+Frame,Cadre
+"Top Mat","Top Mat"
+"Top Mat Size","Taille du tapis supérieur"
+"Bottom Mat","Tapis de fond"
+"Bottom Mat Size","Taille du tapis de fond"
+"Provided product must be type 'downloadable' or 'image'.","Le produit fourni doit être de type ""téléchargeable"" ou ""image""."
+"The link information is invalid. Verify the link and try again.","Les informations sur le lien ne sont pas valides. Vérifiez le lien et réessayez."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Aucun lien de téléchargement avec l'identifiant fourni n'a été trouvé. Vérifiez l'ID et réessayez."
+"The downloadable link isn't related to the product. Verify the link and try again.","Le lien de téléchargement n'est pas lié au produit. Vérifiez le lien et réessayez."
+"The link title is empty. Enter the link title and try again.","Le titre du lien est vide. Saisissez le titre du lien et réessayez."
+"The link type is invalid. Verify and try again.","Le type de lien n'est pas valide. Vérifiez et réessayez."
+"The link sample type is invalid. Verify and try again.","Le type d'échantillon de lien n'est pas valide. Vérifiez et réessayez."
+"Please correct the image file type.","Veuillez corriger le type de fichier de l'image."
+"The ""%1"" file couldn't be moved.","Le fichier ""%1"" n'a pas pu être déplacé."
+"Option ""%1"" is required.","L'option ""%1"" est requise."
+"Category or usage not found.","Catégorie ou utilisation non trouvée."
+"Please choose a category and usage.","Veuillez choisir une catégorie et un usage."
+"Link file not provided","Fichier de lien non fourni"
+"Image Information","Information sur les images"
+"Add New Image","Ajouter une nouvelle image"
+"Gallery Size","Taille de la galerie"
+"Default Image","Image par défaut"
+"Gallery Size of 10""","Galerie Taille de 10"""
+"Gallery Size of 12""","Galerie Taille de 12"""
+"Gallery Size of 14""","Galerie Taille de 14"""
+"Gallery Size of 16""","Galerie Taille de 16"""
+"Gallery Size of 20""","Galerie Taille de 20"""
+"Gallery Size of 24""","Taille de la galerie 24"""
+"Gallery Size of 30""","Galerie Taille de 30"""
+"Gallery Size of 36""","Taille de la galerie 36"""
+"Gallery Size of 40""","Taille de la galerie 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Illimité
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Cliquez ici pour accéder à vos produits téléchargeables</a>"
+"Product Name","Nom du produit"
+"Start Download","Démarrer le téléchargement"
+"Download Image","Télécharger l'image"
+Price,Prix
+Qty,Qté
+Ordered,Commandé
+Shipped,Expédié
+Canceled,Annulé
+Refunded,Remboursé
+Subtotal,Sous-total
+Close,Fermer
+"Can't add more than %s keywords!","Impossible d'ajouter plus de %s mots-clés !"
+Keywords,"Mots clés"
+"Amount Limit Keywords","Montant Limite Mots clés"
+"Amount Limit Secondary Keywords","Montant Limite Mots clés secondaires"
+"Amount Limit Tertiary Keywords","Montant Limite Mots clés tertiaires"
+"Product Image","Image du produit"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Profil de l'artiste"
+"Manage Images","Gérer les images"

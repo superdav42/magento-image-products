@@ -1,0 +1,70 @@
+"Custom Template","사용자 지정 템플릿"
+"Something went wrong while getting the requested content.","요청된 콘텐츠를 가져오는 동안 문제가 발생했습니다."
+"We can't find the link you requested.","요청하신 링크를 찾을 수 없습니다."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","제품을 다운로드하거나 <a href=""%1"">%2을</a>(를) 구매하려면 로그인하세요."
+"Please sign in to download your product.","제품을 다운로드하려면 로그인하세요."
+"The link has expired.","링크가 만료되었습니다."
+"The link is not available.","해당 링크를 사용할 수 없습니다."
+"Failed to get usage","사용 실패"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","템플릿을 생성할 수 없습니다. 템플릿을 다시 주문해야 할 수도 있으니 지원팀에 문의하세요."
+Terms,약관
+Substrate,기판
+Width,너비
+Inches,인치
+Height,높이
+Frame,프레임
+"Top Mat","탑 매트"
+"Top Mat Size","상단 매트 크기"
+"Bottom Mat","바닥 매트"
+"Bottom Mat Size","바닥 매트 크기"
+"Provided product must be type 'downloadable' or 'image'.","제공된 제품은 '다운로드 가능' 또는 '이미지' 유형이어야 합니다."
+"The link information is invalid. Verify the link and try again.","링크 정보가 유효하지 않습니다. 링크를 확인하고 다시 시도하세요."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","제공한 ID로 다운로드할 수 있는 링크를 찾을 수 없습니다. ID를 확인하고 다시 시도하세요."
+"The downloadable link isn't related to the product. Verify the link and try again.","다운로드 가능한 링크가 제품과 관련이 없습니다. 링크를 확인하고 다시 시도하세요."
+"The link title is empty. Enter the link title and try again.","링크 제목이 비어 있습니다. 링크 제목을 입력하고 다시 시도하세요."
+"The link type is invalid. Verify and try again.","링크 유형이 잘못되었습니다. 확인하고 다시 시도하세요."
+"The link sample type is invalid. Verify and try again.","링크 샘플 유형이 잘못되었습니다. 확인하고 다시 시도하세요."
+"Please correct the image file type.","이미지 파일 형식을 수정하세요."
+"The ""%1"" file couldn't be moved.","""%1"" 파일을 이동할 수 없습니다."
+"Option ""%1"" is required.","옵션 ""%1""이 필요합니다."
+"Category or usage not found.","카테고리 또는 사용법을 찾을 수 없습니다."
+"Please choose a category and usage.","카테고리와 용도를 선택하세요."
+"Link file not provided","링크 파일 제공되지 않음"
+"Image Information","이미지 정보"
+"Add New Image","새 이미지 추가"
+"Gallery Size","갤러리 크기"
+"Default Image","기본 이미지"
+"Gallery Size of 10""","갤러리 크기 10"""
+"Gallery Size of 12""","갤러리 크기 12"""
+"Gallery Size of 14""","갤러리 크기 14"""
+"Gallery Size of 16""","갤러리 크기 16"""
+"Gallery Size of 20""","갤러리 크기 20"""
+"Gallery Size of 24""","갤러리 크기 24"""
+"Gallery Size of 30""","갤러리 크기 30"""
+"Gallery Size of 36""","갤러리 크기 36"""
+"Gallery Size of 40""","갤러리 크기 40"""
+[GLOBAL],[글로벌]
+SKU,SKU
+Unlimited,무제한
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">다운로드 가능한 제품으로 이동하려면 여기를 클릭하세요</a>"
+"Product Name","제품 이름"
+"Start Download","다운로드 시작"
+"Download Image","이미지 다운로드"
+Price,가격
+Qty,수량
+Ordered,주문됨
+Shipped,배송됨
+Canceled,취소됨
+Refunded,환불
+Subtotal,소계
+Close,닫기
+"Can't add more than %s keywords!","키워드를 %s개 이상 추가할 수 없습니다!"
+Keywords,키워드
+"Amount Limit Keywords","금액 한도 키워드"
+"Amount Limit Secondary Keywords","금액 한도 보조 키워드"
+"Amount Limit Tertiary Keywords","금액 한도 3차 키워드"
+"Product Image","제품 이미지"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::주문/보기/아이템/렌더러/default.php
+"Artist Profile","아티스트 프로필"
+"Manage Images","이미지 관리"

@@ -1,0 +1,70 @@
+"Custom Template","Benutzerdefinierte Vorlage"
+"Something went wrong while getting the requested content.","Beim Abrufen der angeforderten Inhalte ist etwas schief gelaufen."
+"We can't find the link you requested.","Wir können den von Ihnen gewünschten Link nicht finden."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Bitte melden Sie sich an, um Ihr Produkt herunterzuladen oder zu kaufen <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Bitte melden Sie sich an, um Ihr Produkt herunterzuladen."
+"The link has expired.","Der Link ist abgelaufen."
+"The link is not available.","Der Link ist nicht verfügbar."
+"Failed to get usage","Verwendung nicht abgerufen"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Wir waren nicht in der Lage, Ihre Vorlage zu generieren. Bitte kontaktieren Sie den Support, da Sie die Vorlage möglicherweise neu bestellen müssen."
+Terms,Bedingungen
+Substrate,Substrat
+Width,Breite
+Inches,Zoll
+Height,Höhe
+Frame,Rahmen
+"Top Mat","Obere Matte"
+"Top Mat Size","Obere Matte Größe"
+"Bottom Mat","Untere Matte"
+"Bottom Mat Size","Untere Matte Größe"
+"Provided product must be type 'downloadable' or 'image'.","Das angebotene Produkt muss vom Typ ""herunterladbar"" oder ""Bild"" sein."
+"The link information is invalid. Verify the link and try again.","Die Linkinformationen sind ungültig. Überprüfen Sie den Link und versuchen Sie es erneut."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Es wurde kein herunterladbarer Link mit der angegebenen ID gefunden. Überprüfen Sie die ID und versuchen Sie es erneut."
+"The downloadable link isn't related to the product. Verify the link and try again.","Der Link zum Herunterladen ist nicht mit dem Produkt verknüpft. Überprüfen Sie den Link und versuchen Sie es erneut."
+"The link title is empty. Enter the link title and try again.","Der Titel des Links ist leer. Geben Sie den Link-Titel ein und versuchen Sie es erneut."
+"The link type is invalid. Verify and try again.","Der Link-Typ ist ungültig. Überprüfen Sie ihn und versuchen Sie es erneut."
+"The link sample type is invalid. Verify and try again.","Der Typ der Linkprobe ist ungültig. Überprüfen Sie und versuchen Sie es erneut."
+"Please correct the image file type.","Bitte korrigieren Sie den Dateityp des Bildes."
+"The ""%1"" file couldn't be moved.","Die Datei ""%1"" konnte nicht verschoben werden."
+"Option ""%1"" is required.","Die Option ""%1"" ist erforderlich."
+"Category or usage not found.","Kategorie oder Verwendung nicht gefunden."
+"Please choose a category and usage.","Bitte wählen Sie eine Kategorie und Verwendung."
+"Link file not provided","Link-Datei nicht bereitgestellt"
+"Image Information",Bildinformationen
+"Add New Image","Neues Bild hinzufügen"
+"Gallery Size","Galerie Größe"
+"Default Image",Standard-Bild
+"Gallery Size of 10""","Galerie Größe von 10"""
+"Gallery Size of 12""","Galerie Größe von 12"""
+"Gallery Size of 14""","Galerie Größe von 14"""
+"Gallery Size of 16""","Galerie Größe von 16"""
+"Gallery Size of 20""","Galerie Größe von 20"""
+"Gallery Size of 24""","Galerie Größe von 24"""
+"Gallery Size of 30""","Galerie Größe von 30"""
+"Gallery Size of 36""","Galerie Größe von 36"""
+"Gallery Size of 40""","Galerie Größe von 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Unbegrenzt
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Klicken Sie hier, um zu Ihren herunterladbaren Produkten zu gelangen</a>"
+"Product Name",Produktname
+"Start Download","Download starten"
+"Download Image","Bild herunterladen"
+Price,Preis
+Qty,Menge
+Ordered,Bestellt
+Shipped,Versendet
+Canceled,Abgesagt
+Refunded,Erstattet
+Subtotal,Zwischensumme
+Close,"Schließen Sie"
+"Can't add more than %s keywords!","Es können nicht mehr als %s Schlüsselwörter hinzugefügt werden!"
+Keywords,Schlüsselwörter
+"Amount Limit Keywords","Betragsgrenze Schlüsselwörter"
+"Amount Limit Secondary Keywords","Betragsgrenze Sekundäre Schlüsselwörter"
+"Amount Limit Tertiary Keywords","Betragsgrenze Tertiäre Schlüsselwörter"
+"Product Image",Produktbild
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile",Künstlerprofil
+"Manage Images","Bilder verwalten"

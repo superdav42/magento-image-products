@@ -1,0 +1,70 @@
+"Custom Template","Modello personalizzato"
+"Something went wrong while getting the requested content.","Qualcosa è andato storto durante l'ottenimento del contenuto richiesto."
+"We can't find the link you requested.","Non riusciamo a trovare il link richiesto."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Accedere per scaricare il prodotto o acquistare <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Effettuare il login per scaricare il prodotto."
+"The link has expired.","Il link è scaduto."
+"The link is not available.","Il link non è disponibile."
+"Failed to get usage","Impossibile ottenere l'utilizzo"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Non siamo riusciti a generare il vostro modello. Contattare l'assistenza perché potrebbe essere necessario riordinare il modello."
+Terms,Termini
+Substrate,Substrato
+Width,Larghezza
+Inches,Pollici
+Height,Altezza
+Frame,Telaio
+"Top Mat","Top Mat"
+"Top Mat Size","Dimensioni della stuoia superiore"
+"Bottom Mat","Tappetino inferiore"
+"Bottom Mat Size","Dimensioni del fondo del tappetino"
+"Provided product must be type 'downloadable' or 'image'.","Il prodotto fornito deve essere di tipo ""scaricabile"" o ""immagine""."
+"The link information is invalid. Verify the link and try again.","Le informazioni sul collegamento non sono valide. Verificare il link e riprovare."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Non è stato trovato alcun link per il download con l'ID fornito. Verificare l'ID e riprovare."
+"The downloadable link isn't related to the product. Verify the link and try again.","Il link per il download non è collegato al prodotto. Verificare il link e riprovare."
+"The link title is empty. Enter the link title and try again.","Il titolo del link è vuoto. Inserite il titolo del link e riprovate."
+"The link type is invalid. Verify and try again.","Il tipo di collegamento non è valido. Verificare e riprovare."
+"The link sample type is invalid. Verify and try again.","Il tipo di campione del collegamento non è valido. Verificare e riprovare."
+"Please correct the image file type.","Correggere il tipo di file immagine."
+"The ""%1"" file couldn't be moved.","Non è stato possibile spostare il file ""%1""."
+"Option ""%1"" is required.","L'opzione ""%1"" è necessaria."
+"Category or usage not found.","Categoria o utilizzo non trovati."
+"Please choose a category and usage.","Scegliere una categoria e un utilizzo."
+"Link file not provided","File di collegamento non fornito"
+"Image Information","Informazioni sull'immagine"
+"Add New Image","Aggiungi nuova immagine"
+"Gallery Size","Dimensioni della galleria"
+"Default Image","Immagine predefinita"
+"Gallery Size of 10""","Dimensione della galleria di 10"""
+"Gallery Size of 12""","Dimensione della galleria di 12"""
+"Gallery Size of 14""","Dimensioni della galleria di 14"""
+"Gallery Size of 16""","Dimensioni della galleria di 16"""
+"Gallery Size of 20""","Dimensioni della galleria di 20"""
+"Gallery Size of 24""","Dimensioni della galleria di 24"""
+"Gallery Size of 30""","Dimensioni della galleria di 30"""
+"Gallery Size of 36""","Dimensioni della galleria di 36"""
+"Gallery Size of 40""","Dimensioni della galleria di 40"""
+[GLOBAL],[GLOBALE]
+SKU,SKU
+Unlimited,Illimitato
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Fare clic qui per accedere ai prodotti scaricabili</a>"
+"Product Name","Nome del prodotto"
+"Start Download","Avviare il download"
+"Download Image","Scarica l'immagine"
+Price,Prezzo
+Qty,Quantità
+Ordered,Ordinato
+Shipped,Spedito
+Canceled,Annullato
+Refunded,Rimborsato
+Subtotal,Subtotale
+Close,Chiudere
+"Can't add more than %s keywords!","Non è possibile aggiungere più di %s parole chiave!"
+Keywords,"Parole chiave"
+"Amount Limit Keywords","Importo Limite Parole chiave"
+"Amount Limit Secondary Keywords","Importo Limite Parole chiave secondarie"
+"Amount Limit Tertiary Keywords","Importo Limite Parole chiave terziarie"
+"Product Image","Immagine del prodotto"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Profilo dell'artista"
+"Manage Images","Gestione delle immagini"

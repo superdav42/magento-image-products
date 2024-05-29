@@ -1,0 +1,70 @@
+"Custom Template","Özel Şablon"
+"Something went wrong while getting the requested content.","İstenen içerik alınırken bir şeyler ters gitti."
+"We can't find the link you requested.","İstediğiniz bağlantıyı bulamıyoruz."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Ürününüzü indirmek veya <a href=""%1"">%2</a> satın almak için lütfen oturum açın."
+"Please sign in to download your product.","Ürününüzü indirmek için lütfen oturum açın."
+"The link has expired.","Bağlantının süresi doldu."
+"The link is not available.","Bağlantı mevcut değil."
+"Failed to get usage","Kullanım alınamadı"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Şablonunuzu oluşturamadık. Şablonu yeniden sipariş etmeniz gerekebileceğinden lütfen destek ekibiyle iletişime geçin."
+Terms,Şartlar
+Substrate,Substrat
+Width,Genişlik
+Inches,İnç
+Height,Yükseklik
+Frame,Çerçeve
+"Top Mat","Üst Mat"
+"Top Mat Size","Üst Mat Boyutu"
+"Bottom Mat","Alt Paspas"
+"Bottom Mat Size","Alt Paspas Boyutu"
+"Provided product must be type 'downloadable' or 'image'.","Sağlanan ürün 'indirilebilir' veya 'resim' türünde olmalıdır."
+"The link information is invalid. Verify the link and try again.","Bağlantı bilgileri geçersiz. Bağlantıyı doğrulayın ve tekrar deneyin."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Sağlanan kimlikle indirilebilir bir bağlantı bulunamadı. Kimliği doğrulayın ve tekrar deneyin."
+"The downloadable link isn't related to the product. Verify the link and try again.","İndirilebilir bağlantı ürünle ilgili değil. Bağlantıyı doğrulayın ve tekrar deneyin."
+"The link title is empty. Enter the link title and try again.","Bağlantı başlığı boş. Bağlantı başlığını girin ve tekrar deneyin."
+"The link type is invalid. Verify and try again.","Bağlantı türü geçersiz. Doğrulayın ve tekrar deneyin."
+"The link sample type is invalid. Verify and try again.","Bağlantı örneği türü geçersiz. Doğrulayın ve tekrar deneyin."
+"Please correct the image file type.","Lütfen resim dosyası türünü düzeltin."
+"The ""%1"" file couldn't be moved.","""%1"" dosyası taşınamadı."
+"Option ""%1"" is required.","""%1"" seçeneği gereklidir."
+"Category or usage not found.","Kategori veya kullanım bulunamadı."
+"Please choose a category and usage.","Lütfen bir kategori ve kullanım seçin."
+"Link file not provided","Bağlantı dosyası sağlanmadı"
+"Image Information","Görüntü Bilgileri"
+"Add New Image","Yeni Resim Ekle"
+"Gallery Size","Galeri Boyutu"
+"Default Image","Varsayılan Görüntü"
+"Gallery Size of 10""","Galeri Boyutu 10"""
+"Gallery Size of 12""","Galeri Boyutu 12"""
+"Gallery Size of 14""","Galeri Boyutu 14"""
+"Gallery Size of 16""","Galeri Boyutu 16"""
+"Gallery Size of 20""","Galeri Boyutu 20"""
+"Gallery Size of 24""","Galeri Boyutu 24"""
+"Gallery Size of 30""","Galeri Boyutu 30"""
+"Gallery Size of 36""","Galeri Boyutu 36"""
+"Gallery Size of 40""","Galeri Boyutu 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Sınırsız
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">İndirilebilir ürünlerinize gitmek için buraya tıklayın</a>"
+"Product Name","Ürün Adı"
+"Start Download","İndirmeye Başla"
+"Download Image","Resmi İndir"
+Price,Fiyat
+Qty,Miktar
+Ordered,"Sipariş verildi"
+Shipped,Sevkiyat
+Canceled,"İptal edildi"
+Refunded,"İade Edildi"
+Subtotal,"Ara Toplam"
+Close,Kapat
+"Can't add more than %s keywords!","S'den fazla anahtar kelime eklenemiyor!"
+Keywords,"Anahtar Kelimeler"
+"Amount Limit Keywords","Tutar Sınırı Anahtar Kelimeler"
+"Amount Limit Secondary Keywords","Tutar Sınırı İkincil Anahtar Kelimeler"
+"Amount Limit Tertiary Keywords","Miktar Sınırı Üçüncül Anahtar Kelimeler"
+"Product Image","Ürün Resmi"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Sanatçı Profili"
+"Manage Images","Görüntüleri Yönet"
