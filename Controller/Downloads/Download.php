@@ -424,14 +424,16 @@ class Download extends \Magento\Downloadable\Controller\Download
                 Dir::MODULE_VIEW_DIR,
                 'DevStone_TemplateBuilder'
             );
-            $background = $imagine->open(
-                $templateBuilderViewDir . '/frontend/web/templates_full/' .
-                $backgroundName . '/' . $backgroundName . '_' . $size . '_Background.jpg'
+            $background = $imagine->load(
+                $this->mediaDirectory->readFile(
+                    'templates_full/' . $backgroundName . '/' . $backgroundName . '_' . $size . '_Background.jpg'
+                )
             );
 
-            $mask = $imagine->open(
-                $templateBuilderViewDir . '/frontend/web/templates_full/Alpha masks/' .
-                $size . '_' . $orientation . '.jpg'
+            $mask = $imagine->load(
+                $this->mediaDirectory->readFile(
+                    'templates_full/Alpha_masks/' . $size . '_' . $orientation . '.jpg'
+                )
             );
             if ($options['hideBackground'] == 'true') {
                 $pallet = new RGB();
@@ -515,9 +517,10 @@ class Download extends \Magento\Downloadable\Controller\Download
 
             $finalImage = $background->paste($finalImage, new Point(0, 0));
             if ($options['showTitleBar'] === 'true') {
-                $titlebar = $imagine->open(
-                    $templateBuilderViewDir . '/frontend/web/templates_full/' . $backgroundName . '/' .
-                    $backgroundName . '_' . $size . '_TitleBar.png'
+                $titlebar = $imagine->load(
+                    $this->mediaDirectory->readFile(
+                        'templates_full/' . $backgroundName . '/' . $backgroundName . '_' . $size . '_TitleBar.png'
+                    )
                 );
                 $finalImage->paste($titlebar, new Point(0, $options['titleTop'] < 0 ? 0 : $options['titleTop']));
             }
