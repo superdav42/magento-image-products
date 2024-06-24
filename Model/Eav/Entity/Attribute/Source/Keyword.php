@@ -60,6 +60,7 @@ class Keyword extends Table
             $this->_optionsDefault = [];
         }
         $attributeId = $this->getAttribute()->getId();
+        $attributeId = 141;
         if (!isset($this->_options[$storeId][$attributeId])) {
             $collection = $this->_attrOptionCollectionFactory->create()->setPositionOrder(
                 'asc'
@@ -92,7 +93,17 @@ class Keyword extends Table
      */
     public function getSpecificOptions($ids, $withEmpty = true)
     {
-        return parent::getSpecificOptions($ids, $withEmpty);
+        $options = $this->_attrOptionCollectionFactory->create()
+            ->setPositionOrder('asc')
+            ->setAttributeFilter(141)
+            ->addFieldToFilter('main_table.option_id', ['in' => $ids])
+            ->setStoreFilter($this->getAttribute()->getStoreId())
+            ->load()
+            ->toOptionArray();
+        if ($withEmpty) {
+            $options = $this->addEmptyOption($options);
+        }
+        return $options;
     }
 
     /**
@@ -269,6 +280,7 @@ class Keyword extends Table
             $storeId = $this->storeManager->getStore()->getId();
         }
         $attributeId = $this->getAttribute()->getId();
+        $attributeId = 141;
         $collection = $this->_attrOptionCollectionFactory->create()
             ->setAttributeFilter(
                 $attributeId
