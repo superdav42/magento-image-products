@@ -35,6 +35,8 @@ class Image extends Downloadable
 		\Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory,
 		\Magento\Downloadable\Model\Sales\Order\Link\Purchased $purchasedLink,
 		\DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
+		private readonly \Magento\Catalog\Block\Product\ImageBuilder $imageBuilder,
+		private readonly \Magento\Catalog\Model\Product\Configuration\Item\ItemResolverInterface $itemResolver,
 		array $data = [],
 	) {
 		parent::__construct($context, $string, $productOptionFactory, $purchasedFactory, $itemsFactory, $data, $purchasedLink);
@@ -84,4 +86,33 @@ class Image extends Downloadable
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
+
+
+	/**
+	 * Retrieve product image
+	 *
+	 * @param \Magento\Catalog\Model\Product $product
+	 * @param string $imageId
+	 * @param array $attributes
+	 * @return \Magento\Catalog\Block\Product\Image
+	 */
+	public function getImage($product, $imageId, $attributes = [])
+	{
+		return $this->imageBuilder->create($product, $imageId, $attributes);
+	}
+
+
+	/**
+	 * Identify the product from which thumbnail should be taken.
+	 *
+	 * @return \Magento\Catalog\Model\Product
+	 * @codeCoverageIgnore
+	 */
+	public function getProductForThumbnail()
+	{
+		$item = $this->getItem();
+		/** @var \Magento\Sales\Model\Order\Item $item */
+		$item->getProduct();
+		return $this->itemResolver->getFinalProduct($this->getItem());
+	}
 }

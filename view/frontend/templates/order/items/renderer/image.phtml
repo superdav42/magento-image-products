@@ -9,9 +9,27 @@ use Magento\Downloadable\Model\Link\Purchased\Item;
 
 /** @var $block \DevStone\ImageProducts\Block\Sales\Order\Item\Renderer\Image */
 /** @var \Magento\Framework\Locale\LocaleFormatter $localeFormatter */
+
+$_item = $block->getItem();
+$_product = $_item->getProduct();
 ?>
-<?php $_item = $block->getItem() ?>
 <tr id="order-item-row-<?= $block->escapeHtmlAttr($_item->getId()) ?>">
+    <td class="col thumbnail cart table-wrapper" data-th="">
+	    <?php if ($_product->isVisibleInSiteVisibility()): ?>
+        <a href="<?= $escaper->escapeUrl($_product->getUrlModel()->getUrl($_product)) ?>"
+           title="<?= $escaper->escapeHtml($_item->getName()) ?>"
+           tabindex="-1"
+           class="product-item-photo">
+		    <?php else: ?>
+            <span class="product-item-photo">
+            <?php endif; ?>
+            <?= $block->getImage($_item->getProduct(), 'cart_page_product_thumbnail')->toHtml() ?>
+            <?php if ($_product->isVisibleInSiteVisibility()): ?>
+        </a>
+    <?php else: ?>
+        </span>
+    <?php endif; ?>
+    </td>
     <td class="col name" data-th="<?= $block->escapeHtmlAttr(__('Product Name')) ?>">
         <strong class="product name product-item-name"><?= $block->escapeHtml($_item->getName()) ?></strong>
 	    <?php /* downloadable */ ?>
