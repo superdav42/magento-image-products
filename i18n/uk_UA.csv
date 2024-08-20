@@ -1,0 +1,70 @@
+"Custom Template","Спеціальний шаблон"
+"Something went wrong while getting the requested content.","Щось пішло не так під час отримання запитуваного контенту."
+"We can't find the link you requested.","Ми не можемо знайти посилання, яке ви запитували."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Будь ласка, увійдіть, щоб завантажити продукт або придбати <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Будь ласка, увійдіть, щоб завантажити ваш продукт."
+"The link has expired.","Термін дії посилання закінчився."
+"The link is not available.","Посилання недоступне."
+"Failed to get usage","Не вдалося отримати дозвіл на використання"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Нам не вдалося згенерувати ваш шаблон. Будь ласка, зверніться до служби підтримки, можливо, вам потрібно буде замовити шаблон повторно."
+Terms,Умови
+Substrate,Субстрат
+Width,Ширина
+Inches,Дюйми
+Height,Висота
+Frame,Рамка
+"Top Mat","Верхній килимок"
+"Top Mat Size","Розмір верхнього килимка"
+"Bottom Mat","Килимок для дна"
+"Bottom Mat Size","Розмір нижнього килимка"
+"Provided product must be type 'downloadable' or 'image'.","Наданий продукт має бути типу ""завантажуваний"" або ""зображення""."
+"The link information is invalid. Verify the link and try again.","Інформація за посиланням невірна. Перевірте посилання та спробуйте ще раз."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Посилання для завантаження з вказаним ідентифікатором не знайдено. Перевірте ідентифікатор і спробуйте ще раз."
+"The downloadable link isn't related to the product. Verify the link and try again.","Посилання для завантаження не пов'язане з продуктом. Перевірте посилання та спробуйте ще раз."
+"The link title is empty. Enter the link title and try again.","Назва посилання порожня. Введіть назву посилання і спробуйте ще раз."
+"The link type is invalid. Verify and try again.","Тип посилання невірний. Перевірте і спробуйте ще раз."
+"The link sample type is invalid. Verify and try again.","Тип зразка посилання є невірним. Перевірте і спробуйте ще раз."
+"Please correct the image file type.","Будь ласка, виправте тип файлу зображення."
+"The ""%1"" file couldn't be moved.","Файл ""%1"" не вдалося перемістити."
+"Option ""%1"" is required.","Обов'язковий параметр ""%1""."
+"Category or usage not found.","Категорію або використання не знайдено."
+"Please choose a category and usage.","Будь ласка, оберіть категорію та спосіб використання."
+"Link file not provided","Файл посилання не надано"
+"Image Information","Інформація про зображення"
+"Add New Image","Додати нове зображення"
+"Gallery Size","Розмір галереї"
+"Default Image","Зображення за замовчуванням"
+"Gallery Size of 10""","Розмір галереї 10"""
+"Gallery Size of 12""","Розмір галереї 12"""
+"Gallery Size of 14""","Розмір галереї 14"""
+"Gallery Size of 16""","Розмір галереї 16"""
+"Gallery Size of 20""","Розмір галереї 20"""
+"Gallery Size of 24""","Розмір галереї 24"""
+"Gallery Size of 30""","Розмір галереї 30"""
+"Gallery Size of 36""","Розмір галереї 36"""
+"Gallery Size of 40""","Розмір галереї 40"""
+[GLOBAL],[ГЛОБАЛ]
+SKU,SKU
+Unlimited,Необмежена
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Натисніть тут, щоб перейти до продуктів для завантаження</a>"
+"Product Name","Назва продукту"
+"Start Download","Почати завантаження"
+"Download Image","Завантажити зображення"
+Price,Ціна
+Qty,Кількість
+Ordered,Замовив
+Shipped,Відправлено
+Canceled,Скасовано
+Refunded,Відшкодовано
+Subtotal,"Проміжний підсумок"
+Close,Закрити
+"Can't add more than %s keywords!","Не можна додавати більше %s ключових слів!"
+Keywords,"Ключові слова"
+"Amount Limit Keywords","Обмеження суми Ключові слова"
+"Amount Limit Secondary Keywords","Обмеження суми Вторинні ключові слова"
+"Amount Limit Tertiary Keywords","Обмеження суми Третинні ключові слова"
+"Product Image","Зображення продукту"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Профіль художника"
+"Manage Images","Керування зображеннями"

@@ -1,0 +1,70 @@
+"Custom Template","Șablon personalizat"
+"Something went wrong while getting the requested content.","Ceva nu a mers bine în timpul obținerii conținutului solicitat."
+"We can't find the link you requested.","Nu putem găsi link-ul solicitat."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Vă rugăm să vă autentificați pentru a descărca produsul sau a achiziționa <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Vă rugăm să vă conectați pentru a vă descărca produsul."
+"The link has expired.","Linkul a expirat."
+"The link is not available.","Linkul nu este disponibil."
+"Failed to get usage","Nu a reușit să obțină utilizarea"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Nu am reușit să vă generăm șablonul. Vă rugăm să contactați asistența, deoarece este posibil să fie nevoie să reordonați șablonul."
+Terms,"Termeni și condiții"
+Substrate,Substrat
+Width,Lățime
+Inches,Inch
+Height,Înălțime
+Frame,Cadru
+"Top Mat","Mat de top"
+"Top Mat Size","Dimensiunea covorului de top"
+"Bottom Mat","Covor de fund"
+"Bottom Mat Size","Dimensiunea covorului inferior"
+"Provided product must be type 'downloadable' or 'image'.","Produsul furnizat trebuie să fie de tip ""descărcabil"" sau ""imagine""."
+"The link information is invalid. Verify the link and try again.","Informațiile despre link sunt invalide. Verificați link-ul și încercați din nou."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Nu a fost găsit niciun link de descărcare cu ID-ul furnizat. Verificați ID-ul și încercați din nou."
+"The downloadable link isn't related to the product. Verify the link and try again.","Linkul de descărcare nu este legat de produs. Verificați link-ul și încercați din nou."
+"The link title is empty. Enter the link title and try again.","Titlul linkului este gol. Introduceți titlul linkului și încercați din nou."
+"The link type is invalid. Verify and try again.","Tipul de legătură este invalid. Verificați și încercați din nou."
+"The link sample type is invalid. Verify and try again.","Tipul eșantionului de legătură este invalid. Verificați și încercați din nou."
+"Please correct the image file type.","Vă rugăm să corectați tipul de fișier imagine."
+"The ""%1"" file couldn't be moved.","Fișierul ""%1"" nu a putut fi mutat."
+"Option ""%1"" is required.","Opțiunea ""%1"" este necesară."
+"Category or usage not found.","Categoria sau utilizarea nu a fost găsită."
+"Please choose a category and usage.","Vă rugăm să alegeți o categorie și o utilizare."
+"Link file not provided","Fișierul de legătură nu este furnizat"
+"Image Information","Informații despre imagine"
+"Add New Image","Adăugați o imagine nouă"
+"Gallery Size","Dimensiune galerie"
+"Default Image","Imagine implicită"
+"Gallery Size of 10""","Galerie Dimensiune de 10"""
+"Gallery Size of 12""","Galerie Dimensiune de 12"""
+"Gallery Size of 14""","Galerie Dimensiune de 14"""
+"Gallery Size of 16""","Galerie Dimensiune de 16"""
+"Gallery Size of 20""","Galerie Dimensiune de 20"""
+"Gallery Size of 24""","Dimensiune galerie de 24"""
+"Gallery Size of 30""","Dimensiune galerie de 30"""
+"Gallery Size of 36""","Dimensiune galerie de 36"""
+"Gallery Size of 40""","Dimensiune galerie de 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Nelimitat
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Faceți clic aici pentru a merge la produsele descărcabile</a>"
+"Product Name","Numele produsului"
+"Start Download","Start Descărcare"
+"Download Image","Descărcați imaginea"
+Price,Preț
+Qty,Cantitate
+Ordered,Comandat
+Shipped,Livrat
+Canceled,Anulat
+Refunded,Rambursat
+Subtotal,Subtotal
+Close,Închidere
+"Can't add more than %s keywords!","Nu se pot adăuga mai mult de %s cuvinte cheie!"
+Keywords,Cuvinte-cheie
+"Amount Limit Keywords","Suma limită Cuvinte cheie"
+"Amount Limit Secondary Keywords","Suma Limita Cuvinte cheie secundare"
+"Amount Limit Tertiary Keywords","Cantitate limită Cuvinte-cheie terțiare"
+"Product Image","Imaginea produsului"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Profilul artistului"
+"Manage Images","Gestionarea imaginilor"

@@ -1,0 +1,70 @@
+"Custom Template","Пользовательский шаблон"
+"Something went wrong while getting the requested content.","Что-то пошло не так при получении запрашиваемого содержимого."
+"We can't find the link you requested.","Мы не можем найти запрошенную вами ссылку."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Пожалуйста, войдите в систему, чтобы загрузить продукт или купить <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Пожалуйста, войдите в систему, чтобы загрузить свой продукт."
+"The link has expired.","Срок действия ссылки истек."
+"The link is not available.","Ссылка недоступна."
+"Failed to get usage","Не удалось получить использование"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Мы не смогли сгенерировать ваш шаблон. Пожалуйста, свяжитесь со службой поддержки, так как вам может потребоваться повторный заказ шаблона."
+Terms,Условия
+Substrate,Субстрат
+Width,Ширина
+Inches,Дюймы
+Height,Высота
+Frame,Рама
+"Top Mat","Верхний коврик"
+"Top Mat Size","Размер верхнего коврика"
+"Bottom Mat","Нижний коврик"
+"Bottom Mat Size","Размер нижнего коврика"
+"Provided product must be type 'downloadable' or 'image'.","Предоставленный продукт должен быть типа ""загружаемый"" или ""изображение""."
+"The link information is invalid. Verify the link and try again.","Информация о ссылке недействительна. Проверьте ссылку и повторите попытку."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Ссылка на скачивание с указанным идентификатором не найдена. Проверьте идентификатор и повторите попытку."
+"The downloadable link isn't related to the product. Verify the link and try again.","Ссылка на скачивание не относится к продукту. Проверьте ссылку и повторите попытку."
+"The link title is empty. Enter the link title and try again.","Заголовок ссылки пуст. Введите название ссылки и повторите попытку."
+"The link type is invalid. Verify and try again.","Тип ссылки недействителен. Проверьте и повторите попытку."
+"The link sample type is invalid. Verify and try again.","Тип образца ссылки недействителен. Проверьте и повторите попытку."
+"Please correct the image file type.","Пожалуйста, исправьте тип файла изображения."
+"The ""%1"" file couldn't be moved.","Файл ""%1"" не удалось переместить."
+"Option ""%1"" is required.","Требуется опция ""%1""."
+"Category or usage not found.","Категория или использование не найдены."
+"Please choose a category and usage.","Пожалуйста, выберите категорию и способ использования."
+"Link file not provided","Ссылка на файл не предоставлена"
+"Image Information","Информация об изображении"
+"Add New Image","Добавить новое изображение"
+"Gallery Size","Размер галереи"
+"Default Image","Изображение по умолчанию"
+"Gallery Size of 10""","Галерея Размер 10"""
+"Gallery Size of 12""","Галерея Размер 12"""
+"Gallery Size of 14""","Галерея Размер 14"""
+"Gallery Size of 16""","Галерея Размер 16"""
+"Gallery Size of 20""","Галерея Размер 20"""
+"Gallery Size of 24""","Галерея Размер 24"""
+"Gallery Size of 30""","Галерея Размер 30"""
+"Gallery Size of 36""","Галерея Размер 36"""
+"Gallery Size of 40""","Галерея Размер 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,"Неограниченное количество"
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Нажмите здесь, чтобы перейти к продуктам для скачивания</a>"
+"Product Name","Название продукта"
+"Start Download","Начало загрузки"
+"Download Image","Загрузить изображение"
+Price,Цена
+Qty,Количество
+Ordered,Заказано
+Shipped,Отправлено
+Canceled,Отменено
+Refunded,Возмещено
+Subtotal,Итого
+Close,Закрыть
+"Can't add more than %s keywords!","Невозможно добавить более %s ключевых слов!"
+Keywords,"Ключевые слова"
+"Amount Limit Keywords","Лимит суммы Ключевые слова"
+"Amount Limit Secondary Keywords","Ограничение по сумме Вторичные ключевые слова"
+"Amount Limit Tertiary Keywords","Лимит суммы Третичные ключевые слова"
+"Product Image","Изображение продукта"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Профиль художника"
+"Manage Images","Управление изображениями"

@@ -1,0 +1,70 @@
+"Custom Template","Mukautettu malli"
+"Something went wrong while getting the requested content.","Jokin meni pieleen pyydetyn sisällön saamisessa."
+"We can't find the link you requested.","Emme löydä pyytämääsi linkkiä."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Kirjaudu sisään ladataksesi tuotteen tai ostaaksesi <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Kirjaudu sisään ladataksesi tuotteen."
+"The link has expired.","Linkki on vanhentunut."
+"The link is not available.","Linkki ei ole käytettävissä."
+"Failed to get usage","Ei onnistunut saamaan käyttöä"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Emme pystyneet luomaan malliasi. Ota yhteyttä asiakaspalveluun, sillä saatat joutua tilaamaan mallin uudelleen."
+Terms,Ehdot
+Substrate,Substraatti
+Width,Leveys
+Inches,Tuumaa
+Height,Korkeus
+Frame,Kehys
+"Top Mat","Top Matto"
+"Top Mat Size","Top Matin koko"
+"Bottom Mat","Pohjan matto"
+"Bottom Mat Size","Pohjan maton koko"
+"Provided product must be type 'downloadable' or 'image'.","Tuotteen on oltava tyyppiä ""ladattavissa"" tai ""kuva""."
+"The link information is invalid. Verify the link and try again.","Linkin tiedot ovat virheellisiä. Tarkista linkki ja yritä uudelleen."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Ladattavaa linkkiä annetulla tunnuksella ei löytynyt. Tarkista tunnus ja yritä uudelleen."
+"The downloadable link isn't related to the product. Verify the link and try again.","Ladattava linkki ei liity tuotteeseen. Tarkista linkki ja yritä uudelleen."
+"The link title is empty. Enter the link title and try again.","Linkin otsikko on tyhjä. Kirjoita linkin otsikko ja yritä uudelleen."
+"The link type is invalid. Verify and try again.","Linkin tyyppi on virheellinen. Tarkista ja yritä uudelleen."
+"The link sample type is invalid. Verify and try again.","Linkin näytetyyppi on virheellinen. Tarkista ja yritä uudelleen."
+"Please correct the image file type.","Korjaa kuvatiedoston tyyppi."
+"The ""%1"" file couldn't be moved.","Tiedostoa ""%1"" ei voitu siirtää."
+"Option ""%1"" is required.","Vaihtoehto ""%1"" vaaditaan."
+"Category or usage not found.","Kategoriaa tai käyttöä ei löydy."
+"Please choose a category and usage.","Valitse luokka ja käyttö."
+"Link file not provided","Linkkitiedostoa ei ole toimitettu"
+"Image Information",Kuvatiedot
+"Add New Image","Lisää uusi kuva"
+"Gallery Size","Gallerian koko"
+"Default Image",Oletuskuva
+"Gallery Size of 10""","Gallerian koko 10"""
+"Gallery Size of 12""","Gallerian koko 12"""
+"Gallery Size of 14""","Gallerian koko 14"""
+"Gallery Size of 16""","Gallerian koko 16"""
+"Gallery Size of 20""","Gallerian koko 20"""
+"Gallery Size of 24""","Gallerian koko 24"""
+"Gallery Size of 30""","Gallerian koko 30"""
+"Gallery Size of 36""","Gallerian koko 36"""
+"Gallery Size of 40""","Gallerian koko 40"""
+[GLOBAL],[GLOBAALI]
+SKU,SKU
+Unlimited,Rajoittamaton
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Klikkaa tästä siirtyäksesi ladattaviin tuotteisiisi</a>"
+"Product Name","Tuotteen nimi"
+"Start Download","Aloita lataaminen"
+"Download Image","Lataa kuva"
+Price,Hinta
+Qty,Määrä
+Ordered,Tilattu
+Shipped,Lähetetty
+Canceled,Peruutettu
+Refunded,Palautettu
+Subtotal,Yhteensä
+Close,Sulje
+"Can't add more than %s keywords!","Ei voi lisätä enempää kuin %s avainsanoja!"
+Keywords,Avainsanat
+"Amount Limit Keywords","Määrä Raja Avainsanat"
+"Amount Limit Secondary Keywords","Määrä Raja Toissijaiset avainsanat"
+"Amount Limit Tertiary Keywords","Määrä Raja Tertiääriset avainsanat"
+"Product Image","Tuotteen kuva"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Taiteilijan profiili"
+"Manage Images","Hallitse kuvia"

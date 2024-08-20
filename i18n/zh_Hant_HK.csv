@@ -1,70 +1,70 @@
-"Custom Template",自定义模板
-"Something went wrong while getting the requested content.",在获取请求的内容时出了问题。
-"We can't find the link you requested.",我们找不到您要求的链接。
-"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","请登录以下载产品或购买<a href=""%1"">%2</a>。"
-"Please sign in to download your product.",请登录以下载您的产品。
-"The link has expired.",链接已过期。
-"The link is not available.",链接不可用。
-"Failed to get usage",获取使用情况失败
-"We were unable to generate your template. Please contact support as you might need to reorder the template.",我们无法生成您的模板。请联系技术支持，因为您可能需要重新订购模板。
-Terms,条款
-Substrate,基质
-Width,宽度
-Inches,英寸
+"Custom Template",自訂範本
+"Something went wrong while getting the requested content.",在取得要求的內容時出錯了。
+"We can't find the link you requested.",我們找不到您要求的連結。
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","請登入以下載您的產品或購買<a href=""%1"">%2</a>。"
+"Please sign in to download your product.",請登入以下載您的產品。
+"The link has expired.",連結已過期。
+"The link is not available.",連結無法使用。
+"Failed to get usage",無法取得使用量
+"We were unable to generate your template. Please contact support as you might need to reorder the template.",我們無法產生您的範本。請聯絡支援人員，因為您可能需要重新訂購範本。
+Terms,條款
+Substrate,基板
+Width,寬度
+Inches,英吋
 Height,高度
 Frame,框架
-"Top Mat",顶部垫子
-"Top Mat Size",顶垫尺寸
-"Bottom Mat",底垫
-"Bottom Mat Size",底垫尺寸
-"Provided product must be type 'downloadable' or 'image'.","提供的产品必须是 ""可下载 ""或 ""图片 ""类型。"
-"The link information is invalid. Verify the link and try again.",链接信息无效。验证链接后重试。
-"No downloadable link with the provided ID was found. Verify the ID and try again.","未找到所提供 ID 的可下载链接。请验证 ID 并重试。"
-"The downloadable link isn't related to the product. Verify the link and try again.",下载链接与产品无关。请验证链接并重试。
-"The link title is empty. Enter the link title and try again.",链接标题为空。请输入链接标题并重试。
-"The link type is invalid. Verify and try again.",链接类型无效。验证后重试。
-"The link sample type is invalid. Verify and try again.",链接样本类型无效。验证后重试。
-"Please correct the image file type.",请更正图像文件类型。
-"The ""%1"" file couldn't be moved.","无法移动""%1 ""文件。"
-"Option ""%1"" is required.","选项""%1 ""为必填项。"
-"Category or usage not found.",未找到类别或用途。
-"Please choose a category and usage.",请选择类别和用途。
-"Link file not provided",未提供链接文件
-"Image Information",图像信息
-"Add New Image",添加新图片
-"Gallery Size",画廊尺寸
-"Default Image",默认图像
-"Gallery Size of 10""","画廊尺寸 10"""
-"Gallery Size of 12""","画廊尺寸 12"""
-"Gallery Size of 14""","画廊尺寸 14"""
-"Gallery Size of 16""","画廊尺寸 16"""
-"Gallery Size of 20""","画廊尺寸 20"""
-"Gallery Size of 24""","画廊尺寸 24"""
-"Gallery Size of 30""","画廊尺寸 30"""
-"Gallery Size of 36""","36"" 画廊尺寸"
-"Gallery Size of 40""","画廊尺寸 40"""
+"Top Mat",頂端墊子
+"Top Mat Size",上墊尺寸
+"Bottom Mat",底墊
+"Bottom Mat Size",底墊尺寸
+"Provided product must be type 'downloadable' or 'image'.",提供的產品類型必須是「可下載」或「圖片」。
+"The link information is invalid. Verify the link and try again.",連結資訊無效。驗證連結後再試一次。
+"No downloadable link with the provided ID was found. Verify the ID and try again.","未找到所提供 ID 的可下載連結。驗證 ID 並重試。"
+"The downloadable link isn't related to the product. Verify the link and try again.",下載連結與產品無關。驗證連結後再試一次。
+"The link title is empty. Enter the link title and try again.",連結標題為空。輸入連結標題後再試一次。
+"The link type is invalid. Verify and try again.",連結類型無效。驗證後再試一次。
+"The link sample type is invalid. Verify and try again.",連結樣本類型無效。驗證後再試一次。
+"Please correct the image file type.",請更正影像檔案類型。
+"The ""%1"" file couldn't be moved.","無法移動 ""%1"" 檔案。"
+"Option ""%1"" is required.","選項 ""%1"" 為必填項目。"
+"Category or usage not found.",未找到類別或用途。
+"Please choose a category and usage.",請選擇類別和用途。
+"Link file not provided",未提供連結檔案
+"Image Information",圖片資訊
+"Add New Image",新增圖片
+"Gallery Size",圖庫尺寸
+"Default Image",預設影像
+"Gallery Size of 10""","畫廊尺寸 10"""
+"Gallery Size of 12""","畫廊尺寸 12"""
+"Gallery Size of 14""","畫廊尺寸 14"""
+"Gallery Size of 16""","畫廊尺寸 16"""
+"Gallery Size of 20""","畫廊尺寸 20"""
+"Gallery Size of 24""","畫廊尺寸 24"""
+"Gallery Size of 30""","畫廊尺寸 30"""
+"Gallery Size of 36""","畫廊尺寸 36"""
+"Gallery Size of 40""","畫廊尺寸 40"""
 [GLOBAL],[全球]
-SKU,商品编号
-Unlimited,无限制
+SKU,SKU
+Unlimited,無限制
 U,U
-"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">单击此处前往可下载的产品</a>"
-"Product Name",产品名称
-"Start Download",开始下载
-"Download Image",下载图片
-Price,价格
-Qty,数量
-Ordered,已订购
-Shipped,已发货
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">按一下這裡前往您可下載的產品</a>"
+"Product Name",產品名稱
+"Start Download",開始下載
+"Download Image",下載圖片
+Price,價格
+Qty,數量
+Ordered,已訂購
+Shipped,已付運
 Canceled,已取消
 Refunded,退款
-Subtotal,小计
-Close,关闭
-"Can't add more than %s keywords!","无法添加超过 %s 的关键字！"
-Keywords,关键词
-"Amount Limit Keywords","金额限制 关键词"
-"Amount Limit Secondary Keywords","数量限制 二级关键词"
-"Amount Limit Tertiary Keywords","数量限制 三级关键词"
-"Product Image",产品图像
+Subtotal,小計
+Close,關閉
+"Can't add more than %s keywords!","無法新增超過 %s 的關鍵字！"
+Keywords,關鍵字
+"Amount Limit Keywords",金額限制關鍵字
+"Amount Limit Secondary Keywords","金額限制 次要關鍵字"
+"Amount Limit Tertiary Keywords","數量限制 第三關鍵字"
+"Product Image",產品圖片
 DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
-"Artist Profile",艺术家简介
-"Manage Images",管理图片
+"Artist Profile",藝術家簡介
+"Manage Images",管理圖片

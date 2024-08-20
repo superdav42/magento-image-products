@@ -1,0 +1,70 @@
+"Custom Template","Прилагођени предложак"
+"Something went wrong while getting the requested content.","Нешто је пошло наопако приликом добијања траженог садржаја."
+"We can't find the link you requested.","Не можемо да пронађемо везу коју сте тражили."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Пријавите се да бисте преузели производ или купили < а хреф =""%1"">%2 </а>."
+"Please sign in to download your product.","Молимо Вас да се пријавите да бисте преузели свој производ."
+"The link has expired.","Веза је истекла."
+"The link is not available.","Линк није доступан."
+"Failed to get usage","Фаилед то гет усе"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Нисмо били у могућности да генеришемо ваш шаблон. Молимо Вас да контактирате подршку јер ћете можда морати да промените редослед шаблона."
+Terms,Услове
+Substrate,Подлога
+Width,Ширина
+Inches,Инча
+Height,Висина
+Frame,Оквир
+"Top Mat","Врх мат"
+"Top Mat Size","Топ мат величина"
+"Bottom Mat","доњи мат"
+"Bottom Mat Size","Доњи мат величина"
+"Provided product must be type 'downloadable' or 'image'.","Обезбеђени производ мора бити тип ""за преузимање"" или ""слика""."
+"The link information is invalid. Verify the link and try again.","Информације о вези су неважеће. Потврдите везу и покушајте поново."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Није пронађена веза за преузимање са наведеним ИД-ом. Потврдите ИД и покушајте поново."
+"The downloadable link isn't related to the product. Verify the link and try again.","Линк за преузимање није повезан са производом. Потврдите везу и покушајте поново."
+"The link title is empty. Enter the link title and try again.","Наслов везе је празан. Унесите наслов везе и покушајте поново."
+"The link type is invalid. Verify and try again.","Тип везе је неважећи. Потврдите и покушајте поново."
+"The link sample type is invalid. Verify and try again.","Тип узорка везе је неважећи. Потврдите и покушајте поново."
+"Please correct the image file type.","Молимо Вас да исправите тип датотеке слике."
+"The ""%1"" file couldn't be moved.","Фајл ""%1"" није могао да се помери."
+"Option ""%1"" is required.","Потребна је опција ""%1""."
+"Category or usage not found.","Категорија или употреба није пронађена."
+"Please choose a category and usage.","Молимо Вас да изаберете категорију и употребу."
+"Link file not provided","Датотека везе није обезбеђена"
+"Image Information","Информације о слици"
+"Add New Image","Додај нову слику"
+"Gallery Size","Величина галерије"
+"Default Image","Подразумевана слика"
+"Gallery Size of 10""","Галерија Величина 10 """
+"Gallery Size of 12""","Галерија Величина 12 """
+"Gallery Size of 14""","Галерија Величина 14 """
+"Gallery Size of 16""","Галерија Величина 16 """
+"Gallery Size of 20""","Галерија Величина 20 """
+"Gallery Size of 24""","Галерија Величина 24 """
+"Gallery Size of 30""","Галерија Величина 30 """
+"Gallery Size of 36""","Галерија Величина 36 """
+"Gallery Size of 40""","Галерија Величина 40 """
+[GLOBAL],[ГЛОБАЛНИ]
+SKU,МЈ
+Unlimited,Неограничен
+U,У
+"<a href=""%1"">Click here to go to your downloadable products</a>","< а хреф =""%1""> Кликните овде да бисте прешли на производе који се могу преузети </а>"
+"Product Name","Име и производ"
+"Start Download","Почетак преузимања"
+"Download Image","Преузмите слику"
+Price,Цена
+Qty,Кол
+Ordered,Наруиио
+Shipped,Испоручена
+Canceled,Отказана
+Refunded,"Поврат новца"
+Subtotal,Подзбир
+Close,Затворите
+"Can't add more than %s keywords!","Не могу додати више од% с кључних речи!"
+Keywords,"Кључне речи"
+"Amount Limit Keywords","Ограничење износа Кључне речи"
+"Amount Limit Secondary Keywords","Ограничење износа Секундарне кључне речи"
+"Amount Limit Tertiary Keywords","Ограничење износа терцијарне кључне речи"
+"Product Image","Слика производа"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,ДевСтоне_ИмагеПродуцтс::ордер/виеw/итемс/рендерер/дефаулт.пхтмл
+"Artist Profile","Профил извођача"
+"Manage Images","Управљање сликама"

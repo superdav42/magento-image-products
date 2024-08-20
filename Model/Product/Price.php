@@ -121,9 +121,10 @@ class Price extends Product\Type\Price
                 }
             }
         }
-        if ($price > 0 && 95 !== (int)fmod(($price * 100), 100)) { // round prices which don't end in $.95
-            $price = round((float)$price);
-        }
+        // This is tricky with multiple currencies, so I am disabling this for now.
+//        if ($price > 0 && 95 !== (int)fmod(($price * 100), 100)) { // round prices which don't end in $.95
+//            $price = round((float)$price);
+//        }
 
         $paymentTypeOption = $product->getCustomOption('payment_type');
         if ($usage->getCredits() && $paymentTypeOption && 'credits' === $paymentTypeOption->getValue()) {

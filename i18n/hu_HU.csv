@@ -1,0 +1,70 @@
+"Custom Template","Egyedi sablon"
+"Something went wrong while getting the requested content.","Valami rosszul sült el a kért tartalom lekérése közben."
+"We can't find the link you requested.","Nem találjuk a kért linket."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Kérjük, jelentkezzen be a termék letöltéséhez vagy vásárlásához <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Kérjük, jelentkezzen be a termék letöltéséhez."
+"The link has expired.","A link lejárt."
+"The link is not available.","A link nem elérhető."
+"Failed to get usage","Nem sikerült a használatot megszerezni"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Nem tudtuk létrehozni a sablonját. Kérjük, vegye fel a kapcsolatot az ügyfélszolgálattal, mivel előfordulhat, hogy újra kell rendelnie a sablont."
+Terms,Feltételek
+Substrate,Alátét
+Width,Szélesség
+Inches,Hüvelyk
+Height,Magasság
+Frame,Keret
+"Top Mat","Top Mat"
+"Top Mat Size","Top Mat méret"
+"Bottom Mat","Alsó szőnyeg"
+"Bottom Mat Size","Alsó szőnyeg mérete"
+"Provided product must be type 'downloadable' or 'image'.","A megadott terméknek ""letölthető"" vagy ""kép"" típusúnak kell lennie."
+"The link information is invalid. Verify the link and try again.","A linkinformáció érvénytelen. Ellenőrizze a linket, és próbálja meg újra."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Nem találtunk letölthető linket a megadott azonosítóval. Ellenőrizze az azonosítót, és próbálja meg újra."
+"The downloadable link isn't related to the product. Verify the link and try again.","A letölthető link nem kapcsolódik a termékhez. Ellenőrizze a linket, és próbálja meg újra."
+"The link title is empty. Enter the link title and try again.","A link címe üres. Írja be a link címét, és próbálja meg újra."
+"The link type is invalid. Verify and try again.","A link típusa érvénytelen. Ellenőrizze és próbálja újra."
+"The link sample type is invalid. Verify and try again.","A linkminta típusa érvénytelen. Ellenőrizze és próbálja újra."
+"Please correct the image file type.","Kérjük, javítsa ki a képfájl típusát."
+"The ""%1"" file couldn't be moved.","A ""%1"" fájlt nem lehetett áthelyezni."
+"Option ""%1"" is required.","A ""%1"" opció szükséges."
+"Category or usage not found.","Kategória vagy használat nem található."
+"Please choose a category and usage.","Kérjük, válasszon kategóriát és felhasználási módot."
+"Link file not provided","Link fájl nincs megadva"
+"Image Information",Képinformáció
+"Add New Image","Új kép hozzáadása"
+"Gallery Size","Galéria mérete"
+"Default Image","Alapértelmezett kép"
+"Gallery Size of 10""","Galéria mérete 10"""
+"Gallery Size of 12""","Galéria mérete 12"""
+"Gallery Size of 14""","Galéria mérete 14"""
+"Gallery Size of 16""","Galéria mérete 16"""
+"Gallery Size of 20""","Galéria mérete 20"""
+"Gallery Size of 24""","Galéria mérete 24"""
+"Gallery Size of 30""","Galéria mérete 30"""
+"Gallery Size of 36""","Galéria mérete 36"""
+"Gallery Size of 40""","Galéria mérete 40"""
+[GLOBAL],[GLOBÁLIS]
+SKU,SKU
+Unlimited,Korlátlan
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Kattintson ide a letölthető termékekhez</a>"
+"Product Name","Termék neve"
+"Start Download","Letöltés indítása"
+"Download Image","Kép letöltése"
+Price,Ár
+Qty,Mennyiség
+Ordered,Megrendelt
+Shipped,Elküldve
+Canceled,Törölt
+Refunded,Visszatérített
+Subtotal,Részösszeg
+Close,"Zárja be a"
+"Can't add more than %s keywords!","Nem tud több mint %s kulcsszót hozzáadni!"
+Keywords,Kulcsszavak
+"Amount Limit Keywords","Összeg Határérték Kulcsszavak"
+"Amount Limit Secondary Keywords","Összeg Korlátozás Másodlagos kulcsszavak"
+"Amount Limit Tertiary Keywords","Összeg Korlát Tercier kulcsszavak"
+"Product Image",Termékkép
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Artist Profile"
+"Manage Images","Képek kezelése"

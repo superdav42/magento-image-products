@@ -1,0 +1,70 @@
+"Custom Template",เทมเพลตที่กําหนดเอง
+"Something went wrong while getting the requested content.",มีบางอย่างผิดพลาดขณะรับเนื้อหาที่ร้องขอ
+"We can't find the link you requested.",เราไม่พบลิงก์ที่คุณร้องขอ
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","โปรดลงชื่อเข้าใช้เพื่อดาวน์โหลดผลิตภัณฑ์ของคุณหรือซื้อ <a href=""%1"">%2</a>"
+"Please sign in to download your product.",โปรดลงชื่อเข้าใช้เพื่อดาวน์โหลดผลิตภัณฑ์ของคุณ
+"The link has expired.",ลิงก์หมดอายุแล้ว
+"The link is not available.",ลิงก์ไม่พร้อมใช้งาน
+"Failed to get usage",ไม่สามารถใช้งานได้
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","เราไม่สามารถสร้างเทมเพลตของคุณได้ โปรดติดต่อฝ่ายสนับสนุนเนื่องจากคุณอาจต้องจัดลําดับเทมเพลตใหม่"
+Terms,เงื่อนไข
+Substrate,"พื้น ผิว"
+Width,ความกว้าง
+Inches,นิ้ว
+Height,ความสูง
+Frame,กรอบ
+"Top Mat",เสื่อด้านบน
+"Top Mat Size",ขนาดเสื่อด้านบน
+"Bottom Mat",เสื่อด้านล่าง
+"Bottom Mat Size",ขนาดเสื่อด้านล่าง
+"Provided product must be type 'downloadable' or 'image'.","ผลิตภัณฑ์ที่ให้มาต้องพิมพ์ 'ดาวน์โหลดได้' หรือ 'รูปภาพ'"
+"The link information is invalid. Verify the link and try again.","ข้อมูลลิงก์ไม่ถูกต้อง ตรวจสอบลิงก์แล้วลองอีกครั้ง"
+"No downloadable link with the provided ID was found. Verify the ID and try again.","ไม่พบลิงก์ที่ดาวน์โหลดได้พร้อม ID ที่ให้มา ยืนยัน ID แล้วลองอีกครั้ง"
+"The downloadable link isn't related to the product. Verify the link and try again.","ลิงก์ที่ดาวน์โหลดได้ไม่เกี่ยวข้องกับผลิตภัณฑ์ ตรวจสอบลิงก์แล้วลองอีกครั้ง"
+"The link title is empty. Enter the link title and try again.","ชื่อลิงก์ว่างเปล่า ป้อนชื่อลิงก์แล้วลองอีกครั้ง"
+"The link type is invalid. Verify and try again.","ชนิดการเชื่อมโยงไม่ถูกต้อง ตรวจสอบและลองอีกครั้ง"
+"The link sample type is invalid. Verify and try again.","ชนิดตัวอย่างลิงก์ไม่ถูกต้อง ตรวจสอบและลองอีกครั้ง"
+"Please correct the image file type.",โปรดแก้ไขประเภทไฟล์รูปภาพ
+"The ""%1"" file couldn't be moved.","ไม่สามารถย้ายแฟ้ม ""%1"" ได้"
+"Option ""%1"" is required.","จําเป็นต้องใช้ตัวเลือก ""%1"""
+"Category or usage not found.",ไม่พบหมวดหมู่หรือการใช้งาน
+"Please choose a category and usage.",โปรดเลือกหมวดหมู่และการใช้งาน
+"Link file not provided",ไม่ได้ให้ไฟล์ลิงก์
+"Image Information",ข้อมูลภาพ
+"Add New Image",เพิ่มรูปภาพใหม่
+"Gallery Size",ขนาดแกลเลอรี
+"Default Image",ภาพเริ่มต้น
+"Gallery Size of 10""","ขนาดแกลเลอรี่ 10 นิ้ว"
+"Gallery Size of 12""","ขนาดแกลเลอรี 12 นิ้ว"
+"Gallery Size of 14""","ขนาดแกลเลอรี 14 นิ้ว"
+"Gallery Size of 16""","ขนาดแกลเลอรี 16"""
+"Gallery Size of 20""","ขนาดแกลเลอรี 20 นิ้ว"
+"Gallery Size of 24""","ขนาดแกลเลอรี 24 นิ้ว"
+"Gallery Size of 30""","ขนาดแกลเลอรี 30 นิ้ว"
+"Gallery Size of 36""","ขนาดแกลเลอรี 36"""
+"Gallery Size of 40""","ขนาดแกลเลอรี 40 นิ้ว"
+[GLOBAL],[ทั่วโลก]
+SKU,รหัสสินค้า
+Unlimited,จำกัด
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">คลิกที่นี่เพื่อไปยังผลิตภัณฑ์ที่ดาวน์โหลดได้</a>"
+"Product Name",ชื่อผลิตภัณฑ์
+"Start Download",เริ่มดาวน์โหลด
+"Download Image",ดาวน์โหลดรูปภาพ
+Price,ราคา
+Qty,ปริมาณ
+Ordered,สั่ง
+Shipped,"จัด ส่ง"
+Canceled,"ยก เลิก"
+Refunded,คืนเงิน
+Subtotal,ผลรวมย่อย
+Close,ปิด
+"Can't add more than %s keywords!","ไม่สามารถเพิ่มคําหลักได้มากกว่า %s!"
+Keywords,คำ
+"Amount Limit Keywords",คําหลักจํากัดจํานวนเงิน
+"Amount Limit Secondary Keywords",คําหลักรองขีดจํากัดจํานวนเงิน
+"Amount Limit Tertiary Keywords",จํานวนเงินจํากัดคําหลักระดับตติยภูมิ
+"Product Image",ภาพสินค้า
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile",ประวัติศิลปิน
+"Manage Images",จัดการรูปภาพ

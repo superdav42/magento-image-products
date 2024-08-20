@@ -1,0 +1,70 @@
+"Custom Template","قالب سفارشی"
+"Something went wrong while getting the requested content.","هنگام دریافت محتوای درخواستی مشکلی پیش آمد."
+"We can't find the link you requested.","پیوندی را که درخواست کرده اید پیدا نمی کنیم."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","لطفا برای دانلود محصول خود یا خرید وارد شوید <a href=""٪1"">٪2</a>."
+"Please sign in to download your product.","لطفا برای دانلود محصول خود وارد شوید."
+"The link has expired.","پیوند منقضی شده است."
+"The link is not available.","پیوند در دسترس نیست."
+"Failed to get usage","استفاده از آن انجام نشد"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","ما نتوانستیم قالب شما را ایجاد کنیم. لطفا با پشتیبانی تماس بگیرید زیرا ممکن است لازم باشد قالب را دوباره مرتب کنید."
+Terms,شرایط
+Substrate,بستر
+Width,عرض
+Inches,اینچ
+Height,ارتفاع
+Frame,قاب
+"Top Mat","تشک بالا"
+"Top Mat Size","اندازه تشک بالا"
+"Bottom Mat","تشک پایین"
+"Bottom Mat Size","اندازه تشک پایین"
+"Provided product must be type 'downloadable' or 'image'.","محصول ارائه شده باید از نوع ""قابل دانلود"" یا ""تصویر"" باشد."
+"The link information is invalid. Verify the link and try again.","اطلاعات پیوند نامعتبر است. پیوند را تأیید کنید و دوباره امتحان کنید."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","هیچ پیوند قابل دانلود با شناسه ارائه شده یافت نشد. شناسه را تأیید کنید و دوباره امتحان کنید."
+"The downloadable link isn't related to the product. Verify the link and try again.","پیوند قابل بارگیری مربوط به محصول نیست. پیوند را تأیید کنید و دوباره امتحان کنید."
+"The link title is empty. Enter the link title and try again.","عنوان پیوند خالی است. عنوان پیوند را وارد کنید و دوباره امتحان کنید."
+"The link type is invalid. Verify and try again.","نوع پیوند نامعتبر است. تأیید کنید و دوباره امتحان کنید."
+"The link sample type is invalid. Verify and try again.","نوع نمونه پیوند نامعتبر است. تأیید کنید و دوباره امتحان کنید."
+"Please correct the image file type.","لطفا نوع فایل تصویر را تصحیح کنید."
+"The ""%1"" file couldn't be moved.","فایل «٪1» قابل انتقال نبود."
+"Option ""%1"" is required.","گزینه ""٪1"" مورد نیاز است."
+"Category or usage not found.","دسته یا کاربرد یافت نشد."
+"Please choose a category and usage.","لطفا دسته بندی و کاربرد را انتخاب کنید."
+"Link file not provided","فایل لینک ارائه نشده است"
+"Image Information","اطلاعات تصویر"
+"Add New Image","اضافه کردن تصویر جدید"
+"Gallery Size","اندازه گالری"
+"Default Image","تصویر پیش فرض"
+"Gallery Size of 10""","گالری سایز 10 اینچ"
+"Gallery Size of 12""","گالری سایز 12 اینچ"
+"Gallery Size of 14""","اندازه گالری 14 اینچ"
+"Gallery Size of 16""","گالری سایز 16 اینچ"
+"Gallery Size of 20""","اندازه گالری 20"""
+"Gallery Size of 24""","گالری سایز 24 اینچ"
+"Gallery Size of 30""","اندازه گالری 30 اینچ"
+"Gallery Size of 36""","گالری سایز 36 اینچ"
+"Gallery Size of 40""","گالری سایز 40"""
+[GLOBAL],[جهانی]
+SKU,Sku
+Unlimited,نامحدود
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""٪1"">برای رفتن به محصولات قابل دانلود خود اینجا را کلیک</a> کنید"
+"Product Name","نام محصول"
+"Start Download","دانلود را شروع کنید"
+"Download Image","دانلود تصویر"
+Price,قيمت
+Qty,تعداد
+Ordered,دستور
+Shipped,حمل
+Canceled,لغو
+Refunded,مسترد
+Subtotal,"جمع فرعی"
+Close,نزدیک
+"Can't add more than %s keywords!","نمی توان بیش از ٪s کلمات کلیدی اضافه کرد!"
+Keywords,کليدواژه
+"Amount Limit Keywords","کلمات کلیدی محدودیت مقدار"
+"Amount Limit Secondary Keywords","حد مقدار کلیدواژه های ثانویه"
+"Amount Limit Tertiary Keywords","حد مقدار کلیدواژه های سوم"
+"Product Image","تصویر محصول"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","پروفایل هنرمند"
+"Manage Images","مدیریت تصاویر"

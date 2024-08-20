@@ -1,0 +1,70 @@
+"Custom Template","Templat Khusus"
+"Something went wrong while getting the requested content.","Ada yang tidak beres saat mendapatkan konten yang diminta."
+"We can't find the link you requested.","Kami tidak dapat menemukan tautan yang Anda minta."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Silakan masuk untuk mengunduh produk Anda atau membeli <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Silakan masuk untuk mengunduh produk Anda."
+"The link has expired.","Tautan telah kedaluwarsa."
+"The link is not available.","Tautan tidak tersedia."
+"Failed to get usage","Gagal mendapatkan penggunaan"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Kami tidak dapat membuat template Anda. Silakan hubungi bagian dukungan karena Anda mungkin perlu menyusun ulang templat."
+Terms,Ketentuan
+Substrate,Substrat
+Width,Lebar
+Inches,Inci
+Height,"Tinggi badan"
+Frame,Bingkai
+"Top Mat","Matras Atas"
+"Top Mat Size","Ukuran Matras Atas"
+"Bottom Mat","Alas Bawah"
+"Bottom Mat Size","Ukuran Matras Bawah"
+"Provided product must be type 'downloadable' or 'image'.","Produk yang disediakan harus berjenis 'dapat diunduh' atau 'gambar'."
+"The link information is invalid. Verify the link and try again.","Informasi tautan tidak valid. Verifikasi tautan dan coba lagi."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Tautan yang dapat diunduh dengan ID yang diberikan tidak ditemukan. Verifikasi ID dan coba lagi."
+"The downloadable link isn't related to the product. Verify the link and try again.","Tautan yang dapat diunduh tidak terkait dengan produk. Verifikasi tautan dan coba lagi."
+"The link title is empty. Enter the link title and try again.","Judul tautan kosong. Masukkan judul tautan dan coba lagi."
+"The link type is invalid. Verify and try again.","Jenis tautan tidak valid. Verifikasi dan coba lagi."
+"The link sample type is invalid. Verify and try again.","Jenis sampel tautan tidak valid. Verifikasi dan coba lagi."
+"Please correct the image file type.","Harap perbaiki jenis file gambar."
+"The ""%1"" file couldn't be moved.","File ""%1"" tidak dapat dipindahkan."
+"Option ""%1"" is required.","Opsi ""%1"" diperlukan."
+"Category or usage not found.","Kategori atau penggunaan tidak ditemukan."
+"Please choose a category and usage.","Pilih kategori dan penggunaan."
+"Link file not provided","File tautan tidak tersedia"
+"Image Information","Informasi Gambar"
+"Add New Image","Tambahkan Gambar Baru"
+"Gallery Size","Ukuran Galeri"
+"Default Image","Gambar Default"
+"Gallery Size of 10""","Ukuran Galeri 10 """
+"Gallery Size of 12""","Ukuran Galeri 12 """
+"Gallery Size of 14""","Ukuran Galeri 14 """
+"Gallery Size of 16""","Ukuran Galeri 16 """
+"Gallery Size of 20""","Ukuran Galeri 20 """
+"Gallery Size of 24""","Ukuran Galeri 24 """
+"Gallery Size of 30""","Ukuran Galeri 30 """
+"Gallery Size of 36""","Ukuran Galeri 36 """
+"Gallery Size of 40""","Ukuran Galeri 40 """
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,"Tidak terbatas"
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Klik di sini untuk membuka produk yang dapat diunduh</a>"
+"Product Name","Nama Produk"
+"Start Download","Mulai Unduh"
+"Download Image","Download Image"
+Price,Harga
+Qty,Jumlah
+Ordered,Memesan
+Shipped,Dikirim
+Canceled,Dibatalkan
+Refunded,Dikembalikan
+Subtotal,Subtotal
+Close,Tutup
+"Can't add more than %s keywords!","Tidak dapat menambahkan lebih dari %s kata kunci!"
+Keywords,"Kata kunci"
+"Amount Limit Keywords","Batas Jumlah Kata Kunci"
+"Amount Limit Secondary Keywords","Batas Jumlah Kata Kunci Sekunder"
+"Amount Limit Tertiary Keywords","Batas Jumlah Kata Kunci Tersier"
+"Product Image","Gambar Produk"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.php
+"Artist Profile","Profil Artis"
+"Manage Images","Mengelola Gambar"

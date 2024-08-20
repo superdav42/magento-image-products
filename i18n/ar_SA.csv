@@ -1,0 +1,70 @@
+"Custom Template","قالب مخصص"
+"Something went wrong while getting the requested content.","حدث خطأ ما أثناء الحصول على المحتوى المطلوب."
+"We can't find the link you requested.","لا يمكننا العثور على الرابط الذي طلبته."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","يرجى تسجيل الدخول لتنزيل منتجك أو شراء <a href=""٪1"">٪2</a>."
+"Please sign in to download your product.","يرجى تسجيل الدخول لتنزيل منتجك."
+"The link has expired.","انتهت صلاحية الرابط."
+"The link is not available.","الرابط غير متوفر."
+"Failed to get usage","فشل في الحصول على الاستخدام"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","لم نتمكن من إنشاء القالب الخاص بك. يرجى الاتصال بالدعم حيث قد تحتاج إلى إعادة ترتيب القالب."
+Terms,حيث
+Substrate,الركيزه
+Width,عرض
+Inches,البوصات
+Height,ارتفاع
+Frame,إطار
+"Top Mat","أعلى حصيرة"
+"Top Mat Size","أعلى حجم حصيرة"
+"Bottom Mat","حصيرة القاع"
+"Bottom Mat Size","حجم حصيرة القاع"
+"Provided product must be type 'downloadable' or 'image'.","يجب أن يكون المنتج المقدم من النوع ""قابل للتنزيل"" أو ""صورة""."
+"The link information is invalid. Verify the link and try again.","معلومات الارتباط غير صالحة. تحقق من الرابط وحاول مرة أخرى."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","لم يتم العثور على رابط قابل للتنزيل مع المعرف المقدم. تحقق من المعرف وحاول مرة أخرى."
+"The downloadable link isn't related to the product. Verify the link and try again.","الرابط القابل للتنزيل غير مرتبط بالمنتج. تحقق من الرابط وحاول مرة أخرى."
+"The link title is empty. Enter the link title and try again.","عنوان الرابط فارغ. أدخل عنوان الرابط وحاول مرة أخرى."
+"The link type is invalid. Verify and try again.","نوع الارتباط غير صالح. تحقق وحاول مرة أخرى."
+"The link sample type is invalid. Verify and try again.","نوع نموذج الارتباط غير صالح. تحقق وحاول مرة أخرى."
+"Please correct the image file type.","يرجى تصحيح نوع ملف الصورة."
+"The ""%1"" file couldn't be moved.","تعذر نقل الملف ""٪1""."
+"Option ""%1"" is required.","الخيار ""٪1"" مطلوب."
+"Category or usage not found.","لم يتم العثور على الفئة أو الاستخدام."
+"Please choose a category and usage.","الرجاء اختيار الفئة والاستخدام."
+"Link file not provided","لم يتم توفير ملف الارتباط"
+"Image Information","معلومات الصورة"
+"Add New Image","إضافة صورة جديدة"
+"Gallery Size","حجم المعرض"
+"Default Image","الصورة الافتراضية"
+"Gallery Size of 10""","حجم المعرض 10 """
+"Gallery Size of 12""","حجم المعرض 12 """
+"Gallery Size of 14""","حجم المعرض 14 """
+"Gallery Size of 16""","حجم المعرض 16 """
+"Gallery Size of 20""","حجم المعرض 20 """
+"Gallery Size of 24""","حجم المعرض 24 """
+"Gallery Size of 30""","حجم المعرض 30 """
+"Gallery Size of 36""","حجم المعرض 36 """
+"Gallery Size of 40""","حجم المعرض 40 """
+[GLOBAL],[عالمي]
+SKU,سكو
+Unlimited,مطلق
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href = ""٪1"" > انقر هنا للانتقال إلى منتجاتك القابلة للتنزيل</a>"
+"Product Name","اسم المنتج"
+"Start Download","ابدأ التنزيل"
+"Download Image","تحميل الصورة"
+Price,ثمن
+Qty,الكميه
+Ordered,امر
+Shipped,شحنها
+Canceled,ملغي
+Refunded,ردها
+Subtotal,"المجموع الفرعي"
+Close,غلق
+"Can't add more than %s keywords!","لا يمكن إضافة أكثر من ٪s الكلمات الرئيسية!"
+Keywords,"الكلمات الرئيسيه"
+"Amount Limit Keywords","الكلمات الرئيسية لحد المبلغ"
+"Amount Limit Secondary Keywords","حد المبلغ الكلمات الرئيسية الثانوية"
+"Amount Limit Tertiary Keywords","حد المبلغ الكلمات الرئيسية الثالثة"
+"Product Image","صورة المنتج"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::ترتيب/عرض/عناصر/عارض/default.phtml
+"Artist Profile","الملف الشخصي للفنان"
+"Manage Images","إدارة الصور"

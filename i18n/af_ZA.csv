@@ -1,0 +1,70 @@
+"Custom Template","Pasgemaakte sjabloon"
+"Something went wrong while getting the requested content.","Iets het verkeerd geloop terwyl hy die gevraagde inhoud gekry het."
+"We can't find the link you requested.","Ons kan nie die skakel vind wat u aangevra het nie."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Meld asseblief aan om jou produk af te laai of koop <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Meld asseblief aan om jou produk af te laai."
+"The link has expired.","Die skakel het verval."
+"The link is not available.","Die skakel is nie beskikbaar nie."
+"Failed to get usage","Kon nie gebruik kry nie"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Ons kon nie jou sjabloon genereer nie. Kontak asseblief ondersteuning aangesien jy dalk nodig het om die sjabloon te herrangskik."
+Terms,Terme
+Substrate,Substraat
+Width,Breedte
+Inches,Duim
+Height,Hoogte
+Frame,Raam
+"Top Mat","Top Mat"
+"Top Mat Size","Top Mat Grootte"
+"Bottom Mat","Onderste Mat"
+"Bottom Mat Size","Onderste Mat Grootte"
+"Provided product must be type 'downloadable' or 'image'.","Verskafde produk moet tipe 'aflaaibaar' of 'beeld' wees."
+"The link information is invalid. Verify the link and try again.","Die skakelinligting is ongeldig. Verifieer die skakel en probeer weer."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Geen aflaaibare skakel met die verskafde ID is gevind nie. Verifieer die ID en probeer weer."
+"The downloadable link isn't related to the product. Verify the link and try again.","Die aflaaibare skakel hou nie verband met die produk nie. Verifieer die skakel en probeer weer."
+"The link title is empty. Enter the link title and try again.","Die skakeltitel is leeg. Voer die skakeltitel in en probeer weer."
+"The link type is invalid. Verify and try again.","Die skakeltipe is ongeldig. Verifieer en probeer weer."
+"The link sample type is invalid. Verify and try again.","Die tipe skakelmonster is ongeldig. Verifieer en probeer weer."
+"Please correct the image file type.","Korrigeer asseblief die tipe prentlêer."
+"The ""%1"" file couldn't be moved.","Die ""%1""-lêer kon nie geskuif word nie."
+"Option ""%1"" is required.","Opsie ""%1"" word vereis."
+"Category or usage not found.","Kategorie of gebruik nie gevind nie."
+"Please choose a category and usage.","Kies asseblief 'n kategorie en gebruik."
+"Link file not provided","Skakellêer word nie verskaf nie"
+"Image Information","Beeld inligting"
+"Add New Image","Voeg nuwe prent by"
+"Gallery Size","Galery Grootte"
+"Default Image","Standaard beeld"
+"Gallery Size of 10""","Galery Grootte van 10"""
+"Gallery Size of 12""","Galery grootte van 12"""
+"Gallery Size of 14""","Galery Grootte van 14"""
+"Gallery Size of 16""","Galery Grootte van 16"""
+"Gallery Size of 20""","Galery Grootte van 20"""
+"Gallery Size of 24""","Galery Grootte van 24"""
+"Gallery Size of 30""","Galery grootte van 30"""
+"Gallery Size of 36""","Galery Grootte van 36"""
+"Gallery Size of 40""","Galery Grootte van 40"""
+[GLOBAL],[WÊRELDWYD]
+SKU,SKU
+Unlimited,Onbeperkte
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href = ""%1"">Klik hier om na u aflaaibare produkte te gaan</a>"
+"Product Name","Produk Naam"
+"Start Download","Begin aflaai"
+"Download Image","Laai prent af"
+Price,Prys
+Qty,Qty
+Ordered,Bestel
+Shipped,Gestuur
+Canceled,Gekanselleer
+Refunded,Terugbetaal
+Subtotal,Subtotaal
+Close,Sluit
+"Can't add more than %s keywords!","Kan nie meer as % se sleutelwoorde byvoeg nie!"
+Keywords,Trefwoorde
+"Amount Limit Keywords","Sleutelwoorde vir bedragbeperking"
+"Amount Limit Secondary Keywords","Hoeveelheid Limiet Sekondêre Sleutelwoorde"
+"Amount Limit Tertiary Keywords","Bedrag beperk tersiêre sleutelwoorde"
+"Product Image","Produk Beeld"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile",Kunstenaarsprofiel
+"Manage Images","Bestuur beelde"

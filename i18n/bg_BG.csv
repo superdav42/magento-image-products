@@ -1,0 +1,70 @@
+"Custom Template","Персонализиран шаблон"
+"Something went wrong while getting the requested content.","Нещо се е объркало при получаването на заявеното съдържание."
+"We can't find the link you requested.","Не можем да намерим исканата от вас връзка."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Моля, влезте, за да изтеглите продукта си или да го закупите <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Моля, влезте, за да изтеглите продукта си."
+"The link has expired.","Връзката е изтекла."
+"The link is not available.","Връзката не е налична."
+"Failed to get usage","Не успях да получа използване"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Не успяхме да генерираме вашия шаблон. Моля, свържете се с отдела за поддръжка, тъй като може да се наложи да пренаредите шаблона."
+Terms,Условия
+Substrate,Субстрат
+Width,Ширина
+Inches,Инча
+Height,Височина
+Frame,Рамка
+"Top Mat","Топ матрак"
+"Top Mat Size","Размер на горния мат"
+"Bottom Mat","Долна подложка"
+"Bottom Mat Size","Размер на долната част на матрака"
+"Provided product must be type 'downloadable' or 'image'.","Предоставеният продукт трябва да бъде тип ""за изтегляне"" или ""изображение""."
+"The link information is invalid. Verify the link and try again.","Информацията за връзката е невалидна. Проверете връзката и опитайте отново."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Не беше намерена връзка за изтегляне с предоставения идентификационен номер. Проверете идентификатора и опитайте отново."
+"The downloadable link isn't related to the product. Verify the link and try again.","Връзката за изтегляне не е свързана с продукта. Проверете връзката и опитайте отново."
+"The link title is empty. Enter the link title and try again.","Заглавието на връзката е празно. Въведете заглавието на връзката и опитайте отново."
+"The link type is invalid. Verify and try again.","Типът на връзката е невалиден. Проверете и опитайте отново."
+"The link sample type is invalid. Verify and try again.","Типът на извадката на връзката е невалиден. Проверете и опитайте отново."
+"Please correct the image file type.","Моля, коригирайте типа на файла с изображението."
+"The ""%1"" file couldn't be moved.","Файлът ""%1"" не може да бъде преместен."
+"Option ""%1"" is required.","Изисква се опция ""%1""."
+"Category or usage not found.","Категорията или употребата не са намерени."
+"Please choose a category and usage.","Моля, изберете категория и начин на използване."
+"Link file not provided","Не е предоставен файл за връзка"
+"Image Information","Информация за изображенията"
+"Add New Image","Добавяне на ново изображение"
+"Gallery Size","Размер на галерията"
+"Default Image","Изображение по подразбиране"
+"Gallery Size of 10""","Размер на галерията от 10"""
+"Gallery Size of 12""","Размер на галерията от 12"""
+"Gallery Size of 14""","Галерия Размер на 14"""
+"Gallery Size of 16""","Галерия Размер на 16"""
+"Gallery Size of 20""","Галерия Размер на 20"""
+"Gallery Size of 24""","Галерия Размер на 24"""
+"Gallery Size of 30""","Галерия Размер на 30"""
+"Gallery Size of 36""","Размер на галерията на 36"""
+"Gallery Size of 40""","Галерия Размер на 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Неограничен
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Кликнете тук, за да преминете към продуктите за изтегляне</a>"
+"Product Name","Име на продукта"
+"Start Download","Начало на изтегляне"
+"Download Image","Изтегляне на изображение"
+Price,Цена
+Qty,Количество
+Ordered,Поръчано
+Shipped,Изпратени
+Canceled,Отменен
+Refunded,"Възстановени средства"
+Subtotal,"Междинна сума"
+Close,Затвори
+"Can't add more than %s keywords!","Не мога да добавя повече от %s ключови думи!"
+Keywords,"Ключови думи"
+"Amount Limit Keywords","Лимит на сумата Ключови думи"
+"Amount Limit Secondary Keywords","Лимит на сумата Вторични ключови думи"
+"Amount Limit Tertiary Keywords","Ограничение на количеството Третостепенни ключови думи"
+"Product Image","Изображение на продукта"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Профил на артиста"
+"Manage Images","Управление на изображения"

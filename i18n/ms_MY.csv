@@ -1,0 +1,70 @@
+"Custom Template","Templat Tersuai"
+"Something went wrong while getting the requested content.","Ada yang tidak kena semasa mendapatkan kandungan yang diminta."
+"We can't find the link you requested.","Kami tidak menemui pautan yang anda minta."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Sila log masuk untuk memuat turun produk anda atau membeli <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Sila log masuk untuk memuat turun produk anda."
+"The link has expired.","Pautan telah tamat tempoh."
+"The link is not available.","Pautan tidak tersedia."
+"Failed to get usage","Gagal mendapatkan penggunaan"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Kami tidak dapat menjana templat anda. Sila hubungi sokongan kerana anda mungkin perlu menyusun semula templat."
+Terms,Terma
+Substrate,Substrat
+Width,Lebar
+Inches,Inci
+Height,Ketinggian
+Frame,Rangka
+"Top Mat","Tikar Atas"
+"Top Mat Size","Saiz Tikar Atas"
+"Bottom Mat","Tikar Bawah"
+"Bottom Mat Size","Saiz Tikar Bawah"
+"Provided product must be type 'downloadable' or 'image'.","Produk yang disediakan mestilah jenis 'boleh dimuat turun' atau 'imej'."
+"The link information is invalid. Verify the link and try again.","Maklumat pautan tidak sah. Sahkan pautan dan cuba lagi."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Tiada pautan yang boleh dimuat turun dengan ID yang disediakan ditemui. Sahkan ID dan cuba lagi."
+"The downloadable link isn't related to the product. Verify the link and try again.","Pautan yang boleh dimuat turun tidak berkaitan dengan produk. Sahkan pautan dan cuba lagi."
+"The link title is empty. Enter the link title and try again.","Tajuk pautan kosong. Masukkan tajuk pautan dan cuba lagi."
+"The link type is invalid. Verify and try again.","Jenis pautan tidak sah. Sahkan dan cuba lagi."
+"The link sample type is invalid. Verify and try again.","Jenis sampel pautan tidak sah. Sahkan dan cuba lagi."
+"Please correct the image file type.","Sila betulkan jenis fail imej."
+"The ""%1"" file couldn't be moved.","Fail ""%1"" tidak boleh dialihkan."
+"Option ""%1"" is required.","Pilihan ""%1"" diperlukan."
+"Category or usage not found.","Kategori atau penggunaan tidak ditemui."
+"Please choose a category and usage.","Sila pilih kategori dan penggunaan."
+"Link file not provided","Fail pautan tidak disediakan"
+"Image Information","Maklumat Imej"
+"Add New Image","Tambah Imej Baharu"
+"Gallery Size","Saiz Galeri"
+"Default Image","Imej Lalai"
+"Gallery Size of 10""","Saiz Galeri 10"""
+"Gallery Size of 12""","Saiz Galeri 12"""
+"Gallery Size of 14""","Saiz Galeri 14"""
+"Gallery Size of 16""","Saiz Galeri 16"""
+"Gallery Size of 20""","Saiz Galeri 20"""
+"Gallery Size of 24""","Saiz Galeri 24"""
+"Gallery Size of 30""","Saiz Galeri 30"""
+"Gallery Size of 36""","Saiz Galeri 36"""
+"Gallery Size of 40""","Saiz Galeri 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,"Tanpa had"
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Klik di sini untuk pergi ke produk anda yang boleh dimuat turun</a>"
+"Product Name","Nama Produk"
+"Start Download","Mulakan Muat Turun"
+"Download Image","Muat turun Imej"
+Price,Harga
+Qty,Kuantiti
+Ordered,Dipesan
+Shipped,Dihantar
+Canceled,Dibatalkan
+Refunded,Dikembalikan
+Subtotal,"Jumlah kecil"
+Close,Tutup
+"Can't add more than %s keywords!","Tidak boleh menambah lebih daripada %s kata kunci!"
+Keywords,"Kata kunci"
+"Amount Limit Keywords","Kata Kunci Had Amaun"
+"Amount Limit Secondary Keywords","Had Jumlah Kata Kunci Sekunder"
+"Amount Limit Tertiary Keywords","Had Jumlah Kata Kunci Tertiari"
+"Product Image","Imej produk"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::pesanan/pandangan/item/pemapapan/default.phtml
+"Artist Profile","Profil Artis"
+"Manage Images","Urus Imej"

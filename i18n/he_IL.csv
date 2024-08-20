@@ -1,0 +1,70 @@
+"Custom Template","תבנית מותאמת אישית"
+"Something went wrong while getting the requested content.","משהו השתבש בעת קבלת התוכן המבוקש."
+"We can't find the link you requested.","לא מצאנו את הקישור שביקשת."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","היכנס כדי להוריד את המוצר או לרכוש <a href=""%1"">%2</a>."
+"Please sign in to download your product.","היכנס כדי להוריד את המוצר שלך."
+"The link has expired.","פג תוקפו של הקישור."
+"The link is not available.","הקישור אינו זמין."
+"Failed to get usage","השימוש נכשל"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","לא הצלחנו ליצור את התבנית שלך. פנה לתמיכה מכיוון שייתכן שיהיה עליך לסדר מחדש את התבנית."
+Terms,תנאי
+Substrate,המצע
+Width,רוחב
+Inches,"אינץ '"
+Height,גובה
+Frame,מסגרת
+"Top Mat","מחצלת עליונה"
+"Top Mat Size","גודל שטיח עליון"
+"Bottom Mat","שטיחון תחתון"
+"Bottom Mat Size","גודל שטיחון תחתון"
+"Provided product must be type 'downloadable' or 'image'.","המוצר המסופק חייב להיות מסוג 'ניתן להורדה' או 'תמונה'."
+"The link information is invalid. Verify the link and try again.","פרטי הקישור אינם חוקיים. אמת את הקישור ונסה שוב."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","לא נמצא קישור להורדה עם התעודה המזהה שסופקה. אמת את התעודה המזהה ונסה שוב."
+"The downloadable link isn't related to the product. Verify the link and try again.","הקישור להורדה אינו קשור למוצר. אמת את הקישור ונסה שוב."
+"The link title is empty. Enter the link title and try again.","כותרת הקישור ריקה. הזן את כותרת הקישור ונסה שוב."
+"The link type is invalid. Verify and try again.","סוג הקישור אינו חוקי. אמת ונסה שוב."
+"The link sample type is invalid. Verify and try again.","סוג דוגמת הקישור אינו חוקי. אמת ונסה שוב."
+"Please correct the image file type.","אנא תקן את סוג קובץ התמונה."
+"The ""%1"" file couldn't be moved.","לא היתה אפשרות להעביר את הקובץ ""%1""."
+"Option ""%1"" is required.","נדרשת אפשרות ""%1""."
+"Category or usage not found.","קטגוריה או שימוש לא נמצאו."
+"Please choose a category and usage.","אנא בחר קטגוריה ושימוש."
+"Link file not provided","קובץ קישור לא סופק"
+"Image Information","מידע על התמונה"
+"Add New Image","הוסף תמונה חדשה"
+"Gallery Size","גודל גלריה"
+"Default Image","תמונת ברירת מחדל"
+"Gallery Size of 10""","גודל גלריה 10 אינץ'"
+"Gallery Size of 12""","גודל גלריה 12 אינץ'"
+"Gallery Size of 14""","גודל גלריה 14 אינץ'"
+"Gallery Size of 16""","גודל גלריה 16 אינץ'"
+"Gallery Size of 20""","גודל גלריה 20 אינץ'"
+"Gallery Size of 24""","גודל גלריה 24 אינץ'"
+"Gallery Size of 30""","גודל גלריה 30 אינץ'"
+"Gallery Size of 36""","גודל גלריה 36 אינץ'"
+"Gallery Size of 40""","גודל גלריה 40 אינץ'"
+[GLOBAL],[גלובלי]
+SKU,"מק""ט:"
+Unlimited,"ללא הגבלה"
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">לחץ כאן כדי לעבור למוצרים להורדה שלך</a>"
+"Product Name","שם המוצר"
+"Start Download","התחל להוריד"
+"Download Image","הורד תמונה"
+Price,מחיר
+Qty,כמות
+Ordered,הורה
+Shipped,נשלח
+Canceled,בוטלה
+Refunded,הוחזר
+Subtotal,"סכום ביניים"
+Close,קרוב
+"Can't add more than %s keywords!","לא ניתן להוסיף יותר ממילות מפתח %s!"
+Keywords,"מילות מפתח"
+"Amount Limit Keywords","מילות מפתח להגבלת כמות"
+"Amount Limit Secondary Keywords","מגבלת כמות מילות מפתח משניות"
+"Amount Limit Tertiary Keywords","מגבלת כמות מילות מפתח שלישוניות"
+"Product Image","תמונת מוצר"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","פרופיל אמן"
+"Manage Images","ניהול תמונות"

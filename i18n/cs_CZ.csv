@@ -1,0 +1,70 @@
+"Custom Template","Vlastní šablona"
+"Something went wrong while getting the requested content.","Při získávání požadovaného obsahu se něco pokazilo."
+"We can't find the link you requested.","Vámi požadovaný odkaz nemůžeme najít."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Pro stažení produktu nebo nákup se prosím přihlaste <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Pro stažení produktu se přihlaste."
+"The link has expired.","Platnost odkazu vypršela."
+"The link is not available.","Odkaz není k dispozici."
+"Failed to get usage","Nepodařilo se získat použití"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Vaši šablonu se nám nepodařilo vygenerovat. Kontaktujte prosím podporu, protože je možné, že bude nutné šablonu znovu objednat."
+Terms,Podmínky
+Substrate,Substrát
+Width,Šířka
+Inches,Palce
+Height,Výška
+Frame,Rám
+"Top Mat","Vrchní podložka"
+"Top Mat Size","Velikost horní podložky"
+"Bottom Mat","Spodní rohož"
+"Bottom Mat Size","Velikost spodní podložky"
+"Provided product must be type 'downloadable' or 'image'.","Poskytnutý produkt musí být typu ""ke stažení"" nebo ""obrázek""."
+"The link information is invalid. Verify the link and try again.","Informace o odkazu jsou neplatné. Ověřte odkaz a zkuste to znovu."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Nebyl nalezen žádný odkaz ke stažení se zadaným ID. Ověřte ID a zkuste to znovu."
+"The downloadable link isn't related to the product. Verify the link and try again.","Odkaz ke stažení nesouvisí s produktem. Ověřte odkaz a zkuste to znovu."
+"The link title is empty. Enter the link title and try again.","Název odkazu je prázdný. Zadejte název odkazu a zkuste to znovu."
+"The link type is invalid. Verify and try again.","Typ odkazu je neplatný. Ověřte to a zkuste to znovu."
+"The link sample type is invalid. Verify and try again.","Typ vzorku odkazu je neplatný. Ověřte to a zkuste to znovu."
+"Please correct the image file type.","Opravte prosím typ souboru obrázku."
+"The ""%1"" file couldn't be moved.","Soubor ""%1"" se nepodařilo přesunout."
+"Option ""%1"" is required.","Je vyžadována možnost ""%1""."
+"Category or usage not found.","Kategorie nebo použití nebyly nalezeny."
+"Please choose a category and usage.","Vyberte kategorii a způsob použití."
+"Link file not provided","Soubor s odkazem není k dispozici"
+"Image Information","Informace o obrázku"
+"Add New Image","Přidat nový obrázek"
+"Gallery Size","Velikost galerie"
+"Default Image","Výchozí obrázek"
+"Gallery Size of 10""","Velikost galerie 10"""
+"Gallery Size of 12""","Velikost galerie 12"""
+"Gallery Size of 14""","Velikost galerie 14"""
+"Gallery Size of 16""","Velikost galerie 16"""
+"Gallery Size of 20""","Velikost galerie 20"""
+"Gallery Size of 24""","Velikost galerie 24"""
+"Gallery Size of 30""","Velikost galerie 30"""
+"Gallery Size of 36""","Velikost galerie 36"""
+"Gallery Size of 40""","Velikost galerie 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Neomezené
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Kliknutím sem přejdete na produkty ke stažení</a>"
+"Product Name","Název produktu"
+"Start Download","Začít stahovat"
+"Download Image","Stáhnout obrázek"
+Price,Cena
+Qty,Množství
+Ordered,Objednáno
+Shipped,Odesláno
+Canceled,Zrušeno
+Refunded,"Vrácené prostředky"
+Subtotal,Mezisoučet
+Close,Zavřít
+"Can't add more than %s keywords!","Nelze přidat více než %s klíčových slov!"
+Keywords,"Klíčová slova"
+"Amount Limit Keywords","Limit částky Klíčová slova"
+"Amount Limit Secondary Keywords","Limit částky Sekundární klíčová slova"
+"Amount Limit Tertiary Keywords","Limit množství Terciární klíčová slova"
+"Product Image","Obrázek produktu"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Profil umělce"
+"Manage Images","Správa obrázků"

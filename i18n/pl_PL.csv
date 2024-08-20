@@ -1,0 +1,70 @@
+"Custom Template","Szablon niestandardowy"
+"Something went wrong while getting the requested content.","Coś poszło nie tak podczas pobierania żądanej zawartości."
+"We can't find the link you requested.","Nie możemy znaleźć linku, o który prosiłeś."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Zaloguj się, aby pobrać produkt lub dokonać zakupu <a href=""%1"">%2.</a>"
+"Please sign in to download your product.","Zaloguj się, aby pobrać produkt."
+"The link has expired.","Link wygasł."
+"The link is not available.","Łącze jest niedostępne."
+"Failed to get usage","Nie udało się uzyskać użycia"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Nie udało nam się wygenerować szablonu. Skontaktuj się z pomocą techniczną, ponieważ może być konieczne ponowne zamówienie szablonu."
+Terms,Warunki
+Substrate,Podłoże
+Width,Szerokość
+Inches,Cale
+Height,Wysokość
+Frame,Rama
+"Top Mat","Top Mat"
+"Top Mat Size","Rozmiar górnej maty"
+"Bottom Mat","Mata dolna"
+"Bottom Mat Size","Rozmiar maty dolnej"
+"Provided product must be type 'downloadable' or 'image'.","Dostarczony produkt musi być typu ""do pobrania"" lub ""obraz""."
+"The link information is invalid. Verify the link and try again.","Informacje o łączu są nieprawidłowe. Zweryfikuj łącze i spróbuj ponownie."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Nie znaleziono łącza do pobrania z podanym identyfikatorem. Zweryfikuj identyfikator i spróbuj ponownie."
+"The downloadable link isn't related to the product. Verify the link and try again.","Link do pobrania nie jest powiązany z produktem. Zweryfikuj łącze i spróbuj ponownie."
+"The link title is empty. Enter the link title and try again.","Tytuł łącza jest pusty. Wprowadź tytuł łącza i spróbuj ponownie."
+"The link type is invalid. Verify and try again.","Typ łącza jest nieprawidłowy. Sprawdź i spróbuj ponownie."
+"The link sample type is invalid. Verify and try again.","Typ próbki łącza jest nieprawidłowy. Sprawdź i spróbuj ponownie."
+"Please correct the image file type.","Popraw typ pliku obrazu."
+"The ""%1"" file couldn't be moved.","Nie można przenieść pliku ""%1""."
+"Option ""%1"" is required.","Opcja ""%1"" jest wymagana."
+"Category or usage not found.","Nie znaleziono kategorii lub użycia."
+"Please choose a category and usage.","Wybierz kategorię i sposób użytkowania."
+"Link file not provided","Nie podano pliku łącza"
+"Image Information","Informacje o obrazie"
+"Add New Image","Dodaj nowy obraz"
+"Gallery Size","Rozmiar galerii"
+"Default Image","Obraz domyślny"
+"Gallery Size of 10""","Galeria Rozmiar 10"""
+"Gallery Size of 12""","Galeria Rozmiar 12"""
+"Gallery Size of 14""","Galeria Rozmiar 14"""
+"Gallery Size of 16""","Galeria Rozmiar 16"""
+"Gallery Size of 20""","Galeria Rozmiar 20"""
+"Gallery Size of 24""","Galeria Rozmiar 24"""
+"Gallery Size of 30""","Galeria Rozmiar 30"""
+"Gallery Size of 36""","Galeria Rozmiar 36"""
+"Gallery Size of 40""","Galeria Rozmiar 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,"Bez ograniczeń"
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Kliknij tutaj, aby przejść do produktów do pobrania</a>"
+"Product Name","Nazwa produktu"
+"Start Download","Rozpocznij pobieranie"
+"Download Image","Pobierz obraz"
+Price,Cena
+Qty,Ilość
+Ordered,Zamówione
+Shipped,Wysłane
+Canceled,Anulowane
+Refunded,Zwrócone
+Subtotal,"Suma częściowa"
+Close,Zamknij
+"Can't add more than %s keywords!","Nie można dodać więcej niż %s słów kluczowych!"
+Keywords,"Słowa kluczowe"
+"Amount Limit Keywords","Limit kwoty Słowa kluczowe"
+"Amount Limit Secondary Keywords","Limit kwoty Dodatkowe słowa kluczowe"
+"Amount Limit Tertiary Keywords","Limit kwoty Trzeciorzędne słowa kluczowe"
+"Product Image","Obraz produktu"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Profil artysty"
+"Manage Images","Zarządzanie obrazami"

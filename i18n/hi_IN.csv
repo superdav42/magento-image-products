@@ -1,0 +1,70 @@
+"Custom Template","कस्टम टेम्पलेट"
+"Something went wrong while getting the requested content.","अनुरोधित सामग्री प्राप्त करते समय कुछ गलत हो गया।"
+"We can't find the link you requested.","हमें आपके द्वारा अनुरोधित लिंक नहीं मिला."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","कृपया अपना उत्पाद डाउनलोड करने या <a href=""%1"">%2 खरीदने के लिए साइन इन करें</a>."
+"Please sign in to download your product.","कृपया अपना उत्पाद डाउनलोड करने के लिए साइन इन करें।"
+"The link has expired.","लिंक की समय सीमा समाप्त हो गई है."
+"The link is not available.","लिंक उपलब्ध नहीं है."
+"Failed to get usage","उपयोग प्राप्त करने में विफल"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","हम आपका टेम्पलेट जनरेट करने में असमर्थ थे। कृपया समर्थन से संपर्क करें क्योंकि आपको टेम्पलेट को पुन: व्यवस्थित करने की आवश्यकता हो सकती है।"
+Terms,लिहाज
+Substrate,सब्सट्रेट
+Width,चौड़ाई
+Inches,इंच
+Height,पराकाष्‍ठा
+Frame,चौखटा
+"Top Mat","टॉप मैट"
+"Top Mat Size","शीर्ष चटाई आकार"
+"Bottom Mat","बॉटम मैट"
+"Bottom Mat Size","नीचे चटाई का आकार"
+"Provided product must be type 'downloadable' or 'image'.","बशर्ते उत्पाद 'डाउनलोड करने योग्य' या 'छवि' प्रकार का होना चाहिए।"
+"The link information is invalid. Verify the link and try again.","लिंक जानकारी अमान्य है. लिंक की जाँच करें और पुनः प्रयास करें."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","प्रदान की गई आईडी के साथ कोई डाउनलोड करने योग्य लिंक नहीं मिला। ID सत्यापित करें और पुनः प्रयास करें."
+"The downloadable link isn't related to the product. Verify the link and try again.","डाउनलोड करने योग्य लिंक उत्पाद से संबंधित नहीं है. लिंक की जाँच करें और पुनः प्रयास करें."
+"The link title is empty. Enter the link title and try again.","लिंक शीर्षक रिक्त है. लिंक शीर्षक दर्ज करें और पुनः प्रयास करें."
+"The link type is invalid. Verify and try again.","लिंक प्रकार अमान्य है. सत्यापित करें और पुनः प्रयास करें."
+"The link sample type is invalid. Verify and try again.","लिंक नमूना प्रकार अमान्य है. सत्यापित करें और पुनः प्रयास करें."
+"Please correct the image file type.","कृपया छवि फ़ाइल प्रकार को ठीक करें।"
+"The ""%1"" file couldn't be moved.","""%1"" फ़ाइल को हटाया नहीं जा सका."
+"Option ""%1"" is required.","विकल्प ""%1"" आवश्यक है."
+"Category or usage not found.","श्रेणी या उपयोग नहीं मिला."
+"Please choose a category and usage.","कृपया एक श्रेणी और उपयोग चुनें।"
+"Link file not provided","लिंक फ़ाइल प्रदान नहीं की गई"
+"Image Information","छवि की जानकारी"
+"Add New Image","नई छवि जोड़ें"
+"Gallery Size","गैलरी का आकार"
+"Default Image","डिफ़ॉल्ट छवि"
+"Gallery Size of 10""","10 का गैलरी आकार """
+"Gallery Size of 12""","12 "" की गैलरी का आकार"
+"Gallery Size of 14""","14 का गैलरी आकार """
+"Gallery Size of 16""","16 "" की गैलरी का आकार"
+"Gallery Size of 20""","20 का गैलरी आकार """
+"Gallery Size of 24""","गैलरी का आकार 24"""
+"Gallery Size of 30""","30 का गैलरी आकार """
+"Gallery Size of 36""","36 का गैलरी आकार """
+"Gallery Size of 40""","40 का गैलरी आकार """
+[GLOBAL],[वैश्विक]
+SKU,एसकेयू
+Unlimited,असीम
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">अपने डाउनलोड करने योग्य उत्पादों पर जाने के लिए यहाँ क्लिक</a> करें"
+"Product Name","प्रोडक्ट का नाम"
+"Start Download","डाउनलोड शुरू करें"
+"Download Image","छवि डाउनलोड करें"
+Price,दाम
+Qty,मात्रा
+Ordered,आदेश
+Shipped,"भेज दिया"
+Canceled,रद्द
+Refunded,वापस
+Subtotal,उपयोग
+Close,"बंद करना"
+"Can't add more than %s keywords!","%s से अधिक कीवर्ड नहीं जोड़ सकते!"
+Keywords,खोजशब्दों
+"Amount Limit Keywords","राशि सीमा कीवर्ड"
+"Amount Limit Secondary Keywords","राशि सीमा द्वितीयक कीवर्ड"
+"Amount Limit Tertiary Keywords","राशि सीमा तृतीयक कीवर्ड"
+"Product Image","उत्पाद का चित्र"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","कलाकार प्रोफाइल"
+"Manage Images","छवियाँ प्रबंधित करें"

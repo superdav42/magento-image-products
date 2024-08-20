@@ -1,0 +1,70 @@
+"Custom Template","Modeli i personalizuar"
+"Something went wrong while getting the requested content.","Diçka nuk shkoi mirë gjatë marrjes së përmbajtjes së kërkuar."
+"We can't find the link you requested.","Nuk mund ta gjejmë linkun që kërkove."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Ju lutemi të regjistroheni për të shkarkuar produktin tuaj ose për të blerë <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Ju lutemi regjistrohuni për të shkarkuar produktin tuaj."
+"The link has expired.","Lidhja ka skaduar."
+"The link is not available.","Lidhja nuk është e disponueshme."
+"Failed to get usage","Dështoi përdorimi"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Ne nuk ishim në gjendje të gjeneronim modelin tuaj. Ju lutemi kontaktoni mbështetjen pasi mund t'ju duhet të riorganizoni shabllonin."
+Terms,Termat
+Substrate,Substrati
+Width,Gjerësia
+Inches,Inç
+Height,Lartësia
+Frame,Korniza
+"Top Mat","Top Mat"
+"Top Mat Size","Madhësia e sipërme e matit"
+"Bottom Mat","Mat i poshtëm"
+"Bottom Mat Size","Madhësia e matit të poshtëm"
+"Provided product must be type 'downloadable' or 'image'.","Produkti me kusht duhet të jetë tip 'downloadable' ose 'image'."
+"The link information is invalid. Verify the link and try again.","Informacioni i lidhjes është i pavlefshëm. Verifikoni lidhjen dhe provoni përsëri."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Nuk u gjet asnjë lidhje e shkarkuar me ID-në e siguruar. Verifikoni kartën e identitetit dhe provoni përsëri."
+"The downloadable link isn't related to the product. Verify the link and try again.","Lidhja e shkarkuar nuk është e lidhur me produktin. Verifikoni lidhjen dhe provoni përsëri."
+"The link title is empty. Enter the link title and try again.","Titulli i lidhjes është bosh. Shkruaj titullin e lidhjes dhe provo përsëri."
+"The link type is invalid. Verify and try again.","Lloji i lidhjes është i pavlefshëm. Verifikoni dhe provoni përsëri."
+"The link sample type is invalid. Verify and try again.","Lloji i mostrës së lidhjes është i pavlefshëm. Verifikoni dhe provoni përsëri."
+"Please correct the image file type.","Ju lutem korrigjoni llojin e skedarit të figurës."
+"The ""%1"" file couldn't be moved.","Dosja ""%1"" nuk mund të lëvizej."
+"Option ""%1"" is required.","Opsioni ""%1"" është i nevojshëm."
+"Category or usage not found.","Kategori ose përdorim që nuk gjendet."
+"Please choose a category and usage.","Ju lutem zgjidhni një kategori dhe përdorim."
+"Link file not provided","File i lidhjes nuk është dhënë"
+"Image Information","Informacioni i figurës"
+"Add New Image","Shto imazhin e ri"
+"Gallery Size","Madhësia e galerisë"
+"Default Image","Figura e prezgjedhur"
+"Gallery Size of 10""","Madhësia e galerisë prej 10"""
+"Gallery Size of 12""","Madhësia e galerisë prej 12"""
+"Gallery Size of 14""","Madhësia e galerisë prej 14"""
+"Gallery Size of 16""","Madhësia e galerisë prej 16"""
+"Gallery Size of 20""","Madhësia e galerisë prej 20"""
+"Gallery Size of 24""","Madhësia e galerisë prej 24"""
+"Gallery Size of 30""","Madhësia e galerisë prej 30"""
+"Gallery Size of 36""","Madhësia e galerisë prej 36"""
+"Gallery Size of 40""","Madhësia e galerisë prej 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,"E pakufizuar"
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Kliko këtu për të shkuar tek produktet tuaja të shkarkuara</a>"
+"Product Name","Emri i produktit"
+"Start Download","Fillo shkarkimin"
+"Download Image","Shkarko figurën"
+Price,Çmimi
+Qty,Qty
+Ordered,Porositur
+Shipped,Dërguar
+Canceled,Anulluar
+Refunded,"Të rimbursuara"
+Subtotal,Subtotal
+Close,Afër
+"Can't add more than %s keywords!","Nuk mund të shtoni më shumë se %s fjalë kyçe!"
+Keywords,"Fjalët kyçe"
+"Amount Limit Keywords","Shuma Limit Keywords"
+"Amount Limit Secondary Keywords","Shuma Limit Fjalë kyçe dytësore"
+"Amount Limit Tertiary Keywords","Shuma Limit Terciary Keywords"
+"Product Image","Imazhi i produktit"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Profili i artistit"
+"Manage Images","Menaxho imazhet"

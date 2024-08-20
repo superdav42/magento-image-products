@@ -1,0 +1,70 @@
+"Custom Template","Προσαρμοσμένο πρότυπο"
+"Something went wrong while getting the requested content.","Κάτι πήγε στραβά κατά τη λήψη του περιεχομένου που ζητήθηκε."
+"We can't find the link you requested.","Δεν μπορούμε να βρούμε τον σύνδεσμο που ζητήσατε."
+"Please sign in to download your product or purchase <a href=""%1"">%2</a>.","Παρακαλούμε συνδεθείτε για να κατεβάσετε το προϊόν σας ή να αγοράσετε <a href=""%1"">%2</a>."
+"Please sign in to download your product.","Συνδεθείτε για να κατεβάσετε το προϊόν σας."
+"The link has expired.","Ο σύνδεσμος έχει λήξει."
+"The link is not available.","Ο σύνδεσμος δεν είναι διαθέσιμος."
+"Failed to get usage","Απέτυχε να πάρει τη χρήση"
+"We were unable to generate your template. Please contact support as you might need to reorder the template.","Δεν μπορέσαμε να δημιουργήσουμε το πρότυπό σας. Παρακαλούμε επικοινωνήστε με την υποστήριξη, καθώς ενδέχεται να χρειαστεί να παραγγείλετε εκ νέου το πρότυπο."
+Terms,Όροι
+Substrate,Υπόστρωμα
+Width,Πλάτος
+Inches,Ίντσες
+Height,Ύψος
+Frame,Πλαίσιο
+"Top Mat","Top Mat"
+"Top Mat Size","Μέγεθος κορυφαίου στρώματος"
+"Bottom Mat","Κάτω στρώμα"
+"Bottom Mat Size","Μέγεθος κάτω στρώματος"
+"Provided product must be type 'downloadable' or 'image'.","Το παρεχόμενο προϊόν πρέπει να είναι τύπου ""downloadable"" ή ""image""."
+"The link information is invalid. Verify the link and try again.","Οι πληροφορίες του συνδέσμου είναι άκυρες. Επαληθεύστε το σύνδεσμο και προσπαθήστε ξανά."
+"No downloadable link with the provided ID was found. Verify the ID and try again.","Δεν βρέθηκε σύνδεσμος λήψης με το παρεχόμενο αναγνωριστικό. Επαληθεύστε το αναγνωριστικό και προσπαθήστε ξανά."
+"The downloadable link isn't related to the product. Verify the link and try again.","Ο σύνδεσμος λήψης δεν σχετίζεται με το προϊόν. Επαληθεύστε τον σύνδεσμο και δοκιμάστε ξανά."
+"The link title is empty. Enter the link title and try again.","Ο τίτλος του συνδέσμου είναι άδειος. Εισάγετε τον τίτλο του συνδέσμου και προσπαθήστε ξανά."
+"The link type is invalid. Verify and try again.","Ο τύπος συνδέσμου είναι άκυρος. Επαληθεύστε και δοκιμάστε ξανά."
+"The link sample type is invalid. Verify and try again.","Ο τύπος δείγματος σύνδεσης είναι άκυρος. Επαληθεύστε και δοκιμάστε ξανά."
+"Please correct the image file type.","Διορθώστε τον τύπο αρχείου εικόνας."
+"The ""%1"" file couldn't be moved.","Το αρχείο ""%1"" δεν μπόρεσε να μετακινηθεί."
+"Option ""%1"" is required.","Απαιτείται η επιλογή ""%1""."
+"Category or usage not found.","Δεν βρέθηκε κατηγορία ή χρήση."
+"Please choose a category and usage.","Παρακαλούμε επιλέξτε μια κατηγορία και μια χρήση."
+"Link file not provided","Το αρχείο σύνδεσης δεν παρέχεται"
+"Image Information","Πληροφορίες εικόνας"
+"Add New Image","Προσθήκη νέας εικόνας"
+"Gallery Size","Μέγεθος γκαλερί"
+"Default Image","Προεπιλεγμένη εικόνα"
+"Gallery Size of 10""","Μέγεθος γκαλερί 10"""
+"Gallery Size of 12""","Μέγεθος γκαλερί 12"""
+"Gallery Size of 14""","Gallery Μέγεθος του 14"""
+"Gallery Size of 16""","Μέγεθος γκαλερί 16"""
+"Gallery Size of 20""","Gallery Μέγεθος του 20"""
+"Gallery Size of 24""","Μέγεθος γκαλερί 24"""
+"Gallery Size of 30""","Gallery Μέγεθος του 30"""
+"Gallery Size of 36""","Μέγεθος γκαλερί 36"""
+"Gallery Size of 40""","Μέγεθος γκαλερί 40"""
+[GLOBAL],[GLOBAL]
+SKU,SKU
+Unlimited,Απεριόριστα
+U,U
+"<a href=""%1"">Click here to go to your downloadable products</a>","<a href=""%1"">Κάντε κλικ εδώ για να μεταβείτε στα προϊόντα που μπορείτε να κατεβάσετε</a>"
+"Product Name","Όνομα προϊόντος"
+"Start Download","Έναρξη λήψης"
+"Download Image","Λήψη εικόνας"
+Price,Τιμή
+Qty,Ποσότητα
+Ordered,Παραγγελία
+Shipped,Αποστολή
+Canceled,Ακυρώθηκε
+Refunded,Refunded
+Subtotal,Υποσύνολο
+Close,"Κλείστε το"
+"Can't add more than %s keywords!","Δεν μπορείτε να προσθέσετε περισσότερες από %s λέξεις-κλειδιά!"
+Keywords,Λέξεις-κλειδιά
+"Amount Limit Keywords","Ποσό Όριο Λέξεις-κλειδιά"
+"Amount Limit Secondary Keywords","Ποσό Όριο Δευτερεύουσες λέξεις-κλειδιά"
+"Amount Limit Tertiary Keywords","Ποσό Όριο Τριτογενείς λέξεις-κλειδιά"
+"Product Image","Εικόνα προϊόντος"
+DevStone_ImageProducts::order/view/items/renderer/default.phtml,DevStone_ImageProducts::order/view/items/renderer/default.phtml
+"Artist Profile","Προφίλ καλλιτέχνη"
+"Manage Images","Διαχείριση εικόνων"
