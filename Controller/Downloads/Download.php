@@ -63,7 +63,7 @@ class Download extends \Magento\Downloadable\Controller\Download
 
     private Factory $imageFactory;
 
-	private Filesystem $filesystem;
+    private Filesystem $filesystem;
 
     private WriteInterface $mediaDirectory;
 
@@ -182,10 +182,10 @@ class Download extends \Magento\Downloadable\Controller\Download
     ];
 
 
-	/**
-	 * @throws FileSystemException
-	 */
-	public function __construct(
+    /**
+     * @throws FileSystemException
+     */
+    public function __construct(
         Reader $moduleReader,
         ItemRepository $itemRepository,
         Context $context,
@@ -214,25 +214,26 @@ class Download extends \Magento\Downloadable\Controller\Download
      *
      * @return Session
      */
-    private function _getCustomerSession(): Session {
-        return $this->_objectManager->get( Session::class);
+    private function _getCustomerSession(): Session
+    {
+        return $this->_objectManager->get(Session::class);
     }
 
-	/**
-	 * Download link action
-	 *
-	 * @return void|ResponseInterface
-	 * @SuppressWarnings(PHPMD.CyclomaticComplexity)
-	 * @SuppressWarnings(PHPMD.NPathComplexity)
-	 * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
-	 * @SuppressWarnings(PHPMD.ExitExpression)
-	 * @throws SessionException
-	 */
+    /**
+     * Download link action
+     *
+     * @return void|ResponseInterface
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
+     * @SuppressWarnings(PHPMD.ExitExpression)
+     * @throws SessionException
+     */
     public function execute()
     {
         $session = $this->_getCustomerSession();
 
-        $id = $this->getRequest()->getParam('id', 0);
+        $id = $this->getRequest()->getParam('id', 'notfound');
         /** @var PurchasedLink $linkPurchasedItem */
         $linkPurchasedItem = $this->_objectManager->create(
             PurchasedLink::class
@@ -244,7 +245,12 @@ class Download extends \Magento\Downloadable\Controller\Download
             $this->messageManager->addNotice(__("We can't find the link you requested."));
             return $this->_redirect('*/customer/products');
         }
-        if (!$this->_objectManager->get( Data::class)->getIsShareable($linkPurchasedItem)) {
+
+        $orderDate = new \DateTime($linkPurchasedItem->getCreatedAt());
+        $now = new \DateTime();
+        $diff = $now->diff($orderDate);
+
+        if ($diff->days > 1 && !$this->_objectManager->get(Data::class)->getIsShareable($linkPurchasedItem)) {
             $customerId = $session->getCustomerId();
             if (!$customerId) {
                 /** @var Product $product */
@@ -318,7 +324,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                 }
                 $linkPurchasedItem->save();
                 exit(0);
-            } catch ( Exception $e) {
+            } catch (Exception $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
                 $this->messageManager->addError(__('Something went wrong while getting the requested content.'));
             }
@@ -333,12 +339,13 @@ class Download extends \Magento\Downloadable\Controller\Download
         return $this->_redirect('*/customer/products');
     }
 
-	/**
-	 * @throws NoSuchEntityException
-	 * @throws InputException
-	 * @throws LocalizedException
-	 */
-	private function resizeFile($path, $resourceType, PurchasedLink $linkPurchasedItem): void {
+    /**
+     * @throws NoSuchEntityException
+     * @throws InputException
+     * @throws LocalizedException
+     */
+    private function resizeFile($path, $resourceType, PurchasedLink $linkPurchasedItem): void
+    {
         $orderItem = $this->itemRepository->get($linkPurchasedItem->getOrderItemId());
 
         $productOptions = $orderItem->getProductOptions();
@@ -346,14 +353,14 @@ class Download extends \Magento\Downloadable\Controller\Download
         $templateOptionsObject = $productOptions['template_options'] ?? '';
 
         if ($templateOptionsObject) {
-	        $this->generateTemplate(
-		        $path,
-		        $resourceType,
-		        $templateOptionsObject,
-		        $orderItem->getQuoteItemId()
-	        );
+            $this->generateTemplate(
+                $path,
+                $resourceType,
+                $templateOptionsObject,
+                $orderItem->getQuoteItemId()
+            );
 
-	        return;
+            return;
         }
 
         $usageIdOption= $productOptions['usage_id'] ?? '';
@@ -403,135 +410,136 @@ class Download extends \Magento\Downloadable\Controller\Download
         $this->_processDownload($cachePath, $resourceType);
     }
 
-	/**
-	 * @throws Exception
-	 */
-	protected function generateTemplate($path, $resourceType, array $options, $id): void {
+    /**
+     * @throws Exception
+     */
+    protected function generateTemplate($path, $resourceType, array $options, $id): void
+    {
         try {
             $cachePath = 'downloadable/cache/template/' . $id . '.png';
-        if (! $this->mediaDirectory->isExist($cachePath)) {
-            $imagine = new Imagine();
-            $pubDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-            $image = $imagine->load($this->mediaDirectory->readFile($path));
+            if (! $this->mediaDirectory->isExist($cachePath)) {
+                $imagine = new Imagine();
+                $pubDir = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+                $image = $imagine->load($this->mediaDirectory->readFile($path));
 
-            $size = $options['size'] ?? 'SD';
-            $orientation = $options['orientation'] ?? 'SD';
+                $size = $options['size'] ?? 'SD';
+                $orientation = $options['orientation'] ?? 'SD';
 
-            $canvasWidth = $size === 'SD' ? 1024 : 1920;
+                $canvasWidth = $size === 'SD' ? 1024 : 1920;
 
-            $backgroundName = $options['backgroundName'] ?? 'Hieroglyphics';
-            $templateBuilderViewDir = $this->moduleReader->getModuleDir(
-                Dir::MODULE_VIEW_DIR,
-                'DevStone_TemplateBuilder'
-            );
-            $background = $imagine->load(
-                $this->mediaDirectory->readFile(
-                    'templates_full/' . $backgroundName . '/' . $backgroundName . '_' . $size . '_Background.jpg'
-                )
-            );
-
-            $mask = $imagine->load(
-                $this->mediaDirectory->readFile(
-                    'templates_full/Alpha_masks/' . $size . '_' . $orientation . '.jpg'
-                )
-            );
-            if ($options['hideBackground'] == 'true') {
-                $pallet = new RGB();
-                $color = $pallet->color('#000', 0);
-                $background = $imagine->create($background->getSize(),$color);
-            }
-
-            $finalImage = $imagine->create($background->getSize(), $mask->palette()->color('fff', 0));
-
-            $black = $imagine->create($mask->getSize(), $mask->palette()->color('000'));
-            $mask = $black->paste($mask, new Point(0, 0));
-            $scale = 1;
-            if (isset($options['baseScale'])) {
-                $scale = $options['scale'] / $options['baseScale'];
-            }
-
-            $position = $options['orientation'] . '_' . $options['size'];
-            $imageHeight = $image->getSize()->getHeight();
-            $imageWidth = $image->getSize()->getWidth();
-            $positionHeight = $this->orientationSizeArray[$position]['height'];
-            $positionWidth = $this->orientationSizeArray[$position]['width'];
-            if ($positionWidth / $positionHeight >= $imageWidth / $imageHeight) {
-                $image->resize(
-                    $image->getSize()->widen(
-                        $background->getSize()->getWidth() * $scale * $positionWidth / 500
-                    ),
-                    ImageInterface::FILTER_LANCZOS
+                $backgroundName = $options['backgroundName'] ?? 'Hieroglyphics';
+                $templateBuilderViewDir = $this->moduleReader->getModuleDir(
+                    Dir::MODULE_VIEW_DIR,
+                    'DevStone_TemplateBuilder'
                 );
-            } else {
-                $value = $positionHeight / ($options['size'] === 'HD' ? 281 : 375);
-                $image->resize(
-                    $image->getSize()->heighten(
-                        $background->getSize()->getHeight() * $scale * $value
-                    ),
-                    ImageInterface::FILTER_LANCZOS
-                );
-            }
-
-            if ($options['flipImage'] === 'true') {
-                $image->flipHorizontally();
-            }
-
-            $left = $options['left'];
-            $top = $options['top'];
-
-            if ($left < 0 || $top < 0) {
-
-                $boxH = min($background->getSize()->getHeight(), $imageHeight);
-                $boxW = min($background->getSize()->getWidth(), $imageWidth);
-                $image->crop(
-                    new Point(
-                        $left < 0 ? abs($left) : 0,
-                        $top < 0 ? abs($top) : 0
-                    ),
-                    new Box(
-                        $boxW,
-                        $boxH,
-                    )
-                );
-
-                if ($left < 0) {
-                    $left = 0;
-                }
-                if ($top < 0) {
-                    $top = 0;
-                }
-            }
-
-
-            $location = new Point($left, $top);
-            $finalImage->paste($image, $location)
-                ->applyMask($mask);
-
-            if ($options['opacity'] < 1) {
-                $finalImage->getImagick()->evaluateImage(
-                    Imagick::EVALUATE_MULTIPLY,
-                    $options['opacity'],
-                    Imagick::CHANNEL_ALPHA
-                );
-            }
-
-            $finalImage = $background->paste($finalImage, new Point(0, 0));
-            if ($options['showTitleBar'] === 'true') {
-                $titlebar = $imagine->load(
+                $background = $imagine->load(
                     $this->mediaDirectory->readFile(
-                        'templates_full/' . $backgroundName . '/' . $backgroundName . '_' . $size . '_TitleBar.png'
+                        'templates_full/' . $backgroundName . '/' . $backgroundName . '_' . $size . '_Background.jpg'
                     )
                 );
-                $finalImage->paste($titlebar, new Point(0, $options['titleTop'] < 0 ? 0 : $options['titleTop']));
-            }
 
-            if (!$this->mediaDirectory->isWritable(dirname($cachePath))) {
-                $this->mediaDirectory->create(dirname($cachePath));
+                $mask = $imagine->load(
+                    $this->mediaDirectory->readFile(
+                        'templates_full/Alpha_masks/' . $size . '_' . $orientation . '.jpg'
+                    )
+                );
+                if ($options['hideBackground'] == 'true') {
+                    $pallet = new RGB();
+                    $color = $pallet->color('#000', 0);
+                    $background = $imagine->create($background->getSize(), $color);
+                }
+
+                $finalImage = $imagine->create($background->getSize(), $mask->palette()->color('fff', 0));
+
+                $black = $imagine->create($mask->getSize(), $mask->palette()->color('000'));
+                $mask = $black->paste($mask, new Point(0, 0));
+                $scale = 1;
+                if (isset($options['baseScale'])) {
+                    $scale = $options['scale'] / $options['baseScale'];
+                }
+
+                $position = $options['orientation'] . '_' . $options['size'];
+                $imageHeight = $image->getSize()->getHeight();
+                $imageWidth = $image->getSize()->getWidth();
+                $positionHeight = $this->orientationSizeArray[$position]['height'];
+                $positionWidth = $this->orientationSizeArray[$position]['width'];
+                if ($positionWidth / $positionHeight >= $imageWidth / $imageHeight) {
+                    $image->resize(
+                        $image->getSize()->widen(
+                            $background->getSize()->getWidth() * $scale * $positionWidth / 500
+                        ),
+                        ImageInterface::FILTER_LANCZOS
+                    );
+                } else {
+                    $value = $positionHeight / ($options['size'] === 'HD' ? 281 : 375);
+                    $image->resize(
+                        $image->getSize()->heighten(
+                            $background->getSize()->getHeight() * $scale * $value
+                        ),
+                        ImageInterface::FILTER_LANCZOS
+                    );
+                }
+
+                if ($options['flipImage'] === 'true') {
+                    $image->flipHorizontally();
+                }
+
+                $left = $options['left'];
+                $top = $options['top'];
+
+                if ($left < 0 || $top < 0) {
+
+                    $boxH = min($background->getSize()->getHeight(), $imageHeight);
+                    $boxW = min($background->getSize()->getWidth(), $imageWidth);
+                    $image->crop(
+                        new Point(
+                            $left < 0 ? abs($left) : 0,
+                            $top < 0 ? abs($top) : 0
+                        ),
+                        new Box(
+                            $boxW,
+                            $boxH,
+                        )
+                    );
+
+                    if ($left < 0) {
+                        $left = 0;
+                    }
+                    if ($top < 0) {
+                        $top = 0;
+                    }
+                }
+
+
+                $location = new Point($left, $top);
+                $finalImage->paste($image, $location)
+                    ->applyMask($mask);
+
+                if ($options['opacity'] < 1) {
+                    $finalImage->getImagick()->evaluateImage(
+                        Imagick::EVALUATE_MULTIPLY,
+                        $options['opacity'],
+                        Imagick::CHANNEL_ALPHA
+                    );
+                }
+
+                $finalImage = $background->paste($finalImage, new Point(0, 0));
+                if ($options['showTitleBar'] === 'true') {
+                    $titlebar = $imagine->load(
+                        $this->mediaDirectory->readFile(
+                            'templates_full/' . $backgroundName . '/' . $backgroundName . '_' . $size . '_TitleBar.png'
+                        )
+                    );
+                    $finalImage->paste($titlebar, new Point(0, $options['titleTop'] < 0 ? 0 : $options['titleTop']));
+                }
+
+                if (!$this->mediaDirectory->isWritable(dirname($cachePath))) {
+                    $this->mediaDirectory->create(dirname($cachePath));
+                }
+                $this->mediaDirectory->writeFile($this->mediaDirectory->getAbsolutePath($cachePath), $finalImage->get('png'));
             }
-            $this->mediaDirectory->writeFile($this->mediaDirectory->getAbsolutePath($cachePath), $finalImage->get('png'));
-        }
             $this->_processDownload($cachePath, $resourceType);
-        } catch ( Exception $e) {
+        } catch (Exception $e) {
             $this->messageManager->addWarningMessage(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
             throw new Exception(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
         }

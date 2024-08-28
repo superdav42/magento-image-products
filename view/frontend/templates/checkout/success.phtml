@@ -1,8 +1,33 @@
 <?php
-
-// @codingStandardsIgnoreFile
-
+/** @var DevStone\ImageProducts\Block\Checkout\Success $block */
+/** @var Magento\Framework\Escaper $escaper */
 ?>
+
+<?php if ($links = $block->getDownloadableLinks()) : ?>
+    <dl>
+        <dt><strong><em><?= __('Download Images') ?></em></strong></dt>
+        <?php foreach($links as $link): ?>
+            <?php /** @var Magento\Downloadable\Model\Link\Purchased $link */ ?>
+            <dd>
+                <?= $escaper->escapeHtml($link->getProductName()) ?>&nbsp;
+                <?php foreach($link->getPurchasedItems() as $linkPurchasedItem) : ?>
+                    <?php /** @var Magento\Downloadable\Model\Link\Purchased\Item $linkPurchasedItem */ ?>
+                    (<a href="<?= $escaper->escapeUrl(
+                        $block->getUrl(
+                            'downloadable/download/link',
+                            [
+                                'id' => $linkPurchasedItem->getLinkHash()
+                            ]
+                        )
+                    ) ?>">
+                        <?= $escaper->escapeHtml(__('Download Image')) ?>
+                    </a>)
+                <?php endforeach;?>
+            </dd>
+        <?php endforeach; ?>
+    </dl>
+<?php endif; ?>
+
 <?php if ($block->getOrderHasDownloadable()): ?>
-    <?= /* @escapeNotVerified */ __('<a href="%1">Click here to go to your downloadable products</a>', $block->getDownloadableProductsUrl()) ?>
+    <?= /* @escapeNotVerified */ __('<a href="%1">Click here to see all your downloadable images</a>', $block->getDownloadableProductsUrl()) ?>
 <?php endif; ?>
