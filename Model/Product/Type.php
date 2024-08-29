@@ -251,17 +251,14 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-//    public function processBuyRequest($product, $buyRequest)
-//    {
-//        die('here');
-//        $links = $buyRequest->getLinks();
-//        var_dump($links);
-//        $links = is_array($links) ? array_filter($links, 'intval') : [];
-//
-//        $options = ['links' => $links];
-//
-//        return $options;
-//    }
+    public function processBuyRequest($product, $buyRequest)
+    {
+        $options = parent::processBuyRequest($product, $buyRequest);
+        $options['usage_category'] = $buyRequest->getUsageCategory();
+        $options['usage_id'] = $buyRequest->getUsageId();
+
+        return $options;
+    }
     private function prepareProductForPrint(DataObject $buyRequest, $product)
     {
         $product->addCustomOption('print', true);
