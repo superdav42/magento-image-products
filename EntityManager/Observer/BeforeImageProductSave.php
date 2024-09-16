@@ -102,14 +102,6 @@ class BeforeImageProductSave implements ObserverInterface
     {
         $entity = $observer->getEvent()->getProduct();
 
-        // Replaced with Preference as saving of attributes on type id image was not possible if Magneto sets it to downloadable
-//        if ($entity instanceof \Magento\Catalog\Api\Data\ProductInterface &&
-//            $entity->getOrigData('type_id') === \DevStone\ImageProducts\Model\Product\Type::TYPE_ID &&
-//            $entity->getTypeId() !== \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {
-//            // Magento\Downloadable\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Downloadable changes the type to downloadable we need to change it back to image.
-//            $entity->setTypeId(\DevStone\ImageProducts\Model\Product\Type::TYPE_ID);
-//        }
-
         if ('image' === $this->request->getParam('type', null)) {
             $entity->setTypeId(Type::TYPE_ID);
         }
@@ -119,7 +111,6 @@ class BeforeImageProductSave implements ObserverInterface
             $mediaGalleryData = $entity->getData('media_gallery');
 
             $existingMediaFiles = [];
-            $linkFiles = [];
 
             if (isset($mediaGalleryData['images']) && is_array($mediaGalleryData['images'])) {
                 foreach ($mediaGalleryData['images'] as &$image) {
@@ -129,6 +120,7 @@ class BeforeImageProductSave implements ObserverInterface
                 }
             }
 
+            $linkFileNames = [];
             /** @var LinkInterface[] $links */
             $links = $entity->getExtensionAttributes()->getDownloadableProductLinks() ?: [];
             foreach ($links as $link) {
@@ -137,16 +129,15 @@ class BeforeImageProductSave implements ObserverInterface
                     // This is special type like gal_* or url;
                 }
                 $file = $link->getLinkFile();
-                $linkFiles[] = $file;
-                if (!$this->stringInArray(pathinfo($file, PATHINFO_FILENAME), $existingMediaFiles)) {
-                    $mediaAttributeCodes = $this->mediaConfig->getMediaAttributeCodes();
-                    if (($key = array_search('frame_image', $mediaAttributeCodes)) !== false) {
-                        unset($mediaAttributeCodes[$key]);
-                    }
+
+                $linkFileName = pathinfo($file, PATHINFO_FILENAME);
+                $linkFileNames[] = $linkFileName;
+                if (!$this->stringInArray($linkFileName, $existingMediaFiles)) {
+
                     $file = $this->mediaGalleryProcessor->addImage(
                         $entity,
                         $link->getBasePath() . $file,
-                        $mediaAttributeCodes,
+                        ['image', 'small_image', 'thumbnail'],
                         false,
                         false
                     );
@@ -163,7 +154,7 @@ class BeforeImageProductSave implements ObserverInterface
                     }
                     $filename = pathinfo($image['file'], PATHINFO_FILENAME);
                     $siteIdDelimiter ='-GoodSalt-';
-                    $skuFromFileName = str_contains($filename, $siteIdDelimiter) ?
+                    $linkFileName = str_contains($filename, $siteIdDelimiter) ?
                         substr(
                             strstr(
                                 $filename,
@@ -171,12 +162,9 @@ class BeforeImageProductSave implements ObserverInterface
                             ),
                             strlen($siteIdDelimiter)
                         ) : $filename;
-                    $skuFromFileName = preg_replace( '/_\d*$/i', '',$skuFromFileName);
-                    if (
-                        !$this->stringInArray(
-                            $skuFromFileName,
-                            $linkFiles
-                        )
+
+                    if (empty($linkFileName) ||
+                        ! in_array($linkFileName, $linkFileNames)
                     ) {
                         $image['removed'] = 1;
                     }

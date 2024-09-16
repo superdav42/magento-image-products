@@ -51,8 +51,8 @@ class Processor extends Product\Gallery\Processor
         if (!isset($pathinfo['extension']) || !in_array(strtolower($pathinfo['extension']), $imgExtensions)) {
             throw new LocalizedException(__('Please correct the image file type.'));
         }
-
-        $fileName = $product->getUrlKey() . '-GoodSalt-' . '.' . $pathinfo['extension'];
+        // why no sku?
+        $fileName = $product->getUrlKey() . '-GoodSalt-' . $pathinfo['filename']. '.' . $pathinfo['extension'];
 
         $fileName = Uploader::getCorrectFileName($fileName);
         $dispretionPath = Uploader::getDispersionPath($fileName);
