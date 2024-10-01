@@ -251,7 +251,7 @@ class BeforeImageProductSave implements ObserverInterface
     private function stringInArray($needle, array $haystack): bool
     {
         foreach ($haystack as $value) {
-            if (strpos($value, $needle) !== false && strpos($value, 'frameImage') === false) {
+            if (str_contains($value, $needle) && !str_contains($value, 'frameImage')) {
                 return true;
             }
         }
