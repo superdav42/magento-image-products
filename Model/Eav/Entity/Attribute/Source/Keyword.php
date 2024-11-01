@@ -46,9 +46,6 @@ class Keyword extends Table
      */
     public function getAllOptions($withEmpty = true, $defaultValues = false, $unlimited = false)
     {
-        if (! $unlimited) {
-            return [];
-        }
         $storeId = $this->getAttribute()->getStoreId();
         if ($storeId === null) {
             $storeId = $this->storeManager->getStore()->getId();
@@ -62,15 +59,25 @@ class Keyword extends Table
         $attributeId = $this->getAttribute()->getId();
         $attributeId = 141;
         if (!isset($this->_options[$storeId][$attributeId])) {
-            $collection = $this->_attrOptionCollectionFactory->create()->setPositionOrder(
-                'asc'
-            )->setAttributeFilter(
+            /** @var $collection \Magento\Eav\Model\ResourceModel\Entity\Attribute\Option\Collection */
+            $collection = $this->_attrOptionCollectionFactory->create();
+            $collection->setAttributeFilter(
                 $attributeId
             )->setStoreFilter(
                 $storeId
-            )->setPageSize(
-                false
-            )->load();
+            );
+            if ( !$unlimited ) {
+                $collection->setPositionOrder('asc', true)
+                    ->setPageSize(100)
+                    ->addFieldToFilter('sort_alpha_value.value', ['in' =>
+                        ['jesus','symbolism', 'cross','symbol', 'bible', 'devotions','family','America', 'Americana','grandmother','fish', 'heaven','revelation','Daniel','Moses']
+                    ]);
+            } else {
+                $collection->setPositionOrder(
+                'asc',
+                )->setPageSize(false);
+            }
+            $collection->load();
             $this->_options[$storeId][$attributeId] = $collection->toOptionArray();
             $this->_optionsDefault[$storeId][$attributeId] = $collection->toOptionArray('default_value');
         }
