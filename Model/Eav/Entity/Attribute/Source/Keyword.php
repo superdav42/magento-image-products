@@ -11,6 +11,8 @@ use Magento\Framework\DB\Select;
 use Magento\Framework\Escaper;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\Search\Model\Query\Collection;
+use Magento\Search\Model\ResourceModel\Query\CollectionFactory as QueryCollectionFactory;
 
 /**
  * @api
@@ -21,19 +23,16 @@ class Keyword extends Table
     protected $_optionsDefault = [];
     protected $_attrOptionCollectionFactory;
     protected $_attrOptionFactory;
-    private StoreManagerInterface $storeManager;
-    private Escaper $escaper;
 
     public function __construct(
         CollectionFactory $attrOptionCollectionFactory,
         OptionFactory $attrOptionFactory,
-        Escaper $escaper,
-        StoreManagerInterface $storeManager
+        private readonly Escaper $escaper,
+        private readonly StoreManagerInterface $storeManager,
+        private readonly QueryCollectionFactory $queryCollectionFactory,
     ) {
         $this->_attrOptionCollectionFactory = $attrOptionCollectionFactory;
         $this->_attrOptionFactory = $attrOptionFactory;
-        $this->escaper = $escaper;
-        $this->storeManager = $storeManager;
         parent::__construct($attrOptionCollectionFactory, $attrOptionFactory);
     }
 
@@ -66,15 +65,26 @@ class Keyword extends Table
             )->setStoreFilter(
                 $storeId
             );
-            if ( !$unlimited ) {
-                $collection->setPositionOrder('asc', true)
-                    ->setPageSize(100)
+            if (!$unlimited) {
+                /** @var \Magento\Search\Model\ResourceModel\Query\Collection $queryCollection */
+                $queryCollection = $this->queryCollectionFactory->create();
+                $queryCollection->setPopularQueryFilter(1);
+                $queryCollection->getSelect()->where('main_table.num_results < 500');
+                $queryCollection->setPageSize(100);
+                $terms = ['devotion','devotions','symbol','america','americana','jesus'];
+                foreach ($queryCollection as $query) {
+                    $terms[] = $query->getQueryText();
+                }
+                $collection
+                    ->setPositionOrder('asc', true)
+                    ->setPageSize(100+6)
                     ->addFieldToFilter('sort_alpha_value.value', ['in' =>
-                        ['jesus','symbolism', 'cross','symbol', 'bible', 'devotions','family','America', 'Americana','grandmother','fish', 'heaven','revelation','Daniel','Moses']
+                        $terms
                     ]);
+                ;
             } else {
                 $collection->setPositionOrder(
-                'asc',
+                    'asc',
                 )->setPageSize(false);
             }
             $collection->load();
@@ -300,7 +310,7 @@ class Keyword extends Table
                 1
             )->load();
         $options = $collection->toOptionArray();
-        //		var_dump($options);
+        //        var_dump($options);
         if (empty($options[0]['value'])) {
             return null;
         }
