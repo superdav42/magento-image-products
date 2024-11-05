@@ -69,15 +69,15 @@ class Keyword extends Table
                 /** @var \Magento\Search\Model\ResourceModel\Query\Collection $queryCollection */
                 $queryCollection = $this->queryCollectionFactory->create();
                 $queryCollection->setPopularQueryFilter(1);
-                $queryCollection->getSelect()->where('main_table.num_results < 500');
-                $queryCollection->setPageSize(100);
+                $queryCollection->getSelect()->where('main_table.num_results < 1000');
+                $queryCollection->setPageSize(200);
                 $terms = ['devotion','devotions','symbol','america','americana','jesus'];
                 foreach ($queryCollection as $query) {
                     $terms[] = $query->getQueryText();
                 }
                 $collection
                     ->setPositionOrder('asc', true)
-                    ->setPageSize(100+6)
+                    ->setPageSize(200)
                     ->addFieldToFilter('sort_alpha_value.value', ['in' =>
                         $terms
                     ]);
