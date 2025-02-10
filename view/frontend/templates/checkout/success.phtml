@@ -1,16 +1,21 @@
 <?php
 /** @var DevStone\ImageProducts\Block\Checkout\Success $block */
 /** @var Magento\Framework\Escaper $escaper */
+$first = true;
 ?>
 
-<?php if ($links = $block->getDownloadableLinks()) : ?>
-    <dl>
-        <dt><strong><em><?= __('Download Images') ?></em></strong></dt>
-        <?php foreach($links as $link): ?>
-            <?php /** @var Magento\Downloadable\Model\Link\Purchased $link */ ?>
+<?php if ( ($links = $block->getDownloadableLinks()) ) : ?>
+    <?php foreach($links as $link): ?>
+        <?php /** @var Magento\Downloadable\Model\Link\Purchased $link */ ?>
+        <?php if ( count($purchasedItems = $link->getPurchasedItems()) > 0 ): ?>
+            <?php if ($first): ?>
+                <dl>
+                <dt><strong><em><?= __('Download Images') ?></em></strong></dt>
+                <?php $first = false; ?>
+                <?php endif; ?>
             <dd>
                 <?= $escaper->escapeHtml($link->getProductName()) ?>&nbsp;
-                <?php foreach($link->getPurchasedItems() as $linkPurchasedItem) : ?>
+                <?php foreach($purchasedItems as $linkPurchasedItem) : ?>
                     <?php /** @var Magento\Downloadable\Model\Link\Purchased\Item $linkPurchasedItem */ ?>
                     (<a href="<?= $escaper->escapeUrl(
                         $block->getUrl(
@@ -24,10 +29,11 @@
                     </a>)
                 <?php endforeach;?>
             </dd>
-        <?php endforeach; ?>
-    </dl>
+        <?php endif; ?>
+    <?php endforeach; ?>
 <?php endif; ?>
 
-<?php if ($block->getOrderHasDownloadable()): ?>
+<?php if (!$first): ?>
+    </dl>
     <?= /* @escapeNotVerified */ __('<a href="%1">Click here to see all your downloadable images</a>', $block->getDownloadableProductsUrl()) ?>
 <?php endif; ?>
