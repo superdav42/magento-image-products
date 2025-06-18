@@ -191,6 +191,7 @@ class BeforeImageProductSave implements ObserverInterface
         $processor->constrainOnly(true);
         $processor->resize(1024, 1024);
         $processor->save($absolutePathToImage);
+        // no workie
         $this->fileStorageDb->saveFile($this->mediaConfig->getTmpMediaShortUrl($file));
     }
 

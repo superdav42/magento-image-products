@@ -250,7 +250,7 @@ class Download extends \Magento\Downloadable\Controller\Download
         $now = new \DateTime();
         $diff = $now->diff($orderDate);
 
-        if ($diff->days > 1 && !$this->_objectManager->get(Data::class)->getIsShareable($linkPurchasedItem)) {
+        if ($diff->days > 30 && !$this->_objectManager->get(Data::class)->getIsShareable($linkPurchasedItem)) {
             $customerId = $session->getCustomerId();
             if (!$customerId) {
                 /** @var Product $product */

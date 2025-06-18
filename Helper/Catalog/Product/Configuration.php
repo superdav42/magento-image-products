@@ -6,6 +6,7 @@ declare(strict_types=1);
 
 namespace DevStone\ImageProducts\Helper\Catalog\Product;
 
+use DevStone\FramedPrints\Api\FrameRepositoryInterface;
 use DevStone\UsageCalculator\Api\UsageRepositoryInterface;
 use Magento\Catalog\Block\Product\Image;
 use Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface;
@@ -17,7 +18,7 @@ use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Serialize\Serializer\Json;
 use Magento\Store\Model\ScopeInterface;
-
+use Magento\Catalog\Helper\Product\Configuration as ProductConfiguration;
 /**
  * Helper for fetching properties by product configurational item
  *
@@ -26,9 +27,6 @@ use Magento\Store\Model\ScopeInterface;
 class Configuration extends AbstractHelper implements
     ConfigurationInterface
 {
-    protected \Magento\Catalog\Helper\Product\Configuration $productConfig;
-    protected UsageRepositoryInterface $usageRepository;
-    protected Json $serializer;
 
     const SUBSTRATE_USER_FRIENDLY_MAP = [
         'archival' => "Premium Archival Matte",
@@ -46,13 +44,11 @@ class Configuration extends AbstractHelper implements
 
     public function __construct(
         Context                                       $context,
-        \Magento\Catalog\Helper\Product\Configuration $productConfig,
-        UsageRepositoryInterface                      $usageRepository,
-        Json                                          $serializer
+        private readonly ProductConfiguration     $productConfig,
+        private readonly UsageRepositoryInterface $usageRepository,
+        private readonly Json                     $serializer,
+        private readonly FrameRepositoryInterface $frameRepository
     ) {
-        $this->productConfig = $productConfig;
-        $this->usageRepository = $usageRepository;
-        $this->serializer = $serializer;
         parent::__construct($context);
     }
 
@@ -188,7 +184,9 @@ class Configuration extends AbstractHelper implements
         ];
 
         if (!empty($printOptions['sku'])) {
-            $options[] = ['label' => __('Frame'), 'value' => $printOptions['sku']];
+            $frame = $this->frameRepository->getBySku($printOptions['sku']);
+
+            $options[] = ['label' => __('Frame'), 'value' => $frame?->getDescription() . ' (' . $printOptions['sku'] . ')'];
         }
 
         if (!empty($printOptions['mat2'])) {
