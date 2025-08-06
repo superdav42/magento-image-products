@@ -24,7 +24,6 @@ class Success extends \Magento\Downloadable\Block\Checkout\Success
         $items = $order->getAllItems();
         $downloadableLinks = [];
 
-
         foreach ($items as $item) {
             $downloadableLinks[] = $this->purchasedLink->getLink($item);
         }
