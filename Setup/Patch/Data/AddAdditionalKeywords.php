@@ -16,27 +16,23 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 
 class AddAdditionalKeywords implements DataPatchInterface
 {
-    protected ModuleDataSetupInterface $moduleDataSetup;
-    protected EavSetupFactory $eavSetupFactory;
-
-    public function __construct(
-        ModuleDataSetupInterface $moduleDataSetup,
-        EavSetupFactory $eavSetupFactory
-    ) {
-        $this->moduleDataSetup = $moduleDataSetup;
-        $this->eavSetupFactory = $eavSetupFactory;
+    public function __construct(protected ModuleDataSetupInterface $moduleDataSetup, protected EavSetupFactory $eavSetupFactory)
+    {
     }
 
+    #[\Override]
     public static function getDependencies(): array
     {
         return [];
     }
 
+    #[\Override]
     public function getAliases(): array
     {
         return [];
     }
 
+    #[\Override]
     public function apply()
     {
         $this->moduleDataSetup->getConnection()->startSetup();

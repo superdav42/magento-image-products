@@ -23,32 +23,14 @@ use Magento\Ui\Component\Form;
 class ImageUploadForm extends AbstractModifier
 {
 
-    protected ArrayManager $arrayManager;
-    protected LocatorInterface $locator;
-    protected UrlInterface $urlBuilder;
-    protected Data\Links $linksData;
-    protected string $uploadPath;
-    protected State $state;
-
-    public function __construct(
-        LocatorInterface $locator,
-        UrlInterface $urlBuilder,
-        ArrayManager $arrayManager,
-        Data\Links $linksData,
-        State $state,
-        $uploadPath = 'adminhtml/downloadable_file/upload'
-    ) {
-        $this->locator = $locator;
-        $this->urlBuilder = $urlBuilder;
-        $this->arrayManager = $arrayManager;
-        $this->linksData = $linksData;
-        $this->uploadPath = $uploadPath;
-        $this->state = $state;
+    public function __construct(protected LocatorInterface $locator, protected UrlInterface $urlBuilder, protected ArrayManager $arrayManager, protected Data\Links $linksData, protected State $state, protected string $uploadPath = 'adminhtml/downloadable_file/upload')
+    {
     }
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function modifyData(array $data)
     {
         $product = $this->locator->getProduct();
@@ -65,6 +47,7 @@ class ImageUploadForm extends AbstractModifier
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
+    #[\Override]
     public function modifyMeta(array $meta)
     {
         $panelConfig['arguments']['data']['config'] = [

@@ -65,7 +65,7 @@ class Configuration extends AbstractHelper implements
         $linkIds = $item->getOptionByCode('downloadable_link_ids');
         if ($linkIds) {
             $productLinks = $product->getTypeInstance()->getLinks($product);
-            foreach (explode(',', $linkIds->getValue()) as $linkId) {
+            foreach (explode(',', (string) $linkIds->getValue()) as $linkId) {
                 if (isset($productLinks[$linkId])) {
                     $itemLinks[] = $productLinks[$linkId];
                 }
@@ -83,7 +83,7 @@ class Configuration extends AbstractHelper implements
     public function getLinksTitle($product): string
     {
         $title = $product->getLinksTitle();
-        if (strlen($title)) {
+        if (strlen((string) $title)) {
             return $title;
         }
         return $this->scopeConfig->getValue(Link::XML_PATH_LINKS_TITLE, ScopeInterface::SCOPE_STORE);
@@ -108,6 +108,7 @@ class Configuration extends AbstractHelper implements
      * @param ItemInterface $item
      * @return array
      */
+    #[\Override]
     public function getOptions(ItemInterface $item): array
     {
         $options = $this->productConfig->getOptions($item);
@@ -157,7 +158,7 @@ class Configuration extends AbstractHelper implements
                     $terms = str_replace('(' . $option->getTitle() . ')', '<strong>' . $value . '</strong>', $terms);
                 }
             }
-        } catch (LocalizedException $exc) {
+        } catch (LocalizedException) {
         }
 
         return [['label' => __('Terms'), 'value' => $terms, 'custom_view' => true]];

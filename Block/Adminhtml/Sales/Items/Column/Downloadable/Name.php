@@ -13,11 +13,7 @@ use Magento\Catalog\Helper\Data as CatalogHelper;
 class Name extends \Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Downloadable\Name
 {
 
-    private \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration;
-
-    private OrderItemDownloadUrlBuilder $orderItemDownloadUrlBuilder;
-
-    private \Magento\Framework\UrlInterface $frontendUrlBuilder;
+    private readonly \Magento\Framework\UrlInterface $frontendUrlBuilder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -40,13 +36,11 @@ class Name extends \Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Down
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory,
-        \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
-        OrderItemDownloadUrlBuilder $orderItemDownloadUrlBuilder,
+        private readonly \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
+        private readonly OrderItemDownloadUrlBuilder $orderItemDownloadUrlBuilder,
         array $data = [],
         ?CatalogHelper $catalogHelper = null
     ) {
-        $this->orderItemDownloadUrlBuilder = $orderItemDownloadUrlBuilder;
-        $this->configuration = $configuration;
         parent::__construct($context, $stockRegistry, $stockConfiguration, $registry, $optionFactory, $purchasedFactory, $itemsFactory, $data, $catalogHelper);
     }
 
@@ -55,6 +49,7 @@ class Name extends \Magento\Downloadable\Block\Adminhtml\Sales\Items\Column\Down
      *
      * @return array
      */
+    #[\Override]
     public function getOrderOptions()
     {
         $options = parent::getOrderOptions();

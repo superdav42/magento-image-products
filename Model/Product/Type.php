@@ -34,7 +34,6 @@ use Psr\Log\LoggerInterface;
 class Type extends \Magento\Downloadable\Model\Product\Type
 {
     const TYPE_ID = 'image';
-    private UsageRepositoryInterface $usageRepository;
 
     public function __construct(
         Option                                                  $catalogProductOption,
@@ -54,11 +53,9 @@ class Type extends \Magento\Downloadable\Model\Product\Type
         LinkFactory                                             $linkFactory,
         TypeHandlerInterface                                    $typeHandler,
         JoinProcessorInterface                                  $extensionAttributesJoinProcessor,
-        UsageRepositoryInterface                                $usageRepository,
-        Json                                                    $serializer = null
+        private readonly UsageRepositoryInterface                                $usageRepository,
+        ?Json                                                    $serializer = null
     ) {
-        $this->usageRepository = $usageRepository;
-
         parent::__construct(
             $catalogProductOption,
             $eavConfig,
@@ -88,6 +85,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      * @param Product $product
      * @return array
      */
+    #[\Override]
     public function getOrderOptions($product)
     {
         if ($product->getCustomOption('print')) {
@@ -123,6 +121,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      * @param Product $product
      * @return void
      */
+    #[\Override]
     public function deleteTypeSpecificData(Product $product)
     {
         if ($product->getOrigData('type_id') === self::TYPE_ID) {
@@ -151,6 +150,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
     /**
      * @throws LocalizedException
      */
+    #[\Override]
     public function _prepareProduct(DataObject $buyRequest, $product, $processMode)
     {
         $result = parent::_prepareProduct($buyRequest, $product, $processMode);
@@ -177,7 +177,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                     );
                     $thumbnail = $buyRequest->getThumbnail();
 
-                    if ('data:image/' === substr($thumbnail, 0, 11)) {
+                    if (str_starts_with($thumbnail, 'data:image/')) {
                         $subProduct->addCustomOption('thumbnail', $buyRequest->getThumbnail());
                     }
 
@@ -201,7 +201,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
                 if ('credits' === $buyRequest->getPaymentType() && is_numeric($usage->getCredits())) {
                     $product->addCustomOption('required_credits', $usage->getCredits());
                 }
-            } catch (NoSuchEntityException $exc) {
+            } catch (NoSuchEntityException) {
                 if ($this->_isStrictProcessMode($processMode)) {
                     return __('Category or usage not found.')->render();
                 }
@@ -213,6 +213,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
         return $result;
     }
 
+    #[\Override]
     public function hasRequiredOptions($product)
     {
         return true;
@@ -224,6 +225,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      * @param Product $product
      * @return bool
      */
+    #[\Override]
     public function canConfigure($product)
     {
         return true;
@@ -237,6 +239,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      * @return boolean
      * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
+    #[\Override]
     public function getLinkSelectionRequired($product)
     {
         return true;
@@ -251,6 +254,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
+    #[\Override]
     public function processBuyRequest($product, $buyRequest)
     {
         $options = parent::processBuyRequest($product, $buyRequest);
@@ -293,7 +297,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
 
         $thumbnail = $buyRequest->getThumbnail();
 
-        if ('data:image/' === substr($thumbnail, 0, 11)) {
+        if (str_starts_with($thumbnail, 'data:image/')) {
             $product->addCustomOption('thumbnail', $thumbnail);
         }
 
@@ -306,6 +310,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
      * @param Product $product
      * @return bool
      */
+    #[\Override]
     public function isVirtual($product): bool
     {
         if ($product->getCustomOption('print')) {
@@ -314,11 +319,13 @@ class Type extends \Magento\Downloadable\Model\Product\Type
         return true;
     }
 
+    #[\Override]
     public function isSalable($product): bool
     {
         return $this->hasLinks($product);
     }
 
+    #[\Override]
     public function getWeight($product): ?float
     {
         if ($product->getCustomOption('print')) {
@@ -422,6 +429,7 @@ class Type extends \Magento\Downloadable\Model\Product\Type
         return parent::getWeight($product);
     }
 
+    #[\Override]
     public function isComposite($product)
     {
         return true;

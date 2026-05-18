@@ -94,6 +94,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      *
      * @return array
      */
+    #[\Override]
     public function getOptionList()
     {
         return $this->imageProductConfiguration->getOptions($this->getItem());
@@ -115,6 +116,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param array $attributes
      * @return \Magento\Catalog\Block\Product\Image
      */
+    #[\Override]
     public function getImage($product, $imageId, $attributes = [])
     {
         if( !$product) {
@@ -127,6 +129,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         return $image;
     }
 
+    #[\Override]
     public function getProductName()
     {
         $name = parent::getProductName();

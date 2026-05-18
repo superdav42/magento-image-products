@@ -16,15 +16,8 @@ use Magento\Store\Model\ScopeInterface;
 
 class SetLinkStatusObserver implements ObserverInterface
 {
-    protected ScopeConfigInterface $scopeConfig;
-    protected CollectionFactory $itemsFactory;
-
-    public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        CollectionFactory $itemsFactory
-    ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->itemsFactory = $itemsFactory;
+    public function __construct(protected ScopeConfigInterface $scopeConfig, protected CollectionFactory $itemsFactory)
+    {
     }
 
     /**
@@ -36,6 +29,7 @@ class SetLinkStatusObserver implements ObserverInterface
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         $order = $observer->getEvent()->getOrder();

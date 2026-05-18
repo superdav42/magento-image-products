@@ -23,26 +23,19 @@ class Downloadable extends \Magento\Downloadable\Controller\Adminhtml\Product\In
      * @var RequestInterface
      */
     protected $request;
-    private SampleInterfaceFactory $sampleFactory;
-    private LinkInterfaceFactory $linkFactory;
-    private SampleBuilder $sampleBuilder;
-    private LinkBuilder $linkBuilder;
 
     public function __construct(
         RequestInterface $request,
-        LinkBuilder $linkBuilder,
-        SampleBuilder $sampleBuilder,
-        SampleInterfaceFactory $sampleFactory,
-        LinkInterfaceFactory $linkFactory
+        private readonly LinkBuilder $linkBuilder,
+        private readonly SampleBuilder $sampleBuilder,
+        private readonly SampleInterfaceFactory $sampleFactory,
+        private readonly LinkInterfaceFactory $linkFactory
     ) {
         $this->request = $request;
-        $this->linkBuilder = $linkBuilder;
-        $this->sampleBuilder = $sampleBuilder;
-        $this->sampleFactory = $sampleFactory;
-        $this->linkFactory = $linkFactory;
-        parent::__construct($request, $linkBuilder, $sampleBuilder, $sampleFactory, $linkFactory);
+        parent::__construct($request, $this->linkBuilder, $this->sampleBuilder, $this->sampleFactory, $this->linkFactory);
     }
 
+    #[\Override]
     public function afterInitialize(Helper $subject, Product $product)
     {
         if ($product->getTypeId() !== Type::TYPE_ID) {

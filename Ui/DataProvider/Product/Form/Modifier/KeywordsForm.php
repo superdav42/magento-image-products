@@ -22,41 +22,17 @@ use Magento\Ui\Component\Form\Field;
  */
 class KeywordsForm extends AbstractModifier
 {
-    protected ArrayManager $arrayManager;
-    protected LocatorInterface $locator;
-    protected UrlInterface $urlBuilder;
-    protected AttributeOptionManagementInterface $attributeOptionManagement;
-    protected AttributeOptionLabelInterfaceFactory $optionLabelFactory;
-    protected AttributeOptionInterfaceFactory $optionFactory;
-    protected ProductAttributeRepositoryInterface $attributeRepository;
-
     const SUGGEST_FILTER_URI = 'vendor_module/something/suggestCustomAttr';
     const FIELD_ORDER = 22;
-    private ScopeConfigInterface $scopeConfig;
 
-    public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        LocatorInterface $locator,
-        UrlInterface $urlBuilder,
-        ArrayManager $arrayManager,
-        ProductAttributeRepositoryInterface $attributeRepository,
-        AttributeOptionManagementInterface $attributeOptionManagement,
-        AttributeOptionLabelInterfaceFactory $optionLabelFactory,
-        AttributeOptionInterfaceFactory $optionFactory
-    ) {
-        $this->locator = $locator;
-        $this->urlBuilder = $urlBuilder;
-        $this->arrayManager = $arrayManager;
-        $this->attributeRepository = $attributeRepository;
-        $this->attributeOptionManagement = $attributeOptionManagement;
-        $this->optionLabelFactory = $optionLabelFactory;
-        $this->optionFactory = $optionFactory;
-        $this->scopeConfig = $scopeConfig;
+    public function __construct(private readonly ScopeConfigInterface $scopeConfig, protected LocatorInterface $locator, protected UrlInterface $urlBuilder, protected ArrayManager $arrayManager, protected ProductAttributeRepositoryInterface $attributeRepository, protected AttributeOptionManagementInterface $attributeOptionManagement, protected AttributeOptionLabelInterfaceFactory $optionLabelFactory, protected AttributeOptionInterfaceFactory $optionFactory)
+    {
     }
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function modifyMeta(array $meta)
     {
         $meta = $this->customiseCustomAttrField($meta);
@@ -67,6 +43,7 @@ class KeywordsForm extends AbstractModifier
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function modifyData(array $data)
     {
         foreach ($data as &$productData) {

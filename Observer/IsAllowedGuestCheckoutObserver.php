@@ -18,12 +18,8 @@ class IsAllowedGuestCheckoutObserver implements ObserverInterface
      */
     const XML_PATH_DISABLE_GUEST_CHECKOUT = 'catalog/downloadable/disable_guest_checkout';
 
-    protected ScopeConfigInterface $_scopeConfig;
-
-    public function __construct(
-        ScopeConfigInterface $scopeConfig
-    ) {
-        $this->_scopeConfig = $scopeConfig;
+    public function __construct(protected ScopeConfigInterface $_scopeConfig)
+    {
     }
 
     /**
@@ -32,6 +28,7 @@ class IsAllowedGuestCheckoutObserver implements ObserverInterface
      * @param Observer $observer
      * @return $this
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         $store = $observer->getEvent()->getStore();

@@ -32,35 +32,10 @@ use Zend_Db_Select_Exception;
 class Price implements DimensionalIndexerInterface
 {
 
-    private BaseFinalPrice $baseFinalPrice;
-    private IndexTableStructureFactory $indexTableStructureFactory;
-    private TableMaintainer $tableMaintainer;
-    private MetadataPool $metadataPool;
-    private ResourceConnection $resource;
-    private string $connectionName;
     private ?AdapterInterface $connection = null;
-    private Config $eavConfig;
-    private BasePriceModifier $basePriceModifier;
 
-    public function __construct(
-        BaseFinalPrice $baseFinalPrice,
-
-        IndexTableStructureFactory $indexTableStructureFactory,
-        TableMaintainer $tableMaintainer,
-        MetadataPool $metadataPool,
-        Config $eavConfig,
-        ResourceConnection $resource,
-        BasePriceModifier $basePriceModifier,
-        $connectionName = 'indexer'
-    ) {
-        $this->baseFinalPrice = $baseFinalPrice;
-        $this->indexTableStructureFactory = $indexTableStructureFactory;
-        $this->tableMaintainer = $tableMaintainer;
-        $this->connectionName = $connectionName;
-        $this->metadataPool = $metadataPool;
-        $this->resource = $resource;
-        $this->eavConfig = $eavConfig;
-        $this->basePriceModifier = $basePriceModifier;
+    public function __construct(private readonly BaseFinalPrice $baseFinalPrice, private readonly IndexTableStructureFactory $indexTableStructureFactory, private readonly TableMaintainer $tableMaintainer, private readonly MetadataPool $metadataPool, private readonly Config $eavConfig, private readonly ResourceConnection $resource, private readonly BasePriceModifier $basePriceModifier, private readonly string $connectionName = 'indexer')
+    {
     }
 
     /**
@@ -69,6 +44,7 @@ class Price implements DimensionalIndexerInterface
      * @param Traversable $entityIds
      * @throws Exception
      */
+    #[\Override]
     public function executeByDimensions(array $dimensions, Traversable $entityIds)
     {
         $temporaryPriceTable = $this->indexTableStructureFactory->create([

@@ -12,19 +12,17 @@ use Magento\Downloadable\Api\LinkRepositoryInterface;
 
 class CreateHandler extends \Magento\Downloadable\Model\Link\CreateHandler
 {
-    protected Config $mediaConfig;
-
     public function __construct(
         LinkRepositoryInterface $linkRepository,
-        Config $mediaConfig
+        protected Config $mediaConfig
     ) {
         parent::__construct($linkRepository);
-        $this->mediaConfig = $mediaConfig;
     }
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function execute($entity, $arguments = [])
     {
         /** @var $entity Product */

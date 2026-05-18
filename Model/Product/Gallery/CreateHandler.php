@@ -15,6 +15,7 @@ class CreateHandler extends \Magento\Catalog\Model\Product\Gallery\CreateHandler
      * @return mixed|string
      * @throws FileSystemException
      */
+    #[\Override]
     protected function moveImageFromTmp($file)
     {
         $file = $this->getFilenameFromTmp($this->getSafeFilename($file));

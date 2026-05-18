@@ -20,6 +20,7 @@ class AllowAdminUserOldPassword implements ObserverInterface
      * @param EventObserver $observer
      * @return void
      */
+    #[\Override]
     public function execute(EventObserver $observer)
     {
 

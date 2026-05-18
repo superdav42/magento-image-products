@@ -27,43 +27,9 @@ use Magento\MediaStorage\Helper\File\Storage\Database;
 class BeforeImageProductSave implements ObserverInterface
 {
     /**
-     *
-     * @var Config
-     */
-    protected Config $mediaConfig;
-
-    /**
-     *
-     * @var \Magento\Catalog\Model\Product\Gallery\Processor|Processor
-     */
-    protected \Magento\Catalog\Model\Product\Gallery\Processor|Processor $mediaGalleryProcessor;
-
-    /**
-     * @var Factory
-     */
-    protected Factory $imageFactory;
-
-    /**
      * @var WriteInterface
      */
     protected WriteInterface $mediaDirectory;
-
-    /**
-     * @var ProductAttributeRepositoryInterface
-     */
-    protected ProductAttributeRepositoryInterface $attributeRepository;
-
-    /**
-     * @var Database
-     */
-    protected Database $fileStorageDb;
-
-    /**
-     * Request instance
-     *
-     * @var RequestInterface
-     */
-    protected RequestInterface $request;
 
     /**
      *
@@ -75,21 +41,18 @@ class BeforeImageProductSave implements ObserverInterface
      * @throws FileSystemException
      */
     public function __construct(
-        Config $mediaConfig,
-        Processor $mediaGalleryProcessor,
-        Factory $imageFactory,
+        protected Config $mediaConfig,
+        protected \Magento\Catalog\Model\Product\Gallery\Processor|Processor $mediaGalleryProcessor,
+        protected Factory $imageFactory,
         Filesystem $filesystem,
-        ProductAttributeRepositoryInterface $attributeRepository,
-        Database $fileStorageDb,
-        RequestInterface $request
+        protected ProductAttributeRepositoryInterface $attributeRepository,
+        protected Database $fileStorageDb,
+        /**
+         * Request instance
+         */
+        protected RequestInterface $request
     ) {
-        $this->mediaConfig = $mediaConfig;
-        $this->mediaGalleryProcessor = $mediaGalleryProcessor;
-        $this->imageFactory = $imageFactory;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $this->attributeRepository = $attributeRepository;
-        $this->fileStorageDb = $fileStorageDb;
-        $this->request = $request;
     }
     /**
      * Apply model save operation
@@ -98,6 +61,7 @@ class BeforeImageProductSave implements ObserverInterface
      * @throws Exception
      * @return void
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         $entity = $observer->getEvent()->getProduct();
@@ -130,7 +94,7 @@ class BeforeImageProductSave implements ObserverInterface
                 }
                 $file = $link->getLinkFile();
 
-                $linkFileName = pathinfo($file, PATHINFO_FILENAME);
+                $linkFileName = pathinfo((string) $file, PATHINFO_FILENAME);
                 $linkFileNames[] = $linkFileName;
                 if (!$this->stringInArray($linkFileName, $existingMediaFiles)) {
 
@@ -152,7 +116,7 @@ class BeforeImageProductSave implements ObserverInterface
                     if (isset($image['types']) && $this->stringInArray('frame_image', $image['types'])) {
                         continue;
                     }
-                    $filename = pathinfo($image['file'], PATHINFO_FILENAME);
+                    $filename = pathinfo((string) $image['file'], PATHINFO_FILENAME);
                     $siteIdDelimiter ='-GoodSalt-';
                     $linkFileName = str_contains($filename, $siteIdDelimiter) ?
                         substr(
@@ -252,7 +216,7 @@ class BeforeImageProductSave implements ObserverInterface
     private function stringInArray($needle, array $haystack): bool
     {
         foreach ($haystack as $value) {
-            if (str_contains($value, $needle) && !str_contains($value, 'frameImage')) {
+            if (str_contains((string) $value, (string) $needle) && !str_contains((string) $value, 'frameImage')) {
                 return true;
             }
         }

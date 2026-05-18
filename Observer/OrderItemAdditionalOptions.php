@@ -15,28 +15,13 @@ use Psr\Log\LoggerInterface;
 
 class OrderItemAdditionalOptions implements ObserverInterface
 {
-    protected LayoutInterface $layout;
-    protected StoreManagerInterface $storeManager;
-    protected RequestInterface $request;
-    protected LoggerInterface $logger;
-    protected Json $serializer;
-
-    public function __construct(
-        StoreManagerInterface $storeManager,
-        LayoutInterface $layout,
-        RequestInterface $request,
-        LoggerInterface $logger,
-        Json $serializer
-    ) {
-        $this->layout = $layout;
-        $this->storeManager = $storeManager;
-        $this->request = $request;
-        $this->logger = $logger;
-        $this->serializer = $serializer;
+    public function __construct(protected StoreManagerInterface $storeManager, protected LayoutInterface $layout, protected RequestInterface $request, protected LoggerInterface $logger, protected Json $serializer)
+    {
     }
     /**
      * @param Observer $observer
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         // This code failed. Leaving because we may want to get it working later.

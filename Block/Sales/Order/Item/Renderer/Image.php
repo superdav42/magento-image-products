@@ -14,11 +14,6 @@ use Magento\Downloadable\Model\Link\Purchased\Item;
 class Image extends Downloadable
 {
     /**
-     * @var \DevStone\ImageProducts\Helper\Catalog\Product\Configuration
-     */
-    private $configuration;
-
-	/**
 	 * @param \Magento\Framework\View\Element\Template\Context $context
 	 * @param \Magento\Framework\Stdlib\StringUtils $string
 	 * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
@@ -34,15 +29,15 @@ class Image extends Downloadable
 		\Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
 		\Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory,
 		\Magento\Downloadable\Model\Sales\Order\Link\Purchased $purchasedLink,
-		\DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
+		private readonly \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
 		private readonly \Magento\Catalog\Block\Product\ImageBuilder $imageBuilder,
 		private readonly \Magento\Catalog\Model\Product\Configuration\Item\ItemResolverInterface $itemResolver,
 		array $data = [],
 	) {
 		parent::__construct($context, $string, $productOptionFactory, $purchasedFactory, $itemsFactory, $data, $purchasedLink);
-        $this->configuration = $configuration;
     }
 
+    #[\Override]
     public function getItemOptions()
     {
         $options = parent::getItemOptions();

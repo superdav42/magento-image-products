@@ -19,24 +19,8 @@ use Magento\Framework\Event\ObserverInterface;
 
 class BeforeProductSaveKeywords implements ObserverInterface
 {
-    protected AttributeOptionManagementInterface $attributeOptionManagement;
-    protected AttributeOptionLabelInterfaceFactory $optionLabelFactory;
-    protected AttributeOptionInterfaceFactory $optionFactory;
-    protected ProductAttributeRepositoryInterface $attributeRepository;
-    protected RequestInterface $request;
-
-    public function __construct(
-        ProductAttributeRepositoryInterface $attributeRepository,
-        AttributeOptionManagementInterface $attributeOptionManagement,
-        AttributeOptionLabelInterfaceFactory $optionLabelFactory,
-        AttributeOptionInterfaceFactory $optionFactory,
-        RequestInterface $request
-    ) {
-        $this->attributeRepository = $attributeRepository;
-        $this->attributeOptionManagement = $attributeOptionManagement;
-        $this->optionLabelFactory = $optionLabelFactory;
-        $this->optionFactory = $optionFactory;
-        $this->request = $request;
+    public function __construct(protected ProductAttributeRepositoryInterface $attributeRepository, protected AttributeOptionManagementInterface $attributeOptionManagement, protected AttributeOptionLabelInterfaceFactory $optionLabelFactory, protected AttributeOptionInterfaceFactory $optionFactory, protected RequestInterface $request)
+    {
     }
 
     /**
@@ -45,6 +29,7 @@ class BeforeProductSaveKeywords implements ObserverInterface
      * @param Observer $observer
      * @return void
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         $entity = $observer->getEvent()->getProduct();
@@ -64,7 +49,7 @@ class BeforeProductSaveKeywords implements ObserverInterface
                     if (!empty($keywords) && is_iterable($keywords)) {
                         foreach ($keywords as &$keywordId) {
                             if (!is_numeric($keywordId)) {
-                                $keywordId = $this->createOrGetId($keywordAttribute, trim($keywordId));
+                                $keywordId = $this->createOrGetId($keywordAttribute, trim((string) $keywordId));
                             }
                         }
 

@@ -39,11 +39,6 @@ class Image extends \Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder
     private $frontendUrlBuilder;
 
     /**
-     * @var \DevStone\ImageProducts\Helper\Catalog\Product\Configuration
-     */
-    private $configuration;
-
-    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory
      * @param \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory
@@ -53,12 +48,11 @@ class Image extends \Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\ResourceModel\Link\Purchased\Item\CollectionFactory $itemsFactory,
-        \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
+        private readonly \DevStone\ImageProducts\Helper\Catalog\Product\Configuration $configuration,
         array $data = []
     ) {
         $this->_purchasedFactory = $purchasedFactory;
         $this->_itemsFactory = $itemsFactory;
-        $this->configuration = $configuration;
         parent::__construct($context, $data);
     }
 
@@ -122,6 +116,7 @@ class Image extends \Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder
         return $this->frontendUrlBuilder;
     }
 
+    #[\Override]
     public function getItemOptions()
     {
         $options = parent::getItemOptions();

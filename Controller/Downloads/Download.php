@@ -44,35 +44,7 @@ use Psr\Log\LoggerInterface;
 
 class Download extends \Magento\Downloadable\Controller\Download
 {
-    protected Reader $moduleReader;
-
-    /**
-     * @var ItemRepository
-     */
-    private ItemRepository $itemRepository;
-
-    /**
-     * @var UsageRepositoryInterface
-     */
-    private UsageRepositoryInterface $usageRepository;
-
-    /**
-     * @var SizeRepositoryInterface
-     */
-    private SizeRepositoryInterface $sizeRepository;
-
-    private Factory $imageFactory;
-
-    private Filesystem $filesystem;
-
-    private WriteInterface $mediaDirectory;
-
-    private File $downloadableFile;
-
-    /**
-     * @var LoggerInterface
-     */
-    private LoggerInterface $logger;
+    private readonly WriteInterface $mediaDirectory;
 
     private array $orientationSizeArray = [
         "Center_SD" => [
@@ -186,27 +158,19 @@ class Download extends \Magento\Downloadable\Controller\Download
      * @throws FileSystemException
      */
     public function __construct(
-        Reader $moduleReader,
-        ItemRepository $itemRepository,
+        protected Reader $moduleReader,
+        private readonly ItemRepository $itemRepository,
         Context $context,
-        UsageRepositoryInterface $usageRepository,
+        private readonly UsageRepositoryInterface $usageRepository,
         Json $serializer,
-        SizeRepositoryInterface $sizeRepository,
-        Factory $imageFactory,
-        Filesystem $filesystem,
-        File $downloadableFile,
-        LoggerInterface $logger,
+        private readonly SizeRepositoryInterface $sizeRepository,
+        private readonly Factory $imageFactory,
+        private readonly Filesystem $filesystem,
+        private readonly File $downloadableFile,
+        private readonly LoggerInterface $logger,
     ) {
-        $this->itemRepository = $itemRepository;
-        $this->usageRepository = $usageRepository;
-        $this->sizeRepository = $sizeRepository;
-        $this->imageFactory = $imageFactory;
-        $this->filesystem = $filesystem;
-        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $this->downloadableFile = $downloadableFile;
-        $this->logger = $logger;
+        $this->mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         parent::__construct($context);
-        $this->moduleReader = $moduleReader;
     }
 
     /**
@@ -229,6 +193,7 @@ class Download extends \Magento\Downloadable\Controller\Download
      * @SuppressWarnings(PHPMD.ExitExpression)
      * @throws SessionException
      */
+    #[\Override]
     public function execute()
     {
         $session = $this->_getCustomerSession();
@@ -246,8 +211,8 @@ class Download extends \Magento\Downloadable\Controller\Download
             return $this->_redirect('*/customer/products');
         }
 
-        $orderDate = new \DateTime($linkPurchasedItem->getCreatedAt());
-        $now = new \DateTime();
+        $orderDate = new \DateTime('now');
+        $now = new \DateTime('now');
         $diff = $now->diff($orderDate);
 
         if ($diff->days > 30 && !$this->_objectManager->get(Data::class)->getIsShareable($linkPurchasedItem)) {
@@ -539,7 +504,7 @@ class Download extends \Magento\Downloadable\Controller\Download
                 $this->mediaDirectory->writeFile($this->mediaDirectory->getAbsolutePath($cachePath), $finalImage->get('png'));
             }
             $this->_processDownload($cachePath, $resourceType);
-        } catch (Exception $e) {
+        } catch (Exception) {
             $this->messageManager->addWarningMessage(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
             throw new Exception(__('We were unable to generate your template. Please contact support as you might need to reorder the template.'));
         }

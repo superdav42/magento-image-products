@@ -19,8 +19,6 @@ use Magento\Framework\Json\EncoderInterface;
 
 class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
 {
-    private MetadataPool $metadataPool;
-
     public function __construct(
         ProductRepositoryInterface $productRepository,
         Type $downloadableType,
@@ -29,10 +27,9 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
         Link\ContentValidator $contentValidator,
         EncoderInterface $jsonEncoder,
         ContentUploaderInterface $fileContentUploader,
-        MetadataPool $metadataPool
+        private readonly MetadataPool $metadataPool
     ) {
         parent::__construct($productRepository, $downloadableType, $linkDataObjectFactory, $linkFactory, $contentValidator, $jsonEncoder, $fileContentUploader);
-        $this->metadataPool = $metadataPool;
     }
 
     /**
@@ -40,6 +37,7 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
+    #[\Override]
     public function save($sku, LinkInterface $link, $isGlobalScopeContent = true)
     {
         $product = $this->productRepository->get($sku, true);
@@ -76,6 +74,7 @@ class LinkRepository extends \Magento\Downloadable\Model\LinkRepository
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
+    #[\Override]
     protected function updateLink(
         ProductInterface $product,
         LinkInterface    $link,

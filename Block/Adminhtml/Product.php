@@ -12,6 +12,7 @@ class Product extends \Magento\Catalog\Block\Adminhtml\Product
      * @param string $type
      * @return string
      */
+    #[\Override]
     protected function _getProductCreateUrl($type)
     {
         if ($type === \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {

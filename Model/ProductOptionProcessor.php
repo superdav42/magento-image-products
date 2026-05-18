@@ -13,23 +13,14 @@ use Magento\Framework\DataObject\Factory as DataObjectFactory;
 
 class ProductOptionProcessor implements ProductOptionProcessorInterface
 {
-    protected DataObjectFactory $objectFactory;
-    protected DataObjectHelper $dataObjectHelper;
-    protected DownloadableOptionFactory $downloadableOptionFactory;
-
-    public function __construct(
-        DataObjectFactory $objectFactory,
-        DataObjectHelper $dataObjectHelper,
-        DownloadableOptionFactory $downloadableOptionFactory
-    ) {
-        $this->objectFactory = $objectFactory;
-        $this->dataObjectHelper = $dataObjectHelper;
-        $this->downloadableOptionFactory = $downloadableOptionFactory;
+    public function __construct(protected DataObjectFactory $objectFactory, protected DataObjectHelper $dataObjectHelper, protected DownloadableOptionFactory $downloadableOptionFactory)
+    {
     }
 
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function convertToBuyRequest(ProductOptionInterface $productOption)
     {
         /** @var DataObject $request */
@@ -65,6 +56,7 @@ class ProductOptionProcessor implements ProductOptionProcessorInterface
     /**
      * {@inheritdoc}
      */
+    #[\Override]
     public function convertToProductOption(DataObject $request)
     {
         /** @var DownloadableOption $downloadableOption */

@@ -16,13 +16,14 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\Table
      * @return string|bool
      * @codeCoverageIgnore
      */
+    #[\Override]
     public function getIndexOptionText($value)
     {
         return parent::getIndexOptionText($value);
         $isMultiple = false;
-        if (strpos($value, ',')) {
+        if (strpos((string) $value, ',')) {
             $isMultiple = true;
-            $value = explode(',', $value);
+            $value = explode(',', (string) $value);
         }
         $storeId = $this->getAttribute()->getStoreId();
 
@@ -30,7 +31,7 @@ class Table extends \Magento\Eav\Model\Entity\Attribute\Source\Table
             unset($this->cacheForIndexOptions);
             $this->cacheForIndexOptions[$storeId] = [];
 
-            $options = $this->getAllOptions($withEmpty = false, $defaultValues = false, $unlimited = true);
+            $options = $this->getAllOptions($withEmpty = false, $defaultValues = false);
 
             $this->cacheForIndexOptions[$storeId] = array_column($options, 'label', 'value');
         }

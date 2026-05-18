@@ -29,27 +29,8 @@ use Magento\Store\Model\ScopeInterface;
  */
 class SaveDownloadableOrderItemObserver implements ObserverInterface
 {
-    protected ScopeConfigInterface $scopeConfig;
-    protected PurchasedFactory $purchasedFactory;
-    protected ProductFactory $productFactory;
-    protected ItemFactory $itemFactory;
-    protected Copy $objectCopyService;
-    protected CollectionFactory $itemsFactory;
-
-    public function __construct(
-        ScopeConfigInterface $scopeConfig,
-        PurchasedFactory $purchasedFactory,
-        ProductFactory $productFactory,
-        ItemFactory $itemFactory,
-        CollectionFactory $itemsFactory,
-        Copy $objectCopyService
-    ) {
-        $this->scopeConfig = $scopeConfig;
-        $this->purchasedFactory = $purchasedFactory;
-        $this->productFactory = $productFactory;
-        $this->itemFactory = $itemFactory;
-        $this->itemsFactory = $itemsFactory;
-        $this->objectCopyService = $objectCopyService;
+    public function __construct(protected ScopeConfigInterface $scopeConfig, protected PurchasedFactory $purchasedFactory, protected ProductFactory $productFactory, protected ItemFactory $itemFactory, protected CollectionFactory $itemsFactory, protected Copy $objectCopyService)
+    {
     }
 
     /**
@@ -61,6 +42,7 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         /** @var Order\Item $orderItem */
@@ -107,13 +89,12 @@ class SaveDownloadableOrderItemObserver implements ObserverInterface
                     $orderItem,
                     $linkPurchased
                 );
-                $linkSectionTitle = $product->getLinksTitle() ? $product
-                    ->getLinksTitle() : $this
-                    ->scopeConfig
-                    ->getValue(
-                        Link::XML_PATH_LINKS_TITLE,
-                        ScopeInterface::SCOPE_STORE
-                    );
+                $linkSectionTitle = $product->getLinksTitle() ?: $this
+                ->scopeConfig
+                ->getValue(
+                    Link::XML_PATH_LINKS_TITLE,
+                    ScopeInterface::SCOPE_STORE
+                );
                 $linkPurchased->setLinkSectionTitle($linkSectionTitle)->save();
                 $linkStatus = Item::LINK_STATUS_PENDING;
                 if ($orderStatusToEnableItem == Order\Item::STATUS_PENDING

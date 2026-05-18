@@ -15,6 +15,7 @@ class Attributes extends \Aheadworks\Autorelated\Model\Rule\Related\Condition\Pr
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
+    #[\Override]
     protected function prepareSqlCondition($field, $value)
     {
         $method = $this->getMethod();

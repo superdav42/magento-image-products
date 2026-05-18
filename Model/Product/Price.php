@@ -28,10 +28,6 @@ use Magento\Store\Model\StoreManagerInterface;
  */
 class Price extends Product\Type\Price
 {
-    private UsageRepositoryInterface $usageRepository;
-    private Json $serializer;
-    private Client $client;
-
     public function __construct(
         RuleFactory $ruleFactory,
         StoreManagerInterface $storeManager,
@@ -42,15 +38,11 @@ class Price extends Product\Type\Price
         GroupManagementInterface $groupManagement,
         ProductTierPriceInterfaceFactory $tierPriceFactory,
         ScopeConfigInterface $config,
-        UsageRepositoryInterface $usageRepository,
-        Json $serializer,
-        Client $client,
-        ProductTierPriceExtensionFactory $tierPriceExtensionFactory = null
+        private readonly UsageRepositoryInterface $usageRepository,
+        private readonly Json $serializer,
+        private readonly Client $client,
+        ?ProductTierPriceExtensionFactory $tierPriceExtensionFactory = null
     ) {
-        $this->usageRepository = $usageRepository;
-        $this->serializer = $serializer;
-        $this->client = $client;
-
         parent::__construct(
             $ruleFactory,
             $storeManager,
@@ -73,6 +65,7 @@ class Price extends Product\Type\Price
      * @return float
      * @throws LocalizedException
      */
+    #[\Override]
     public function getFinalPrice($qty, $product)
     {
         if ($qty === null && $product->getCalculatedFinalPrice() !== null) {

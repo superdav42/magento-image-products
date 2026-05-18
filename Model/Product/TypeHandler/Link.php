@@ -16,6 +16,7 @@ class Link extends \Magento\Downloadable\Model\Product\TypeHandler\Link
      * @return void
      * @throws LocalizedException
      */
+    #[\Override]
     protected function setFiles(ComponentInterface $model, array $files)
     {
         parent::setFiles($model, $files);

@@ -22,17 +22,15 @@ use Magento\Framework\Setup\ModuleDataSetupInterface;
  */
 class InstallData implements InstallDataInterface
 {
-    private EavSetupFactory $eavSetupFactory;
-
-    public function __construct(EavSetupFactory $eavSetupFactory)
+    public function __construct(private readonly EavSetupFactory $eavSetupFactory)
     {
-        $this->eavSetupFactory = $eavSetupFactory;
     }
 
     /**
      * {@inheritdoc}
      * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
+    #[\Override]
     public function install(ModuleDataSetupInterface $setup, ModuleContextInterface $context)
     {
         $eavSetup = $this->eavSetupFactory->create(['setup' => $setup]);
@@ -125,7 +123,7 @@ class InstallData implements InstallDataInterface
             'image_type',
             [
                 'type' => 'varchar',
-                'backend' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend',
+                'backend' => \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend::class,
                 'frontend' => '',
                 'label' => 'Type',
                 'input' => 'select',
@@ -157,7 +155,7 @@ class InstallData implements InstallDataInterface
             'orientation',
             [
                 'type' => 'int',
-                'backend' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend',
+                'backend' => \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend::class,
                 'frontend' => '',
                 'label' => 'Orientation',
                 'input' => 'select',
@@ -203,7 +201,7 @@ class InstallData implements InstallDataInterface
         foreach ($fieldList as $field) {
             $applyTo = explode(
                 ',',
-                $eavSetup->getAttribute(Product::ENTITY, $field, 'apply_to')
+                (string) $eavSetup->getAttribute(Product::ENTITY, $field, 'apply_to')
             );
             if (!in_array(Type::TYPE_ID, $applyTo)) {
                 $applyTo[] = Type::TYPE_ID;

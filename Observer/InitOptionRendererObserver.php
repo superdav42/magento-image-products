@@ -16,6 +16,7 @@ class InitOptionRendererObserver implements ObserverInterface
      * @param Observer $observer
      * @return $this
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         $block = $observer->getBlock();

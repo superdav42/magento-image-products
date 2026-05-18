@@ -15,6 +15,7 @@ class LoadProduct implements ObserverInterface
      * @param Observer $observer
      * @return void
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         $product = $observer->getEvent()->getProduct();

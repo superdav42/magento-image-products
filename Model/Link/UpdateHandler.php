@@ -16,8 +16,6 @@ use Magento\Framework\EntityManager\Operation\ExtensionInterface;
  */
 class UpdateHandler implements ExtensionInterface
 {
-    protected LinkRepositoryInterface $linkRepository;
-
     protected $mediaConfig;
 
     /**
@@ -25,10 +23,9 @@ class UpdateHandler implements ExtensionInterface
      * @param Config $mediaConfig
      */
     public function __construct(
-        LinkRepositoryInterface                     $linkRepository,
+        protected LinkRepositoryInterface                     $linkRepository,
         Config $mediaConfig
     ) {
-        $this->linkRepository = $linkRepository;
         $this->mediaConfig = $mediaConfig;
     }
 
@@ -38,6 +35,7 @@ class UpdateHandler implements ExtensionInterface
      * @return ProductInterface|object
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
+    #[\Override]
     public function execute($entity, $arguments = [])
     {
         /** @var $entity ProductInterface */

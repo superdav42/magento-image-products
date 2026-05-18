@@ -18,16 +18,13 @@ use Magento\MediaStorage\Model\File\Uploader;
  */
 class File extends \Magento\Downloadable\Helper\File
 {
-    protected Registry $registry;
-
     public function __construct(
         Context $context,
         Database $coreFileStorageDatabase,
         Filesystem $filesystem,
-        Registry $registry,
+        protected Registry $registry,
         array $mimeTypes = []
     ) {
-        $this->registry = $registry;
         parent::__construct($context, $coreFileStorageDatabase, $filesystem, $mimeTypes);
     }
 
@@ -39,6 +36,7 @@ class File extends \Magento\Downloadable\Helper\File
      * @param string $file
      * @return string
      */
+    #[\Override]
     protected function _moveFileFromTmp($baseTmpPath, $basePath, $file)
     {
         if (strrpos($file, '.tmp') == strlen($file) - 4) {

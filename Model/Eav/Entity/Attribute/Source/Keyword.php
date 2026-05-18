@@ -43,6 +43,7 @@ class Keyword extends Table
      * @param bool $defaultValues
      * @return array
      */
+    #[\Override]
     public function getAllOptions($withEmpty = true, $defaultValues = false, $unlimited = false)
     {
         $storeId = $this->getAttribute()->getStoreId();
@@ -108,6 +109,7 @@ class Keyword extends Table
      * @param bool $withEmpty Add empty option to array
      * @return array
      */
+    #[\Override]
     public function getSpecificOptions($ids, $withEmpty = true)
     {
         $options = $this->_attrOptionCollectionFactory->create()
@@ -139,6 +141,7 @@ class Keyword extends Table
      * @param string|integer $value
      * @return array|string|bool
      */
+    #[\Override]
     public function getOptionText($value)
     {
         if (!$value) {
@@ -179,6 +182,7 @@ class Keyword extends Table
      *
      * @return $this
      */
+    #[\Override]
     public function addValueSortToCollection($collection, $dir = Select::SQL_ASC)
     {
         $attribute = $this->getAttribute();
@@ -220,6 +224,7 @@ class Keyword extends Table
      *
      * @return array
      */
+    #[\Override]
     public function getFlatColumns()
     {
         $columns = [];
@@ -256,6 +261,7 @@ class Keyword extends Table
      *
      * @return array
      */
+    #[\Override]
     public function getFlatIndexes()
     {
         $indexes = [];
@@ -282,6 +288,7 @@ class Keyword extends Table
      * @param int $store
      * @return Select|null
      */
+    #[\Override]
     public function getFlatUpdateSelect($store)
     {
         return $this->_attrOptionFactory->create()->getFlatUpdateSelect($this->getAttribute(), $store);
@@ -290,6 +297,7 @@ class Keyword extends Table
     /**
      * @throws NoSuchEntityException
      */
+    #[\Override]
     public function getOptionId($label): ?string
     {
         $storeId = $this->getAttribute()->getStoreId();

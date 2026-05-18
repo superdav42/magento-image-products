@@ -15,6 +15,7 @@ class UpdateHandler extends \Magento\Catalog\Model\Product\Gallery\UpdateHandler
      * @return mixed|string
      * @throws FileSystemException
      */
+    #[\Override]
     protected function moveImageFromTmp($file)
     {
         $file = $this->getFilenameFromTmp($this->getSafeFilename($file));

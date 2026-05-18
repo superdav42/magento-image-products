@@ -11,6 +11,7 @@ class Link extends \Magento\Downloadable\Controller\Adminhtml\Downloadable\Produ
      *
      * @return void
      */
+    #[\Override]
     public function execute()
     {
         $linkId = $this->getRequest()->getParam('id', 0);
@@ -50,7 +51,7 @@ class Link extends \Magento\Downloadable\Controller\Adminhtml\Downloadable\Produ
             }
             try {
                 $this->_processDownload($resource, $resourceType);
-            } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            } catch (\Magento\Framework\Exception\LocalizedException) {
                 $this->messageManager->addErrorMessage(__('Something went wrong while getting the requested content.'));
             }
         }

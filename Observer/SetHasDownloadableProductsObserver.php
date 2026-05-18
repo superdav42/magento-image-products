@@ -12,12 +12,8 @@ use Magento\Sales\Model\Order\Item;
 
 class SetHasDownloadableProductsObserver implements ObserverInterface
 {
-    protected Session $checkoutSession;
-
-    public function __construct(
-        Session $checkoutSession
-    ) {
-        $this->checkoutSession = $checkoutSession;
+    public function __construct(protected Session $checkoutSession)
+    {
     }
 
     /**
@@ -26,6 +22,7 @@ class SetHasDownloadableProductsObserver implements ObserverInterface
      * @param Observer $observer
      * @return $this
      */
+    #[\Override]
     public function execute(Observer $observer)
     {
         if (!$this->checkoutSession->getHasDownloadableProducts()) {

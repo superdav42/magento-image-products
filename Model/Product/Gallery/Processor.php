@@ -28,12 +28,13 @@ class Processor extends Product\Gallery\Processor
         Config $mediaConfig,
         Filesystem $filesystem,
         Gallery $resourceModel,
-        Mime $mime = null
+        ?Mime $mime = null
     ) {
         parent::__construct($attributeRepository, $fileStorageDb, $mediaConfig, $filesystem, $resourceModel, $mime);
         $this->mime = $mime ?: ObjectManager::getInstance()->get(Mime::class);
     }
 
+    #[\Override]
     public function addImage(
         Product $product,
         $file,

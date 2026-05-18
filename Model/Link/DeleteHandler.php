@@ -12,11 +12,8 @@ use Magento\Framework\EntityManager\Operation\ExtensionInterface;
  */
 class DeleteHandler implements ExtensionInterface
 {
-    protected LinkRepositoryInterface $linkRepository;
-
-    public function __construct(LinkRepositoryInterface $linkRepository)
+    public function __construct(protected LinkRepositoryInterface $linkRepository)
     {
-        $this->linkRepository = $linkRepository;
     }
 
     /**
@@ -25,6 +22,7 @@ class DeleteHandler implements ExtensionInterface
      * @return \Magento\Catalog\Api\Data\ProductInterface|object
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
+    #[\Override]
     public function execute($entity, $arguments = [])
     {
         if ($entity->getTypeId() != \DevStone\ImageProducts\Model\Product\Type::TYPE_ID) {

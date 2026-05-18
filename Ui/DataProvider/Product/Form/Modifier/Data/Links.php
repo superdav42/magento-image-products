@@ -26,8 +26,6 @@ use Magento\Store\Model\ScopeInterface;
 class Links extends ParentLinks
 {
 
-    protected State $appState;
-
     public function __construct(
         Escaper $escaper,
         LocatorInterface $locator,
@@ -35,10 +33,9 @@ class Links extends ParentLinks
         DownloadableFile $downloadableFile,
         UrlInterface $urlBuilder,
         Link $linkModel,
-        State $appState
+        protected State $appState
     ) {
         parent::__construct($escaper, $locator, $scopeConfig, $downloadableFile, $urlBuilder, $linkModel);
-        $this->appState = $appState;
     }
 
     /**
@@ -46,6 +43,7 @@ class Links extends ParentLinks
      *
      * @return string
      */
+    #[\Override]
     public function getLinksTitle()
     {
         return $this->locator->getProduct()->getId() &&
@@ -63,6 +61,7 @@ class Links extends ParentLinks
      * @SuppressWarnings(PHPMD.NPathComplexity)
      * @return array
      */
+    #[\Override]
     public function getLinksData()
     {
         $linksData = [];
@@ -109,6 +108,7 @@ class Links extends ParentLinks
      * @return array
      * @throws LocalizedException
      */
+    #[\Override]
     protected function addLinkFile(array $linkData, LinkInterface $link): array
     {
         $area = 'adminhtml' === $this->appState->getAreaCode() ? 'adminhtml' : 'csproduct'; // See if we are in backend or frontend as vendor

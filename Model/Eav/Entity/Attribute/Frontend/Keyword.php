@@ -24,6 +24,7 @@ class Keyword extends AbstractFrontend
      * @param DataObject $object
      * @return mixed
      */
+    #[\Override]
     public function getValue(DataObject $object)
     {
         $value = $object->getData($this->getAttribute()->getAttributeCode());
