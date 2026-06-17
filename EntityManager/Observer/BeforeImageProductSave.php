@@ -42,7 +42,7 @@ class BeforeImageProductSave implements ObserverInterface
      */
     public function __construct(
         protected Config $mediaConfig,
-        protected \Magento\Catalog\Model\Product\Gallery\Processor|Processor $mediaGalleryProcessor,
+        protected Processor $mediaGalleryProcessor,
         protected Factory $imageFactory,
         Filesystem $filesystem,
         protected ProductAttributeRepositoryInterface $attributeRepository,
