@@ -74,19 +74,16 @@ class BeforeImageProductSave implements ObserverInterface
                 $entity->getTypeId() === Type::TYPE_ID) {
             $mediaGalleryData = $entity->getData('media_gallery');
 
-            $existingMediaFiles = [];
-
-            if (isset($mediaGalleryData['images']) && is_array($mediaGalleryData['images'])) {
-                foreach ($mediaGalleryData['images'] as &$image) {
-                    if (! isset($image['removed']) || ! $image['removed']) {
-                        $existingMediaFiles[] = $image['file'];
-                    }
-                }
+            $linkFileNames = [];
+            $fileLinks = [];
+            /** @var LinkInterface[]|null $links */
+            $links = $entity->getExtensionAttributes()->getDownloadableProductLinks();
+            if ($links === null) {
+                // A partial product save omitted downloadable-link data, so the
+                // current gallery is not authoritative and must be preserved.
+                return;
             }
 
-            $linkFileNames = [];
-            /** @var LinkInterface[] $links */
-            $links = $entity->getExtensionAttributes()->getDownloadableProductLinks() ?: [];
             foreach ($links as $link) {
                 if ($link->getLinkType() !== 'file') {
                     continue;
@@ -95,8 +92,30 @@ class BeforeImageProductSave implements ObserverInterface
                 $file = $link->getLinkFile();
 
                 $linkFileName = pathinfo((string) $file, PATHINFO_FILENAME);
+                if ($linkFileName === '') {
+                    continue;
+                }
+
                 $linkFileNames[] = $linkFileName;
-                if (!$this->stringInArray($linkFileName, $existingMediaFiles)) {
+                $fileLinks[] = $link;
+            }
+
+            $existingLinkFileNames = [];
+            if (isset($mediaGalleryData['images']) && is_array($mediaGalleryData['images'])) {
+                foreach ($mediaGalleryData['images'] as $image) {
+                    if (empty($image['removed'])) {
+                        $existingLinkFileNames[] = $this->resolveLinkedFileName(
+                            (string) ($image['file'] ?? ''),
+                            $linkFileNames
+                        );
+                    }
+                }
+            }
+
+            foreach ($fileLinks as $link) {
+                $file = $link->getLinkFile();
+                $linkFileName = pathinfo((string) $file, PATHINFO_FILENAME);
+                if (!in_array($linkFileName, $existingLinkFileNames, true)) {
 
                     $file = $this->mediaGalleryProcessor->addImage(
                         $entity,
@@ -116,19 +135,13 @@ class BeforeImageProductSave implements ObserverInterface
                     if (isset($image['types']) && $this->stringInArray('frame_image', $image['types'])) {
                         continue;
                     }
-                    $filename = pathinfo((string) $image['file'], PATHINFO_FILENAME);
-                    $siteIdDelimiter ='-GoodSalt-';
-                    $linkFileName = str_contains($filename, $siteIdDelimiter) ?
-                        substr(
-                            strstr(
-                                $filename,
-                                $siteIdDelimiter
-                            ),
-                            strlen($siteIdDelimiter)
-                        ) : $filename;
+                    $linkFileName = $this->resolveLinkedFileName(
+                        (string) ($image['file'] ?? ''),
+                        $linkFileNames
+                    );
 
                     if (empty($linkFileName) ||
-                        ! in_array($linkFileName, $linkFileNames)
+                        !in_array($linkFileName, $linkFileNames, true)
                     ) {
                         $image['removed'] = 1;
                     }
@@ -221,5 +234,36 @@ class BeforeImageProductSave implements ObserverInterface
             }
         }
         return false;
+    }
+
+    /**
+     * Resolve a gallery filename to its downloadable-link filename.
+     *
+     * Magento appends _N when a replacement image reuses a filename. Prefer
+     * an exact link match, then remove that generated suffix only when the
+     * resulting name matches a known downloadable link.
+     *
+     * @param string $file Gallery image path
+     * @param string[] $linkFileNames Known downloadable-link filenames
+     * @return string
+     */
+    protected function resolveLinkedFileName(string $file, array $linkFileNames): string
+    {
+        $filename = pathinfo($file, PATHINFO_FILENAME);
+        $siteIdDelimiter = '-GoodSalt-';
+        if (str_contains($filename, $siteIdDelimiter)) {
+            $filename = (string) substr(strstr($filename, $siteIdDelimiter), strlen($siteIdDelimiter));
+        }
+
+        if (in_array($filename, $linkFileNames, true)) {
+            return $filename;
+        }
+
+        $withoutDuplicateSuffix = preg_replace('/_\d+$/', '', $filename);
+        if ($withoutDuplicateSuffix !== null && in_array($withoutDuplicateSuffix, $linkFileNames, true)) {
+            return $withoutDuplicateSuffix;
+        }
+
+        return $filename;
     }
 }
