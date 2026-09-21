@@ -62,7 +62,7 @@ class Downloadable extends \Magento\Downloadable\Controller\Adminhtml\Product\In
                 }
                 $extension->setDownloadableProductLinks($links);
             } else {
-                $extension->setDownloadableProductLinks([]);
+                $extension->setDownloadableProductLinks(null);
             }
             if (isset($downloadable['sample']) && is_array($downloadable['sample'])) {
                 $samples = [];

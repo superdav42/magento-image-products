@@ -76,8 +76,14 @@ class BeforeImageProductSave implements ObserverInterface
 
             $linkFileNames = [];
             $fileLinks = [];
-            /** @var LinkInterface[] $links */
-            $links = $entity->getExtensionAttributes()->getDownloadableProductLinks() ?: [];
+            /** @var LinkInterface[]|null $links */
+            $links = $entity->getExtensionAttributes()->getDownloadableProductLinks();
+            if ($links === null) {
+                // A partial product save omitted downloadable-link data, so the
+                // current gallery is not authoritative and must be preserved.
+                return;
+            }
+
             foreach ($links as $link) {
                 if ($link->getLinkType() !== 'file') {
                     continue;
@@ -92,12 +98,6 @@ class BeforeImageProductSave implements ObserverInterface
 
                 $linkFileNames[] = $linkFileName;
                 $fileLinks[] = $link;
-            }
-
-            // A partial product save can omit downloadable links. In that case,
-            // the gallery is not authoritative and must not be cleared.
-            if ($linkFileNames === []) {
-                return;
             }
 
             $existingLinkFileNames = [];

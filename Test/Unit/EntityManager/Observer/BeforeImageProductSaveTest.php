@@ -8,6 +8,7 @@ use DevStone\ImageProducts\EntityManager\Observer\BeforeImageProductSave;
 use DevStone\ImageProducts\Model\Product\Type;
 use Magento\Catalog\Api\Data\ProductExtensionInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Downloadable\Api\Data\LinkInterface;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Event;
 use Magento\Framework\Event\Observer;
@@ -24,14 +25,14 @@ class BeforeImageProductSaveTest extends TestCase
         $this->observer = $reflection->newInstanceWithoutConstructor();
     }
 
-    public function testPartialSaveWithoutDownloadableLinksPreservesGallery(): void
+    public function testPartialSaveWithOmittedDownloadableLinksPreservesGallery(): void
     {
         $request = $this->createMock(RequestInterface::class);
         $request->method('getParam')->with('type', null)->willReturn(null);
         $this->observer->setRequestForTest($request);
 
         $extensionAttributes = $this->createMock(ProductExtensionInterface::class);
-        $extensionAttributes->method('getDownloadableProductLinks')->willReturn([]);
+        $extensionAttributes->method('getDownloadableProductLinks')->willReturn(null);
 
         $product = $this->createMock(Product::class);
         $product->method('getTypeId')->willReturn(Type::TYPE_ID);
@@ -42,6 +43,39 @@ class BeforeImageProductSaveTest extends TestCase
             ],
         ]);
         $product->expects(self::never())->method('setData');
+
+        $event = new Event(['product' => $product]);
+        $this->observer->execute(new Observer(['event' => $event]));
+    }
+
+    public function testUrlOnlyLinksRemoveExistingFilePreview(): void
+    {
+        $request = $this->createMock(RequestInterface::class);
+        $request->method('getParam')->with('type', null)->willReturn(null);
+        $this->observer->setRequestForTest($request);
+
+        $urlLink = $this->createMock(LinkInterface::class);
+        $urlLink->method('getLinkType')->willReturn('url');
+
+        $extensionAttributes = $this->createMock(ProductExtensionInterface::class);
+        $extensionAttributes->method('getDownloadableProductLinks')->willReturn([$urlLink]);
+
+        $gallery = [
+            'images' => [
+                ['file' => '/d/o/doubting-thomas-GoodSalt-rhpas1431.jpg'],
+            ],
+        ];
+        $expectedGallery = $gallery;
+        $expectedGallery['images'][0]['removed'] = 1;
+
+        $product = $this->createMock(Product::class);
+        $product->method('getTypeId')->willReturn(Type::TYPE_ID);
+        $product->method('getExtensionAttributes')->willReturn($extensionAttributes);
+        $product->method('getData')->with('media_gallery')->willReturn($gallery);
+        $product->expects(self::once())
+            ->method('setData')
+            ->with('media_gallery', $expectedGallery)
+            ->willReturnSelf();
 
         $event = new Event(['product' => $product]);
         $this->observer->execute(new Observer(['event' => $event]));
