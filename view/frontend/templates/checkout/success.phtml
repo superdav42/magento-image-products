@@ -33,7 +33,7 @@ $first = true;
     <?php endforeach; ?>
 <?php endif; ?>
 
-<?php if ( $first): ?>
+<?php if (!$first): ?>
     </dl>
     <?= /* @escapeNotVerified */ __('<a href="%1">Click here to see all your downloadable images</a>', $block->getDownloadableProductsUrl()) ?>
 <?php endif; ?>
